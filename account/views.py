@@ -1,103 +1,80 @@
-
-from django.shortcuts import redirect
-from rest_framework import generics
-from rest_framework.response import Response
 from rest_framework import status
-from rest_framework_simplejwt.tokens import RefreshToken
-from .serializers import *
-from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.authentication import JWTAuthentication
-from rest_framework.generics import RetrieveAPIView
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, DeleteView
+from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView
+from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
+from .serializers import ClientRegistrationSerializer, AgentRegistrationSerializer
+from .serializers import UserLoginSerializer, ClientListSerializer, Userserializer
+from .models import User
+from account.models import ClientProfile
+from rest_framework import viewsets
 
 
-class SignInView(TokenObtainPairView):
-    serializer_class = UserSerializer
+class ClientRegistrationView(CreateAPIView):
 
-    def post(self, request, *args, **kwargs):
-        response = super().post(request, *args, **kwargs)
-        refresh = RefreshToken.for_user(self.user)
-        access_token = str(refresh.access_token)
-        response.data['access_token'] = access_token
-        return response
+    serializer_class = ClientRegistrationSerializer
+    permission_classes = (AllowAny,)
 
-
-class SignUpView(generics.CreateAPIView):
-    serializer_class = UserSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
-        user = serializer.save()
-
-        refresh = RefreshToken.for_user(user)
-        access_token = str(refresh.access_token)
-
-        return Response({'access_token': access_token}, status=status.HTTP_201_CREATED)
-
-
-class UserUpdateView(generics.UpdateAPIView):
-    serializer_class = UserUpdateSerializer
-    permission_classes = [IsAuthenticated]
-    authentication_classes = [JWTAuthentication]
-
-    def get_object(self):
-        return self.request.user
-
-
-class UserDetailsView(RetrieveAPIView):
-    serializer_class = UserDetailSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_object(self):
-        return self.request.user
-
-
-class DashboardView(TemplateView):
-    template_name = '_admin/index.html'
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['au'] = User.objects.filter(is_active=True).count()
-        context['vu'] = User.objects.filter(is_verified=True).count()
-        context['users'] = User.objects.all() 
-        context['await_vu'] = User.objects.all().count() - User.objects.filter(is_verified=True).count()
-
-        return context
+        serializer.save()
+        response = {
+            'success' : 'True',
+            'status code' : status.HTTP_200_OK,
+            'message': 'Client registered  successfully',
+            }
+        status_code = status.HTTP_200_OK
+        return Response(response, status=status_code)
 
 
 
-class UserListView(ListView):
-    model = User
-    template_name = '_admin/users-list.html'
+class AgentRegistrationView(CreateAPIView):
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['au'] = User.objects.filter(is_active=True).count()
-        context['vu'] = User.objects.filter(is_verified=True).count()
-        context['users'] = User.objects.all().count()
-        context['await_vu'] = User.objects.all().count(
-        ) - User.objects.filter(is_verified=True).count()
+      serializer_class = AgentRegistrationSerializer
+      permission_classes = (AllowAny,)
 
-        return context
-
-
-class UserDetailView(DetailView):
-    model = User
-    template_name = '_admin/user-detail.html'
-    context_object_name = 'object'
+      def post(self, request):
+            serializer = self.serializer_class(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            response = {
+                'success' : 'True',
+                'status code' : status.HTTP_200_OK,
+                'message': 'Doctor registered  successfully',
+                }
+            status_code = status.HTTP_200_OK
+            return Response(response, status=status_code)
 
 
-def togleVerifyUser(request, pk):
-    user = User.objects.get(pk=pk)
-    print('user', user)
-    if user.is_verified:
-        user.is_verified = False
-        user.save()
-        return redirect(user.get_absolute_url())
-    else:
-        user.is_verified = True
-        user.save()
-        return redirect(user.get_absolute_url())
+class UserLoginView(APIView):
+    permission_classes = (AllowAny,)
+    serializer_class = UserLoginSerializer
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid(raise_exception=True):
+            response = {
+                'success' : 'True',
+                'status code' : status.HTTP_200_OK,
+                'message': 'User logged in  successfully',
+                'token' : serializer.data['token'],
+                }
+            status_code = status.HTTP_200_OK
+
+            return Response(response, status=status_code)
+
+
+class ClientListViewset(viewsets.ViewSet):
+    def list(self, request):
+        queryset = ClientProfile.objects.filter(is_client=True)
+        serializer_class = ClientListSerializer
+        serializer = serializer_class(queryset, many=True)
+        return Response(serializer.data)
+
+class UserListViewset(viewsets.ViewSet):
+     def list(self, request):
+          queryset = User.objects.filter(is_client=True)
+          serializer_class = Userserializer
+          serializer = serializer_class(many=True)
+          return Response(serializer.data)
