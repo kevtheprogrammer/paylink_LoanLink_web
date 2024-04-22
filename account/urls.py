@@ -1,16 +1,10 @@
-from django.urls import path, include
-from django.contrib.auth.decorators import login_required
-
-from .views import *
-
-app_name = 'account'
+from django.urls import path,include
+from .views import ClientRegistrationView,AgentRegistrationView,UserLoginView, ClientListViewset, UserListViewset
 
 urlpatterns = [
-
-    path('', login_required(DashboardView.as_view()), name='dashboard'),
-    path('users-list/', login_required(UserListView.as_view()), name='users'),
-    path('user_detail/<int:pk>/',
-         login_required(UserDetailView.as_view()), name='user-details'),
-    path('verify-user/<int:pk>/',
-         login_required(togleVerifyUser), name='togle-verify')
+	path('signup/client/', ClientRegistrationView.as_view(),name='signup_client'),
+	path('signup/agent/', AgentRegistrationView.as_view(),name='signup_agent'),
+	path('signin/', UserLoginView.as_view(), name='signin'),
+	path('clientlist/', ClientListViewset.as_view({'get': 'list'}), name='client-list'),
+	path('userlist/', UserListViewset.as_view({'get': 'list'}), name='client-list'),
 ]

@@ -2,34 +2,46 @@ from django.contrib.auth.base_user import BaseUserManager
 # from django.contrib.auth.backends import ModelBackend
 # from django.contrib.auth import get_user_model
 
-
 class UserManager(BaseUserManager):
-    use_in_migrations = True
+	
+	def create_user(self, email, password=None):
+		if not email:
+			raise ValueError('Users Must Have an email address')
 
-    def _create_user(self, email, password, **extra_fields):
-        """
-        Creates and saves a User with the given email and password.
-        """
-        if not email:
-            raise ValueError('The given email must be set')
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
+		user = self.model(
+			email=self.normalize_email(email),
+		)
+		user.set_password(password)
+		user.save(using=self._db)
+		return user
 
-    def create_user(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-        return self._create_user(email, password, **extra_fields)
+	def create_superuser(self, email, password):
+		"""
+		Create and return a `User` with superuser (admin) permissions.
+		"""
+		if password is None:
+			raise TypeError('Superusers must have a password.')
 
-    def create_superuser(self, email, password, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
+		user = self.create_user(email, password)
+		user.is_superuser = True
+		user.is_staff = True
+		user.save()
+		return user
 
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
+	def create_client(self,email,password):
+		if password is None:
+			raise TypeError('Client must have a password')
+		user = self.create_user(email,password)
+		user.is_client = True
+		user.save()
+		return user
 
-        return self._create_user(email, password, **extra_fields)
+
+	def create_agent(self,email,password):
+		if password is None:
+			raise TypeError('Agent must have a password')
+		user = self.create_user(email,password)
+		user.is_agent = True
+		user.save()
+		return user
+	
