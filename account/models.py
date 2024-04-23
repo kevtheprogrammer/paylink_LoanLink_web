@@ -5,7 +5,6 @@ from .managers import *
 from django.contrib.auth.models import PermissionsMixin
 	
 
-
 class User(AbstractBaseUser, PermissionsMixin):
     
     USER_TYPE = (
@@ -26,18 +25,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('Male', 'Male'),
         ('Female', 'Female'),
     )
-
-
-    # MARTIAL_STATUS = (
-    #     ('Married', 'Married'),
-    #     ('Single', 'Single'),
-    #     ('Divorced', 'Divorced'),
-    #     ('Widowed', 'Widowed'),
-    #     ('Widow', 'Widow'),
-    # )
-
  
-
     RELATION = (
         ('Son', 'Son'),
         ('Daughter', 'Daughter'),
@@ -84,7 +72,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_manager = models.BooleanField(verbose_name='staff', default=False)
     date_joined = models.DateTimeField(verbose_name='date joined', auto_now_add=True)
     is_active = models.BooleanField(verbose_name='active', default=True)
-    is_crm = models.BooleanField(verbose_name='crm manager', default=False)
     is_verified = models.BooleanField(verbose_name='verified', default=False)
 
     USERNAME_FIELD = 'email'
@@ -101,33 +88,25 @@ class ClientProfile(models.Model):
     # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client_profile')
     empolyee_number = models.BigIntegerField(blank=True, null=True)
-    address = models.CharField(max_length=255)
+    balance = models.FloatField(null=True)
     bank = models.CharField(max_length=200, blank=True, null=True)
     bank_acc = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
-           return f'{self.email}'
-
-    class Meta:
-	
-	    db_table = "client_profile"
-
-
+           return f'{self.user.email}'
 
 class AgentProfile(models.Model):
-      GENDER =(
-          ('Male', 'Male'),
-          ('Female', 'Female'),
-      )
+    
     #   agent_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-      client = models.ForeignKey(User, on_delete=models.CASCADE)
-      bank = models.CharField(max_length=200, blank=True, null=True)
-      bank_acc = models.CharField(max_length=200, blank=True, null=True)
-      date_joined = models.DateField(auto_now_add=True)
-      is_active = models.BooleanField(default=True)
-      is_agent = models.BooleanField(default=True)
-      is_staff = models.BooleanField(default=False)
+    user_account = models.ForeignKey(User, related_name="user_account", on_delete=models.CASCADE)
+    bank = models.CharField(max_length=200, blank=True, null=True)
+    bank_acc = models.CharField(max_length=200, blank=True, null=True)
+    date_joined = models.DateField(auto_now_add=True)
+    is_active = models.BooleanField(default=True)
+    is_agent = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
 
-      class Meta:
-	      db_table = "agent_profile"
+    def __str__(self):
+           return f'agent {self.user_account.email}'
 
+ 

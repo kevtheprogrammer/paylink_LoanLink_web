@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Loan, LoanTransaction, CreditScore
+from .models import *
 
 admin.site.register(Loan)
-admin.site.register(LoanTransaction)
 admin.site.register(CreditScore)
