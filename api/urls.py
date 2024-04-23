@@ -15,8 +15,12 @@ urlpatterns = [
     path('clients/', CleintUserViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('client/<int:id>/', CleintUserViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
     
-    # path('loans/', LoanListView.as_view({'get': 'list', 'post': 'create'})),
-    # path('loans/<int:id>/', LoanListView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'})),
+    path('creditscore/', CreditScoreSerializerViewset.as_view({'get': 'list', 'post': 'create'}), name='creditscore'), 
+    path('creditscore/<int:id>/', CreditScoreSerializerViewset.as_view({ 'get': 'retrieve_base', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'}), name='creditscoreid'),
+    path('creditscore/<int:client_employee_number>/employee/', CreditScoreSerializerViewset.as_view({'get': 'retrieve', }), name='creditscoreid'),
+
+    path('loans/', LoanListView.as_view({'get': 'list', 'post': 'create'})),
+    path('loans/<int:id>/', LoanListView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
 
     # path('loans/approve-loan/<uuid:pk>/', LoanUpdateViewSet.as_view({'post': 'update'})),
 
@@ -37,8 +41,6 @@ urlpatterns = [
     # path('loans/approved/', ApprovedLoanListView.as_view({'get': 'list'}), name='approvedloans'),
     # path('loans/<str:loan_id>', ApprovedLoanListView.as_view({'get': 'retreive', 'put': 'update', 'delete': 'destroy'}), name='approvedloansid'),
 
-    # path('creditscore/', CreditScoreSerializerViewset.as_view({'get': 'list', 'post': 'create'}), name='creditscore'), 
-    # path('creditscore/<str:client_id>/', CreditScoreSerializerViewset.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='creditscoreid'),
 
     # path('transaction/',  LoanTransactionSerializerView.as_view({'get': 'list', 'post': 'create'})),
     # path('transaction/<str:loan_id>', LoanTransactionSerializerView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='loan-transactions'),
