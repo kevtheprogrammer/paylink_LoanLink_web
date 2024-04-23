@@ -36,7 +36,6 @@ class CreditScoreSerializer(serializers. ModelSerializer):
         fields = ['id', 'number_of_loan', 'credit_score', 'crb','client', ]
         read_only = ['id', ] 
 
-
 class ClientSerializer(serializers.ModelSerializer):
     user = BasicUserAccountSerializer(read_only=True)
     credit_score = CreditScoreSerializer(read_only=True)
@@ -57,7 +56,6 @@ class ClientSerializer(serializers.ModelSerializer):
         representation['user'] = user_representation
         return representation
 
-
 class LoanSerializer(serializers.ModelSerializer):
    
     class Meta:
@@ -70,7 +68,24 @@ class LoanSerializer(serializers.ModelSerializer):
         ]
         read_only = [ 'id', ]
 
+class CreateLoanTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LoanTransaction
+        fields = [ "id","date", "loan_obj","amount","is_payment_made","status","transaction_type","approved_by","approved_at","client"  ]
+        read_only = [ "id","date"]
 
+class ListLoanTransactionSerializer(serializers.ModelSerializer):
+    client = ClientSerializer(read_only=True)
+    class Meta:
+        model = LoanTransaction
+        fields = [ "id","date", "loan_obj","amount","is_payment_made","status","transaction_type","approved_by","approved_at","client"  ]
+        read_only = [ "id","date"]
+
+
+class FilterLoanSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Loan
+        fields = '__all__'
 
 
 
@@ -78,7 +93,6 @@ class AgentSerializer(serializers.ModelSerializer):
     class Meta:
         model = AgentProfile
         fields = '__all__'
-
 
 
 # class LoanListSerializer(serializers.ModelSerializer):
@@ -107,8 +121,8 @@ class LoanUpdateSerializer(serializers.ModelSerializer):
         fields = ['loan_id', 'status']
         read_only = ['loan_id']
 
-class LoanTransactionSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = LoanTransaction
-        fields = ['id','loan_id', 'amount', 'is_payment_made', 'status', 'transaction_type', 'approved_by', 'approved_at', 'date']
-        read_only = ['id']
+# class LoanTransactionSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = LoanTransaction
+#         fields = ['id','loan_id', 'amount', 'is_payment_made', 'status', 'transaction_type', 'approved_by', 'approved_at', 'date']
+#         read_only = ['id']

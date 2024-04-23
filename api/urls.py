@@ -21,28 +21,15 @@ urlpatterns = [
 
     path('loans/', LoanListView.as_view({'get': 'list', 'post': 'create'})),
     path('loans/<int:id>/', LoanListView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
+    path('loans/<str:loan_status>/', FilterLoansByStatus.as_view({'get': 'list',    })),
 
     # path('loans/approve-loan/<uuid:pk>/', LoanUpdateViewSet.as_view({'post': 'update'})),
 
     # path('loans/disbursement-of-funds/<uuid:loan_id>/', DisbursementOfFunds.as_view({'post': 'loan_disbursement'}), name='disbursement-of-funds'),
 
-    # path('loans/active/', ActiveLoanListViewset.as_view({'get': 'list'})),
-    # path('loans/<str:loan_id>', ActiveLoanListViewset.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy' })),
+   
 
-    # path('loans/pending/', PendingLoanListViewset.as_view({'get': 'list'})),
-    # path('loans/<str:loan_id>', PendingLoanListViewset.as_view({'get': 'retrieve', 'put': 'update','delete': 'destroy'})),
-
-    # path('loans/closed/', ClosedLoanListViewset.as_view({'get': 'list'}), name='closeloans'),
-    # path('loans/<str:loan_id>', ClosedLoanListViewset.as_view({'get': 'retreive', 'put': 'update', 'delete': 'destroy'}), name='closeloans'),
-
-    # path('loans/rejected/', RejectedLoanListViewest.as_view({'get': 'list'}), name='rejectedloan'),
-    # path('loans/<str:loan_id>', RejectedLoanListViewest.as_view({'get': 'retreive', 'put': 'update', 'delete': 'destroy'}), name='rejectedloansid'),
-
-    # path('loans/approved/', ApprovedLoanListView.as_view({'get': 'list'}), name='approvedloans'),
-    # path('loans/<str:loan_id>', ApprovedLoanListView.as_view({'get': 'retreive', 'put': 'update', 'delete': 'destroy'}), name='approvedloansid'),
-
-
-    # path('transaction/',  LoanTransactionSerializerView.as_view({'get': 'list', 'post': 'create'})),
-    # path('transaction/<str:loan_id>', LoanTransactionSerializerView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='loan-transactions'),
+    path('txns/',  LoanTransactionSerializerView.as_view({'get': 'list', 'post': 'create'})),
+    path('txns/<int:id>', LoanTransactionSerializerView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='loan-transactions'),
 
 ]

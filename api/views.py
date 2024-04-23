@@ -41,7 +41,6 @@ class UserViewSet(viewsets.ViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	
-    
     def retrieve(self, request, id=None):
         try:
             user = self.get_object(id)  # Use id instead of pk for consistency
@@ -63,8 +62,6 @@ class UserViewSet(viewsets.ViewSet):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
- 
     def update(self, request, id=None):
         try:
             user = self.get_object(id)
@@ -308,15 +305,7 @@ class LoanListView(viewsets.ViewSet):
         
         serializer = self.serializer(obj)  # Pass user instance to serializer
         return Response(serializer.data)
-    def retrieve_base(self, request, id=None):
-        try:
-            obj = self.get_object(id)  # Use id instead of pk for consistency
-        except self.model.DoesNotExist:
-            return Response("Credit Score does not exist", status=status.HTTP_404_NOT_FOUND)
-        
-        serializer = self.serializer(obj)  # Pass user instance to serializer
-        return Response(serializer.data)
-    
+ 
     def partial_update(self, request, id=None):
         try:
             user = self.get_object(id)
@@ -366,272 +355,124 @@ class LoanListView(viewsets.ViewSet):
             permission_classes = [AllowAny,] # [IsAdminUser]
         return [permission() for permission in permission_classes]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Individual loan details
-class LoanDetailView(viewsets.ViewSet):
+class LoanTransactionSerializerView(viewsets.ViewSet):
+    serializer = CreateLoanTransactionSerializer
+    model = LoanTransaction
+    
+    def get_object(self, pk):
+        try:
+            return self.model.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+        
     def list(self, request):
-        queryset = Loan.objects.all()
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, many=True)
+        obj = self.model.objects.all()
+        serializer = ListLoanTransactionSerializer(obj, many=True)
         return Response(serializer.data)
-
+	
     def create(self, request):
-        serializer = LoanSerializer(data=request.data)
+        serializer = self.serializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def retrieve(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, many=True)
+	
+    def retrieve(self, request, id=None):
+        try:
+            obj = self.get_object(id)  # Use id instead of pk for consistency
+        except User.DoesNotExist:
+            return Response("Client does not exist", status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = self.serializer(obj)  # Pass user instance to serializer
         return Response(serializer.data)
-
-    def update(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
+ 
+    def partial_update(self, request, id=None):
+        try:
+            user = self.get_object(id)
+        except self.model.DoesNotExist:
+            return Response("User does not exist", status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = self.serializer(user, data=request.data, partial=True)  # Set partial=True for partial updates
         if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
+    def update(self, request, id=None):
+        try:
+            user = self.get_object(id)
+        except self.model.DoesNotExist:
+            return Response("User does not exist", status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = self.serializer(user, data=request.data)
         if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.data, status=status.HTTP_400_BAD_REQUEST)
-
-# Listing all activaate loans
-class ActiveLoanListViewset(viewsets.ViewSet):
-    def list(self, request):
-        queryset = Loan.objects.filter(status='active')
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-
-# List all closed loans
-class ClosedLoanListViewset(viewsets.ViewSet):
-    def list(self, request):
-        queryset = Loan.objects.filter(status='closed')
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def retrive(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            serializer.save()
+            return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def update(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+ 
+    def destroy(self, request, id=None):
+        try:
+            user = self.get_object(id)
+        except self.model.DoesNotExist:
+            return Response("User does not exist", status=status.HTTP_404_NOT_FOUND)
+        
+        user.delete()
+        user = self.model.objects.all()
+        serializer = self.serializer(user, many=True)
+        return Response({
+            "message": "Deleted client object with success",
+            "data": serializer.data,
+        }, status=status.HTTP_204_NO_CONTENT)
+    
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.action in ['list','create', 'retrieve', 'update']:
+            permission_classes = [AllowAny,] # IsAuthenticated]
+        elif self.action == 'destroy':
+            permission_classes = [AllowAny,] #  IsAuthenticated,] #CustomPermission   
+        else:
+            permission_classes = [AllowAny,] # [IsAdminUser]
+        return [permission() for permission in permission_classes]
 
 # List all pending loans
-class PendingLoanListViewset(viewsets.ViewSet):
-    def list(self, request):
-        queryset = Loan.objects.filter(status='pending')
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+class FilterLoansByStatus(viewsets.ViewSet):
+    serializer = FilterLoanSerializer
+    model = Loan
 
-    def retrive(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def list(self, request, loan_status):
+        # Filter loans by status
+        if loan_status in [choice[0] for choice in Loan.STATUS_CHOICES]:
+            filtered_loans = self.model.objects.filter(status=loan_status)
+            serializer = self.serializer(filtered_loans, many=True)
+            return Response(serializer.data)
+        else:
+            return Response({"error": "Invalid status provided"},status=status.HTTP_400_BAD_REQUEST)
+       
+class LoacActionView(viewsets.ViewSet):
+    serializer = LoanSerializer
+    model = Loan
 
-    def update(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# List all rejected loans
-class RejectedLoanListViewest(viewsets.ViewSet):
-    def list(self, request):
-        queryset = Loan.objects.filter(status='rejected')
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def retrive(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def update(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# List all approved loans
-class ApprovedLoanListView(viewsets.ViewSet):
-    def list(self, request):
-        queryset = Loan.objects.filter(status='approved')
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-    def retrive(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def update(self, request, loan_id=None):
-        queryset = Loan.objects.filter(loan__loan_id=loan_id)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, pk=None):
-        queryset = Loan.objects.get(pk=pk)
-        serializer_class = LoanSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-class LoanUpdateViewSet(viewsets.ModelViewSet):
-    queryset = Loan.objects.all()
-    serializer_class = LoanUpdateSerializer
-    def approve_loan(self, request, loan_id=None):
+    def get_object(self, pk):
         try:
-            loan = Loan.objects.get(loan__loan_id=loan_id)
-            loan.status = 'approved'
-            loan.save()
+            return self.model.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
 
-            loan_id = loan.loan_id
-            amount = loan.amount
-            status = 'active'
-            transaction_type = 'Disbursement'
+    def approve_loan(self, id):
+        pass
 
-            # if amount < 1000:
-            #         #automated  disbursement loan transaction
-            #         LoanTransaction = {
-            #             'loan_id': loan_id,
-            #             'amount': amount,
-            #             'loan': loan,
-            #             'status': status,
-            #             'transaction_type': transaction_type,
-                       
+    def activate_loan(self, id):
+        pass
 
-            #         }
-                    
-            #         transactionSerializer = LoanTransactionSerializer
-            #         transaction = transactionSerializer(data=request.data)
-            #         if transaction.is_valid(raise_exception=True):
-            #             transaction.save()
-            #             return Response({'message': 'Your loan of successfully disbursed'},transaction.data, status=status.HTTP_201_CREATED)
-            #             return Response ({'message': 'System failed to disburse the loan'}, status=status.HTTP_404)
-                
-            return Response({'status': 'Loan approved successfully'})
-        except Loan.DoesNotExist:
-            return Response({'status': 'Loan not found'}, status=404)
+    def disburse_loan(self, id):
+        pass
 
-class LoanTransactionSerializerView(viewsets.ViewSet):
-    def list(self, request):
-        queryset = LoanTransaction.objects.all()
-        serializer_class = LoanTransactionSerializer
-        serializer = serializer_class(queryset, many=True)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-    def create(self, request):
-        serializer_class = LoanTransactionSerializer
-        serializer = serializer_class(data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def retrieve(self, request, loan_id=None):
-        queryset = LoanTransaction.objects.get(loan_id=loan_id)
-        serializer_class = LoanTransactionSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def update(self, request, loan_id=None):
-        queryset = LoanTransaction.objects.filter(loan_id=loan_id)
-        serializer_class = LoanTransactionSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def destroy(self, request, loan_id=None):
-        queryset = LoanTransaction.objects.filter(loan_id=loan_id)
-        serializer_class = LoanTransactionSerializer
-        serializer = serializer_class(queryset, data=request.data)
-        if serializer.is_valid():
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
+
+
+  
 class DisbursementOfFunds(viewsets.ViewSet):
     def loan_disbursement(self, request, loan_id=None):
         loan = Loan.objects.get(loan_id=loan_id)
@@ -658,8 +499,6 @@ class DisbursementOfFunds(viewsets.ViewSet):
 
         else:
             return Response({'Message': 'Disbursement of funds not failed'}, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 # check payment app 
 # Create your views here.

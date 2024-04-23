@@ -5,9 +5,9 @@ from loan.models import Loan
 
 class LoanTransaction(models.Model):
     STATUS_CHOICES = (
-        ('active', 'Acctive'),
-        ('closed', 'Closed'),
-        ('bad debt', 'Bad debt'),
+        ('pending', 'pending'),
+        ('success', 'success'),
+        ('declined', 'declined'),
     )
 
     TRANSCTION_TYPE = (
@@ -29,7 +29,7 @@ class LoanTransaction(models.Model):
     client = models.ForeignKey(ClientProfile, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
-        return f'{self.loan_id}'
+        return f'{self.amount} {self.transaction_type} of {self.loan_obj}'
 
 
 
