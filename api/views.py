@@ -300,8 +300,8 @@ class LoanListView(viewsets.ViewSet):
     def retrieve(self, request, id=None):
         try:
             obj = self.get_object(id)  # Use id instead of pk for consistency
-        except User.DoesNotExist:
-            return Response("Client does not exist", status=status.HTTP_404_NOT_FOUND)
+        except self.model.DoesNotExist:
+            return Response("Loan does not exist", status=status.HTTP_404_NOT_FOUND)
         
         serializer = self.serializer(obj)  # Pass user instance to serializer
         return Response(serializer.data)
@@ -449,7 +449,7 @@ class FilterLoansByStatus(viewsets.ViewSet):
         else:
             return Response({"error": "Invalid status provided"},status=status.HTTP_400_BAD_REQUEST)
        
-class LoacActionView(viewsets.ViewSet):
+class LoacActionViewSet(viewsets.ViewSet):
     serializer = LoanSerializer
     model = Loan
 
@@ -459,8 +459,38 @@ class LoacActionView(viewsets.ViewSet):
         except User.DoesNotExist:
             raise Http404
 
-    def approve_loan(self, id):
-        pass
+    def create_txn(self, loan_id):
+        loan = self.get_object(loan_id)
+        loan_transaction = LoanTransaction(
+            loan_obj=loan,
+            amount=loan.amount,  # Provide the amount
+            is_payment_made=True,  # Set the payment status
+            status='pending',  # Set the status
+            transaction_type='Disbursement',  # Set the transaction type
+            client=loan.customer,
+            # approved_at=datetime.datetime.now(),  # Set the approval date/time
+        )
+        txn = loan_transaction.save()
+        return txn
+
+    def approve_loan(self, request, id=None):
+        try:
+            loan = self.get_object(id)
+            loan.status = 'approved'
+            # loan.approved_at = datetime.datetime.now()
+            loan.save()
+            generate_txn = self.create_txn(loan.id)
+            loan_serializer = self.serializer(generate_txn)
+            txn_serializer = ListLoanTransactionSerializer(generate_txn)
+            
+            return Response({
+                "message": "transaction approved",
+                "data": loan_serializer.data,
+                "transaction": txn_serializer.data,
+            }, status=status.HTTP_204_NO_CONTENT)
+        except self.model.DoesNotExist:
+            return Response("Loan does not exist", status=status.HTTP_404_NOT_FOUND)
+        
 
     def activate_loan(self, id):
         pass

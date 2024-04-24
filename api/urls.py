@@ -23,6 +23,9 @@ urlpatterns = [
     path('loans/<int:id>/', LoanListView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
     path('loans/<str:loan_status>/', FilterLoansByStatus.as_view({'get': 'list',    })),
 
+    path('loan/approve/<int:id>/', LoacActionViewSet.as_view({'get': 'approve_loan'    })),
+    path('loan/activate/<int:id>/', LoacActionViewSet.as_view({'get': 'activate_loan'    })),
+
     # path('loans/approve-loan/<uuid:pk>/', LoanUpdateViewSet.as_view({'post': 'update'})),
 
     # path('loans/disbursement-of-funds/<uuid:loan_id>/', DisbursementOfFunds.as_view({'post': 'loan_disbursement'}), name='disbursement-of-funds'),
