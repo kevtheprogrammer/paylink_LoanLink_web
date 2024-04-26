@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'corsheaders',
+    # 'corsheaders',
 ]
 
 LOCAL_APP = [
@@ -55,6 +55,7 @@ THIRD_PARTY_APP = [
     'corsheaders',
     'django_crontab',
 ]
+
 INSTALLED_APPS += LOCAL_APP
 INSTALLED_APPS += THIRD_PARTY_APP
 
@@ -66,7 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
     'django.middleware.common.CommonMiddleware',
 ]
 
