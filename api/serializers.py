@@ -74,11 +74,12 @@ class CreateLoanTransactionSerializer(serializers.ModelSerializer):
         fields = [ "id","date", "loan_obj","amount","is_payment_made","status","transaction_type","approved_by","approved_at","client"  ]
         read_only = [ "id","date"]
 
+
 class ListLoanTransactionSerializer(serializers.ModelSerializer):
     client = ClientSerializer(read_only=True)
     class Meta:
         model = LoanTransaction
-        fields = [ "id","date", "loan_obj","amount","is_payment_made","status","transaction_type","approved_by","approved_at","client"  ]
+        fields = [ "id","date","loan_obj","amount","is_payment_made","status","transaction_type","approved_by","approved_at","client"  ]
         read_only = [ "id","date"]
 
 
@@ -94,6 +95,13 @@ class AgentSerializer(serializers.ModelSerializer):
         model = AgentProfile
         fields = '__all__'
 
+
+
+class LoanTransactionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LoanTransaction
+        fields = [ "id","date", "loan_obj","amount","is_payment_made","status","transaction_type","approved_by","approved_at","client"  ]
+        read_only = [ "id","date"]
 
 # class LoanListSerializer(serializers.ModelSerializer):
 #      client = ClientSerializer()

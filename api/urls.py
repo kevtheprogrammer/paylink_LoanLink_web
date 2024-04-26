@@ -26,13 +26,13 @@ urlpatterns = [
     path('loan/approve/<int:id>/', LoacActionViewSet.as_view({'get': 'approve_loan'    })),
     path('loan/activate/<int:id>/', LoacActionViewSet.as_view({'get': 'activate_loan'    })),
 
-    # path('loans/approve-loan/<uuid:pk>/', LoanUpdateViewSet.as_view({'post': 'update'})),
-
-    # path('loans/disbursement-of-funds/<uuid:loan_id>/', DisbursementOfFunds.as_view({'post': 'loan_disbursement'}), name='disbursement-of-funds'),
-
-   
+    #path('loans/approve-loan/<uuid:pk>/', LoanUpdateViewSet.as_view({'post': 'update'})),
+    #path('loans/disbursement-of-funds/<uuid:loan_id>/', DisbursementOfFunds.as_view({'post': 'loan_disbursement'}), name='disbursement-of-funds'),
 
     path('txns/',  LoanTransactionSerializerView.as_view({'get': 'list', 'post': 'create'})),
     path('txns/<int:id>', LoanTransactionSerializerView.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}), name='loan-transactions'),
+
+    # path('disburse/', DisbursementOfFunds.as_view({'get': 'loan_disbursement'}), name='disbursement-of-funds'),
+    # path('disburse/<int:id>/', DisbursementOfFunds.as_view({'post': 'loan_disbursement'}), name='disbursement-of-funds'),
 
 ]

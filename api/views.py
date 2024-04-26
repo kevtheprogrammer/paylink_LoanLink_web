@@ -2,7 +2,6 @@ from account.models import ClientProfile
 from loan.models import Loan
 from account.models import ClientProfile
 from account.models import *
- 
 from rest_framework import viewsets
 from rest_framework.response import Response
 from django.shortcuts import render
@@ -15,7 +14,6 @@ from rest_framework.response import Response
 from django.core.management.base import BaseCommand
 from django.http import Http404, HttpResponse
 from rest_framework.permissions import IsAuthenticated,AllowAny
-
 from .serializers import *
 
 
@@ -461,7 +459,7 @@ class LoacActionViewSet(viewsets.ViewSet):
 
     def create_txn(self, loan_id):
         loan = self.get_object(loan_id)
-        loan_transaction = LoanTransaction(
+        loan_transaction = LoanTransaction.objects.create(
             loan_obj=loan,
             amount=loan.amount,  # Provide the amount
             is_payment_made=True,  # Set the payment status
@@ -470,29 +468,30 @@ class LoacActionViewSet(viewsets.ViewSet):
             client=loan.customer,
             # approved_at=datetime.datetime.now(),  # Set the approval date/time
         )
-        txn = loan_transaction.save()
-        return txn
-
+        return loan_transaction
+        
     def approve_loan(self, request, id=None):
         try:
             loan = self.get_object(id)
             loan.status = 'approved'
-            # loan.approved_at = datetime.datetime.now()
+            loan.approved_at = datetime.now() 
             loan.save()
+            
             generate_txn = self.create_txn(loan.id)
-            loan_serializer = self.serializer(generate_txn)
+            loan_serializer = self.serializer(loan)
             txn_serializer = ListLoanTransactionSerializer(generate_txn)
             
             return Response({
-                "message": "transaction approved",
-                "data": loan_serializer.data,
+                "message": "Loan approved successfully",
+                "loan": loan_serializer.data,
                 "transaction": txn_serializer.data,
-            }, status=status.HTTP_204_NO_CONTENT)
+            }, status=status.HTTP_200_OK)
         except self.model.DoesNotExist:
             return Response("Loan does not exist", status=status.HTTP_404_NOT_FOUND)
         
 
     def activate_loan(self, id):
+
         pass
 
     def disburse_loan(self, id):
@@ -504,8 +503,8 @@ class LoacActionViewSet(viewsets.ViewSet):
 
   
 class DisbursementOfFunds(viewsets.ViewSet):
-    def loan_disbursement(self, request, loan_id=None):
-        loan = Loan.objects.get(loan_id=loan_id)
+    def loan_disbursement(self, request, pk=None):
+        loan = Loan.objects.get(pk=pk)
         status = loan.status
         amount = loan.amount
         loan_id = loan.loan_id
