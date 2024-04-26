@@ -446,6 +446,7 @@ class FilterLoansByStatus(viewsets.ViewSet):
             return Response(serializer.data)
         else:
             return Response({"error": "Invalid status provided"},status=status.HTTP_400_BAD_REQUEST)
+        
        
 class LoacActionViewSet(viewsets.ViewSet):
     serializer = LoanSerializer
@@ -491,8 +492,20 @@ class LoacActionViewSet(viewsets.ViewSet):
         
 
     def activate_loan(self, id):
+        try:
+            loan = Loan.objects.get(id=id)
+        except Loan.DoesNotExist:
+            return Response({"message": "Loan not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Activate the loan 
+        loan.is_active = True
+        loan.save()
 
-        pass
+        serializer = LoanSerializer(loan)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+    
 
     def disburse_loan(self, id):
         pass

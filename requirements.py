@@ -1,6 +1,7 @@
 APScheduler==3.10.1
 asgiref==3.6.0
 certifi==2023.7.22
+cffi==1.16.0
 channels==4.0.0
 charset-normalizer==3.3.0
 crispy-bootstrap4==2022.1
@@ -21,8 +22,8 @@ django-phone-auth==0.3.1
 django-phonenumber-field==7.0.2
 django-phonenumbers==1.0.1
 django-rest-auth==0.9.5
+django-rest-resetpassword==0.1.2
 django-star-ratings==0.9.2
-django_rest_resetpassword==0.1.2
 djangorestframework==3.15.1
 djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==5.3.0
@@ -44,6 +45,7 @@ pytz==2022.7.1
 pytz-deprecation-shim==0.1.0.post0
 PyYAML==6.0.1
 requests==2.31.0
+requests-oauthlib==2.0.0
 schedule==1.1.0
 six==1.16.0
 sqlparse==0.4.3
