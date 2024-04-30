@@ -63,7 +63,7 @@ INSTALLED_APPS += THIRD_PARTY_APP
 
 
 
-CORS_ALLOWED_ORIGINS = [*]
+CORS_ALLOWED_ORIGINS = ['*']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
