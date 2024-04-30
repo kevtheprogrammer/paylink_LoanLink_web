@@ -61,8 +61,13 @@ THIRD_PARTY_APP = [
 INSTALLED_APPS += LOCAL_APP
 INSTALLED_APPS += THIRD_PARTY_APP
 
-CORS_ALLOWED_ORIGINS = ['francischiputa3.pythonanywhere.com',
-                        'localhost','192.168.1.136',
+
+
+CORS_ALLOWED_ORIGINS = ['https://loanlinktest.onrender.com',
+                        'localhost',
+                        '192.168.1.136',
+                        'http://192.168.1.136,:5173',
+
                         'http://localhost:5173',
                         'http://127.0.0.1:5173',
                  ]
