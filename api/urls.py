@@ -1,4 +1,6 @@
 from django.urls import path, include
+
+from api.auth import CustomLoginView
 from .views import *
 from .views import *
 from rest_framework import routers
@@ -9,6 +11,9 @@ from rest_framework import routers
 
 urlpatterns = [
     # path('/', include(router.urls)),
+    path('login/', CustomLoginView.as_view(), name='token_obtain_pair'),
+    
+    
     path('users/', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('user/<int:id>/', UserViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
     
@@ -23,8 +28,8 @@ urlpatterns = [
     path('loans/<int:id>/', LoanListView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
     path('loans/<str:loan_status>/', FilterLoansByStatus.as_view({'get': 'list',    })),
 
-    path('loan/approve/<int:id>/', LoacActionViewSet.as_view({'get': 'approve_loan'    })),
-    path('loan/activate/<int:id>/', LoacActionViewSet.as_view({'get': 'activate_loan'    })),
+    path('loan/approve/<int:id>/', LoacActionViewSet.as_view({'get': 'approve_loan' })),
+    path('loan/activate/<int:id>/', LoacActionViewSet.as_view({'get': '+-------------------'  })),
 
     # path('loans/approve-loan/<uuid:pk>/', LoanUpdateViewSet.as_view({'post': 'update'})),
 

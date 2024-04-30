@@ -14,7 +14,7 @@ class LoanTransaction(models.Model):
         ('Disbursement', 'Disbursement,'),
         ('Loan Repayment', 'Loan Repayment'),
         ('Penalty', 'Penalty'),
-        ('bad debt', 'Bad Debt')
+        ('Bad Debt', 'Bad Debt')
 
     )
 
@@ -30,9 +30,6 @@ class LoanTransaction(models.Model):
 
     def __str__(self):
         return f'{self.amount} {self.transaction_type} of {self.loan_obj}'
-
-
-
 
 
 class BadDebt(models.Model):

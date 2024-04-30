@@ -15,6 +15,8 @@ from rest_framework.response import Response
 from django.core.management.base import BaseCommand
 from django.http import Http404, HttpResponse
 from rest_framework.permissions import IsAuthenticated,AllowAny
+from rest_framework.exceptions import NotFound
+from django.core.exceptions import ValidationError
 
 from .serializers import *
 
@@ -356,14 +358,14 @@ class LoanListView(viewsets.ViewSet):
         return [permission() for permission in permission_classes]
 
 class LoanTransactionSerializerView(viewsets.ViewSet):
-    serializer = CreateLoanTransactionSerializer
+    serializer_class = CreateLoanTransactionSerializer
     model = LoanTransaction
     
     def get_object(self, pk):
         try:
             return self.model.objects.get(pk=pk)
-        except User.DoesNotExist:
-            raise Http404
+        except LoanTransaction.DoesNotExist:
+            raise NotFound("Loan Transaction does not exist")
         
     def list(self, request):
         obj = self.model.objects.all()
@@ -371,44 +373,50 @@ class LoanTransactionSerializerView(viewsets.ViewSet):
         return Response(serializer.data)
 	
     def create(self, request):
-        serializer = self.serializer(data=request.data)
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            try:
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            except ValidationError as e:
+                error_message = str(e)
+                return Response({"error": error_message}, status=status.HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	
-    def retrieve(self, request, id=None):
+    def retrieve(self, request, pk=None):
         try:
-            obj = self.get_object(id)  # Use id instead of pk for consistency
-        except User.DoesNotExist:
-            return Response("Client does not exist", status=status.HTTP_404_NOT_FOUND)
+            obj = self.get_object(pk)
+        except NotFound as e:
+            return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = self.serializer(obj)  # Pass user instance to serializer
+        serializer = self.serializer_class(obj)
         return Response(serializer.data)
  
-    def partial_update(self, request, id=None):
+    def partial_update(self, request, pk=None):
         try:
-            user = self.get_object(id)
-        except self.model.DoesNotExist:
-            return Response("User does not exist", status=status.HTTP_404_NOT_FOUND)
+            obj = self.get_object(pk)
+        except NotFound as e:
+            return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = self.serializer(user, data=request.data, partial=True)  # Set partial=True for partial updates
+        serializer = self.serializer_class(obj, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def update(self, request, id=None):
+
+    def update(self, request, pk=None):
         try:
-            user = self.get_object(id)
-        except self.model.DoesNotExist:
-            return Response("User does not exist", status=status.HTTP_404_NOT_FOUND)
+            obj = self.get_object(pk)
+        except NotFound as e:
+            return Response({"error": str(e)}, status=status.HTTP_404_NOT_FOUND)
         
-        serializer = self.serializer(user, data=request.data)
+        serializer = self.serializer_class(obj, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
- 
+    
+
     def destroy(self, request, id=None):
         try:
             user = self.get_object(id)

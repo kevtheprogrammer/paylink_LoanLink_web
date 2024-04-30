@@ -26,9 +26,22 @@ SECRET_KEY = 'django-insecure-b02tf-r0q4@r+pqdbafwc@v&3^smrp!!p%l!z&q&_b-nk1bq#q
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    '192.168.1.159',
+    '172.20.10.2',
+    # '*',
+    # '192.168.1.142',
+    # '192.168.1.159',
+    # '172.20.10.2', 
+    # '172.20.10.6',
+    # '192.168.1.119', 
+    # '192.168.1.158',
+    # '102.221.242.137',
+    'localhost', 
+    '127.0.0.1',
+]
 
-
+ 
 # Application definition
 
 INSTALLED_APPS = [
@@ -56,6 +69,8 @@ INSTALLED_APPS += LOCAL_APP
 INSTALLED_APPS += THIRD_PARTY_APP
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    # default 
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -133,7 +148,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = BASE_DIR / 'loanlink/static'
+STATIC_ROOT = BASE_DIR / 'tmp/static'
+STATICFILES_DIRS = ('static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -188,6 +204,6 @@ STATICFILES_DIRS = [
 AUTH_USER_MODEL = "account.User"
 
 
-CRONJOBS = [
-    ('0 0 * * *', 'checkPayment.management.commands.check_loan_payments', '>> /path/to/logfile.log'),
-]
+# CRONJOBS = [
+#     ('0 0 * * *', 'checkPayment.management.commands.check_loan_payments', '>> /path/to/logfile.log'),
+# ]

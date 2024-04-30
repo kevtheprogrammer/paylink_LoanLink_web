@@ -44,7 +44,7 @@ class Loan(models.Model):
     approved_at_branch = models.CharField(max_length=900,blank=True, null=True)
 
     def __str__(self):
-        return f'{self.loan_id}'
+        return f'{self.id} {self.amount} {self.customer}'
 
     def get_due_date(self):
         if self.approved_date and self.period:
@@ -76,28 +76,4 @@ class CreditScore(models.Model):
         return f'credist score no. {self.id}'
 
 
-# class PaymentPosting(models.Model):
-#     TRANSCTION_TYPE = (
-#         ('Disbursement', 'Disbursement,'),
-#         ('Loan Repayment', 'Loan Repayment'),
-#         ('Penalty', 'Penalty'),
-#         ('bad debt', 'Bad debt'),
-#     )
-#     TRANSCTION_STATUS = (
-#         ('success', 'success,'),
-#         ('pending', 'pending'),
-#         ('declined', 'declined'),
-#     )
-#     client_user = models.ForeignKey(ClientProfile, related_name='client_user', on_delete=models.CASCADE)
-#     loan = models.ForeignKey(Loan, related_name='loans', on_delete=models.CASCADE)
-#     amount = models.DecimalField(max_digits=10, decimal_places=2)
-#     date = models.DateField(auto_now_add=True)
-#     transaction_type = models.CharField(max_length=255, choices=TRANSCTION_TYPE)
-#     status = models.CharField(max_length=255, choices=TRANSCTION_STATUS)
-#     is_payment_made = models.BooleanField(default=True)
-#     timestamp = models.DateTimeField(auto_now_add=True, verbose_name='Created At')
-#     l_upfates = models.DateTimeField(auto_now=True, verbose_name='Last Updated')
-
-#     def __str__(self):
-#         return f'{self.loan_id}'
-
+ 

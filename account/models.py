@@ -8,7 +8,6 @@ from django.contrib.auth.models import PermissionsMixin
 class User(AbstractBaseUser, PermissionsMixin):
     
     USER_TYPE = (
- 
         ('Admin', 'Admin'),
         ('Staff', 'Staff'),
         ('Customer', 'Customer'),
@@ -26,20 +25,8 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('Female', 'Female'),
     )
  
-    RELATION = (
-        ('Son', 'Son'),
-        ('Daughter', 'Daughter'),
-        ('Husband', 'Husband'),
-        ('Father', 'Father'),
-        ('Mother', 'Mother'),
-        ('Brother', 'Brother'),
-        ('Sister', 'Sister'),
-    )
-
-    FAMILY_TYPE = (
-        ('Extended', 'Extended'),
-        ('Nuclear', 'Nuclear'),
-    )
+ 
+ 
 
     ID_TYPE = (
         ('NRC', 'NRC'),
@@ -51,7 +38,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     profile_pic = models.ImageField(upload_to='avatars/', blank=True)
     email = models.EmailField(verbose_name='email address', unique=True)
     first_name = models.CharField(verbose_name='first name', max_length=30, blank=True)
-    # middle_name = models.CharField(max_length=50, verbose_name='Middle Name', blank=True)
     last_name = models.CharField(verbose_name='last name', max_length=30, blank=True)
     phone_number = models.CharField(max_length=20, blank=True, null=True)
     dob = models.DateField('Date of Birth', null=True, blank=True)
@@ -64,7 +50,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     gender = models.CharField(max_length=6, choices=GENDER, default='Male')
     # marital_status = models.CharField(max_length=9, verbose_name='Marital status', choices=MARTIAL_STATUS, default='Single', blank=True)
     city = models.CharField(max_length=100, blank=True)
-    # family_type = models.CharField(max_length=20, choices=FAMILY_TYPE, blank=True, default=None)
     address = models.CharField(max_length=200)
 
     is_staff = models.BooleanField(verbose_name='staff', default=False)
@@ -85,10 +70,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class ClientProfile(models.Model):
  
-    # id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client_profile')
+    pin = models.IntegerField(default=None)
     empolyee_number = models.BigIntegerField(blank=True, null=True)
-    balance = models.FloatField(null=True)
+    balance = models.FloatField(null=True, default=0.00)
     bank = models.CharField(max_length=200, blank=True, null=True)
     bank_acc = models.CharField(max_length=200, blank=True, null=True)
 
@@ -109,4 +94,11 @@ class AgentProfile(models.Model):
     def __str__(self):
            return f'agent {self.user_account.email}'
 
- 
+class Notification(models.Model):
+    user_client = models.ForeignKey(User,on_delete=models.CASCADE, default=None, related_name='user_client')
+    context = models.TextField(blank=True, default=None, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now=True )
+
+    def __str__(self):
+        return f'notification for  {self.user_client}'

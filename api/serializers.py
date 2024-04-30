@@ -3,6 +3,7 @@ from account.models import ClientProfile, AgentProfile
 from account.models import User
 from loan.models import *
 from payment.models import *
+from django.contrib.auth.hashers import make_password
 
 class BasicUserAccountSerializer(serializers.ModelSerializer):
     queryset = User.objects.all()
@@ -18,17 +19,27 @@ class CreateBasicUserAccountSerializer(serializers.ModelSerializer):
         read_only = ['id']
         extra_kwargs = {'password': {'write_only': True}}
 
+    def create(self, validated_data):
+        # Hash the password before saving
+        hashed_password = make_password(validated_data['password'])
+        validated_data['password'] = hashed_password
+        return super().create(validated_data)
+
+
+
 class Userserializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = [  "id", "last_login", "is_superuser", "user_type", "profile_pic", "email",  "first_name", "last_name", "phone_number", "dob", "id_type", "id_number", "location", "id_front", "id_back", "gender", "city", "address" , "is_staff" , "is_supervisor" , "is_manager" , "date_joined" , "is_active" , "is_verified" , ]
+        fields = [  "id", "password","last_login", "is_superuser", "user_type", "profile_pic", "email",  "first_name", "last_name", "phone_number", "dob", "id_type", "id_number", "location", "id_front", "id_back", "gender", "city", "address" , "is_staff" , "is_supervisor" , "is_manager" , "date_joined" , "is_active" , "is_verified" , ]
         read_only = ['id','last_login',]
         
 class CreateClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClientProfile
-        fields =["id",'empolyee_number', 'bank','bank_acc', 'user']
+        fields =["id",'empolyee_number', 'bank','bank_acc', 'user','pin']
         read_only = ['id',]
+        extra_kwargs = {'pin': {'write_only': True}}
+
 
 class CreditScoreSerializer(serializers. ModelSerializer):
     class Meta:
@@ -42,7 +53,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ClientProfile
-        fields = ["id", 'empolyee_number',  'bank', 'bank_acc', 'user', 'credit_score']
+        fields = ["id", 'empolyee_number', 'balance',  'bank', 'bank_acc', 'user', 'credit_score']
         read_only_fields = ['id', 'credit_score']  # Ensure credit_score is read-only
 
     def to_representation(self, instance):
