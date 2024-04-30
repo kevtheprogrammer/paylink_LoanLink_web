@@ -7,6 +7,7 @@ from rest_framework.permissions import AllowAny
 from .serializers import ClientRegistrationSerializer, AgentRegistrationSerializer
 from .serializers import UserLoginSerializer, ClientListSerializer, Userserializer
 from .models import User
+from django.shortcuts import render
 from account.models import ClientProfile
 from rest_framework import viewsets
 
@@ -78,3 +79,4 @@ class UserListViewset(viewsets.ViewSet):
           serializer_class = Userserializer
           serializer = serializer_class(many=True)
           return Response(serializer.data)
+     

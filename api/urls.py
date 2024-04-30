@@ -1,6 +1,6 @@
 from django.urls import path, include
 from .views import *
-from .views import *
+from .views import adminDashboardView
 from rest_framework import routers
 
 # router = routers.DefaultRouter()
@@ -9,6 +9,7 @@ from rest_framework import routers
 
 urlpatterns = [
     # path('/', include(router.urls)),
+    path('admin-dashboard/', adminDashboardView, name='admin_dashboard'),
     path('users/', UserViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('user/<int:id>/', UserViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
     

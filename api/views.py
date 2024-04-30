@@ -564,4 +564,6 @@ class Command(BaseCommand):
                 fail_silently=False,
             )
 
-            
+def adminDashboardView(View):
+    def admin_dashboard(request):
+        return render(request, 'admin_dashboard.html')

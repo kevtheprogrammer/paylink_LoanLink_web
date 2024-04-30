@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'corsheaders',
+    'core',
+    
 ]
 
 LOCAL_APP = [
@@ -59,6 +61,12 @@ THIRD_PARTY_APP = [
 INSTALLED_APPS += LOCAL_APP
 INSTALLED_APPS += THIRD_PARTY_APP
 
+CORS_ALLOWED_ORIGINS = ['francischiputa3.pythonanywhere.com',
+                        'localhost','192.168.1.136',
+                        'http://localhost:5173',
+                        'http://127.0.0.1:5173',
+                 ]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -67,7 +75,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 
@@ -76,7 +84,9 @@ ROOT_URLCONF = 'loanLink_web_app.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+          'DIRS': [
+            os.path.join(BASE_DIR, 'core/core/templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -189,7 +199,11 @@ SIMPLE_JWT = {
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = BASE_DIR / 'loanLink_web_app/static'
+STATICFILES_DIRS =[
+    os.path.join(BASE_DIR, 'static')
+]
+
+#STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 AUTH_USER_MODEL = "account.User"
