@@ -27,9 +27,13 @@ urlpatterns = [
     path('loans/', LoanListView.as_view({'get': 'list', 'post': 'create'})),
     path('loans/<int:id>/', LoanListView.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update', 'delete': 'destroy'})),
     path('loans/<str:loan_status>/', FilterLoansByStatus.as_view({'get': 'list',    })),
+    path('loans/client/<int:id>/', LoanListView.as_view({'get': 'list_user_loans'})),
 
     path('loan/approve/<int:id>/', LoacActionViewSet.as_view({'get': 'approve_loan' })),
     path('loan/activate/<int:id>/', LoacActionViewSet.as_view({'get': '+-------------------'  })),
+
+    path('notifications/<int:id>/', NotificationViewSet.as_view({'get': 'list_for_client' })),
+    # path('loan/activate/<int:id>/', LoacActionViewSet.as_view({'get': '+-------------------'  })),
 
     # path('loans/approve-loan/<uuid:pk>/', LoanUpdateViewSet.as_view({'post': 'update'})),
 

@@ -19,17 +19,22 @@ class CustomLoginView(TokenObtainPairView):
 
         # Authenticate user
         user = authenticate(request, email=email, password=password)
-        profile_pic_url = user.profile_pic.url if user.profile_pic else None
+        
+        
         if user:
-        # Check if user has a client profile
+            profile_pic_url = user.profile_pic.url if user.profile_pic else None
+            full_profile_pic_uri = request.build_absolute_uri(profile_pic_url) if profile_pic_url else None
+            # print('Profile',full_profile_pic_uri)
+
+            # Check if user has a client profile
             if hasattr(user, 'client_profile'):
                 payload = {
                     'id': user.id,
                     'email': user.email,
-                    'phone_nuber': user.phone_number,
+                    'phone_number': user.phone_number,
                     'first_name': user.first_name,
                     'last_name': user.last_name,
-                    'profile_pic':profile_pic_url,
+                    'profile_pic':full_profile_pic_uri,
                     'is_verified': user.is_verified,
                     'balance': user.client_profile.balance,
                     'empolyee_number': user.client_profile.empolyee_number,
@@ -40,8 +45,8 @@ class CustomLoginView(TokenObtainPairView):
                 payload = {
                     'id': user.id,
                     'email': user.email,
-                    'profile_pic':profile_pic_url,
-                    'phone_nuber': user.phone_number,
+                    'profile_pic':full_profile_pic_uri,
+                    'phone_number': user.phone_number,
                     'first_name': user.first_name,
                     'last_name': user.last_name,
                     'is_verified': user.is_verified,

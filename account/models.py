@@ -25,9 +25,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         ('Female', 'Female'),
     )
  
- 
- 
-
     ID_TYPE = (
         ('NRC', 'NRC'),
         ('Passport', 'Passport'),
@@ -47,7 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     id_front = models.ImageField(upload_to='id_front/', null=True, blank=True)
     id_back = models.ImageField(upload_to='id_back/', null=True, blank=True)
-    gender = models.CharField(max_length=6, choices=GENDER, default='Male')
+    gender =    models.CharField(max_length=6, choices=GENDER, default='Male')
     # marital_status = models.CharField(max_length=9, verbose_name='Marital status', choices=MARTIAL_STATUS, default='Single', blank=True)
     city = models.CharField(max_length=100, blank=True)
     address = models.CharField(max_length=200)
@@ -71,7 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class ClientProfile(models.Model):
  
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client_profile')
-    pin = models.IntegerField(default=None)
+    pin = models.IntegerField(default=1111)
     empolyee_number = models.BigIntegerField(blank=True, null=True)
     balance = models.FloatField(null=True, default=0.00)
     bank = models.CharField(max_length=200, blank=True, null=True)

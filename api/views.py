@@ -22,9 +22,11 @@ from .serializers import *
 
 
 class UserViewSet(viewsets.ViewSet):
-    serializer = Userserializer
+    queryset = User.objects.all()
+    serializer = UserSerializer
     model = User
-    
+
+ 
     def get_object(self, pk):
         try:
             return User.objects.get(pk=pk)
@@ -134,16 +136,14 @@ class CleintUserViewSet(viewsets.ViewSet):
         return Response(serializer.data)
     
     def partial_update(self, request, id=None):
-        try:
-            user = self.get_object(id)
-        except self.model.DoesNotExist:
-            return Response("User does not exist", status=status.HTTP_404_NOT_FOUND)
-        
-        serializer = self.serializer(user, data=request.data, partial=True)  # Set partial=True for partial updates
+        client = self.get_object(id)
+        serializer = ClientUpdateForClientSerializer(client, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    
     def update(self, request, id=None):
         try:
             user = self.get_object(id)
@@ -279,6 +279,7 @@ class CreditScoreSerializerViewset(viewsets.ViewSet):
 # List all the loans
 class LoanListView(viewsets.ViewSet):
     serializer = LoanSerializer
+    list_serializer = ListLoanSerializer
     model = Loan
     
     def get_object(self, pk):
@@ -289,9 +290,15 @@ class LoanListView(viewsets.ViewSet):
         
     def list(self, request):
         obj = self.model.objects.all()
-        serializer = self.serializer(obj, many=True)
+        serializer = self.list_serializer(obj, many=True)
         return Response(serializer.data)
 	
+    def list_user_loans(self, request, id ):
+        obj = self.model.objects.filter(customer=id)
+        serializer = self.list_serializer(obj, many=True)
+        return Response(serializer.data)
+
+
     def create(self, request):
         serializer = self.serializer(data=request.data)
         if serializer.is_valid():
@@ -319,6 +326,7 @@ class LoanListView(viewsets.ViewSet):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     def update(self, request, id=None):
         try:
             user = self.get_object(id)
@@ -506,6 +514,24 @@ class LoacActionViewSet(viewsets.ViewSet):
     def disburse_loan(self, id):
         pass
 
+
+
+class NotificationViewSet(viewsets.ViewSet):
+    serializer_class = NotificationSerializer
+    model = Notification
+
+    def get_object(self, pk):
+        try:
+            return self.model.objects.get(pk=pk)
+        except User.DoesNotExist:
+            raise Http404
+ 
+
+    def list_for_client(self, request, id=None):
+        obj = self.model.objects.filter(user_client=id)
+        serializer = self.serializer_class(obj, many=True)
+        return Response(serializer.data)
+ 
 
 
 
