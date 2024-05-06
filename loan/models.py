@@ -29,7 +29,6 @@ class Loan(models.Model):
         ('famers loans', 'Famers Loans'),
         ('micro business loans', 'Micro Business Loans'),
     )
-
     customer = models.ForeignKey(ClientProfile, related_name='customer', on_delete=models.CASCADE, null=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     period = models.IntegerField(null=True, help_text='in months', default=1)
@@ -44,7 +43,7 @@ class Loan(models.Model):
     approved_at_branch = models.CharField(max_length=900,blank=True, null=True)
 
     def __str__(self):
-        return f'{self.loan_id}'
+        return f'{self.customer}'
 
     def get_due_date(self):
         if self.approved_date and self.period:

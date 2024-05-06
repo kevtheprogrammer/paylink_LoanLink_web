@@ -11,11 +11,11 @@
 
     <link rel="stylesheet" href="{% static 'css/bootstrap1.min.css' %} " />
 
-    <link rel="stylesheet" href="{% static 'vendors/themefy_icon/themify-icons.css %'}" />
+    <link rel="stylesheet" href="{% static 'vendors/themefy_icon/themify-icons.css' %}" />
 
     <link rel="stylesheet" href="{% static 'vendors/niceselect/css/nice-select.css' %}" />
 
-        <link rel="stylesheet" href="{% static 'vendors/owl_carousel/css/owl.carousel.css' %}" />
+    <link rel="stylesheet" href="{% static 'vendors/owl_carousel/css/owl.carousel.css' %}" />
 
     <link rel="stylesheet" href="{% static 'vendors/gijgo/gijgo.min.css' %}" />
 
@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="{% static 'css/metisMenu.css' %}">
 
     <link rel="stylesheet" href="{% static 'css/style1.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/added.css' %}" />
     <link rel="stylesheet" href="{% static 'css/colors/default.css' %}" id="colorSkinCSS">
     </head>
     <body class="crm_body_bg">
@@ -56,11 +57,21 @@
 
     
 
-    <ul id="sidebar_menu">
+<ul id="sidebar_menu">
+    <li class>
+        <a class="has-arrow" href="{% url 'admin-dashboard'%}" aria-expanded="false">
+        <div class="nav_icon_small">
+        <img src="{% static 'img/menu-icon/dashboard.svg' %}" alt>
+        </div>
+        <div class="nav_title">
+        <span>Dashboard</span>
+        
+    </li>
+    
     <li class>
     <a class="has-arrow" href="#" aria-expanded="false">
     <div class="nav_icon_small">
-    <img src="{% static 'img/menu-icon/dashboard.svg' %}" alt>
+    <img src="{% static 'img/menu-icon/4.svg' %}" alt>
     </div>
     <div class="nav_title">
     <span> Clients</span>
@@ -82,10 +93,10 @@
     </div>
     </a>
     <ul>
-    <li><a href="editor.html">Active</a></li>
-    <li><a href="mail_box.html">Pending</a></li>
-    <li><a href="chat.html">Closed</a></li>
-    <li><a href="faq.html">Rejected</a></li>
+    <li><a href="{% url 'active_loans'%}">Active</a></li>
+    <li><a href="{% url 'pending_loans'%}">Pending</a></li>
+    <li><a href="{% url 'closed_loans'%}">Closed</a></li>
+    <li><a href="{% url 'rejected_loans' %}">Rejected</a></li>
 
     </ul>
     </li>
@@ -101,8 +112,8 @@
         </a>
         <ul>
         <li><a href="transactions.html">Recent</a></li>
-        <li><a href="index_3.html">Roll backs</a></li>
-        <li><a href="index-2.html"></a></li>
+        <li><a href="#">Roll backs</a></li>
+       
         </ul>
         </li>
     </div>
@@ -449,6 +460,7 @@
 
     <script src="{% static 'js/dashboard_init.js' %}"></script>
     <script src="{% static 'js/custom.js' %}"></script>
+    <script src="{% static 'js/added.js' %}"></script>
     </body>
 
     </html>

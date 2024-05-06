@@ -63,7 +63,13 @@ INSTALLED_APPS += THIRD_PARTY_APP
 
 
 
-CORS_ALLOWED_ORIGINS = ['*']
+CORS_ALLOWED_ORIGINS = [
+    'https://loanlinktest.onrender.com',
+    'http://192.168.1.136',
+    'http://192.168.1.136:5173',
+    'http://localhost:5173',
+    'http://127.0.0.1:5173',
+]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -148,6 +154,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATIC_ROOT = BASE_DIR / 'loanlink/static'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -195,7 +203,6 @@ SIMPLE_JWT = {
 
 
 
-STATIC_URL = '/static/'
 
 STATICFILES_DIRS =[
     os.path.join(BASE_DIR, 'static')
@@ -210,3 +217,4 @@ AUTH_USER_MODEL = "account.User"
 CRONJOBS = [
     ('0 0 * * *', 'checkPayment.management.commands.check_loan_payments', '>> /path/to/logfile.log'),
 ]
+

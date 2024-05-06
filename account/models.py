@@ -48,7 +48,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
 
     user_type = models.CharField(max_length=50, verbose_name='User Role', choices=USER_TYPE, default='Customer')
-    profile_pic = models.ImageField(upload_to='avatars/', blank=True)
+    profile_pic = models.ImageField(upload_to='media', blank=True)
     email = models.EmailField(verbose_name='email address', unique=True)
     first_name = models.CharField(verbose_name='first name', max_length=30, blank=True)
     # middle_name = models.CharField(max_length=50, verbose_name='Middle Name', blank=True)
@@ -59,8 +59,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     id_number = models.CharField(verbose_name='identtity number', max_length=300, blank=True)
     location = models.CharField(verbose_name='location', max_length=50, blank=True)
 
-    id_front = models.ImageField(upload_to='id_front/', null=True, blank=True)
-    id_back = models.ImageField(upload_to='id_back/', null=True, blank=True)
+    id_front = models.ImageField(upload_to='media', null=True, blank=True)
+    id_back = models.ImageField(upload_to='media', null=True, blank=True)
     gender = models.CharField(max_length=6, choices=GENDER, default='Male')
     # marital_status = models.CharField(max_length=9, verbose_name='Marital status', choices=MARTIAL_STATUS, default='Single', blank=True)
     city = models.CharField(max_length=100, blank=True)

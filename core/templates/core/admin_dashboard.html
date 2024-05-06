@@ -19,9 +19,24 @@
     <li class="breadcrumb-item active">Analytic</li>
     </ol>
     </div>
+    
     <div class="page_title_right">
     <div class="page_date_button d-flex align-items-center">
     <img src="{% static 'img/icon/calender_icon.svg' %}" alt="">
+
+        {% if messages %}
+        <div class="row notifications">
+            <div class="col-12">
+                <div class="alert alert-dismissible fade show" role="alert">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            <small>{{ message }}</small>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+       {% endif %}
     August 1, 2020 - August 31, 2020
     </div>
     </div>
@@ -41,7 +56,7 @@
     <div class="col-lg-4 text-end d-flex justify-content-end">
     <select class="nice_Select2 max-width-220">
     <option value="1">Show by month</option>
-    <option value="1">Show by year</option>
+    <option value="1">Show by week</option>
     <option value="1">Show by day</option>
     </select>
     </div>
@@ -64,8 +79,8 @@
     <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
     </div>
     <div class="crm_body">
-    <h4>2455</h4>
-    <p>Total Number of Clients</p>
+    <h4> {{total_amount}} </h4>
+    <p>Amount Disbursed</p>
     </div>
     </div>
     </div>
@@ -78,8 +93,8 @@
     <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
     </div>
     <div class="crm_body">
-    <h4>2455</h4>
-    <p>Total Number of Agents</p>
+    <h4>{{total_interest}}</h4>
+    <p>Total Interest</p>
     </div>
     </div>
     </div>
@@ -92,8 +107,8 @@
     <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
     </div>
     <div class="crm_body">
-    <h4>2455</h4>
-    <p>Staff</p>
+    <h4>{{loan_applications}}</h4>
+    <p>Loan Applications</p>
     </div>
     </div>
     </div>
@@ -106,8 +121,8 @@
     <i class="fas fa-ellipsis-h f_s_11 white_text"></i>
     </div>
     <div class="crm_body">
-    <h4>2455</h4>
-    <p>Admins</p>
+    <h4>{{payable_amount}}</h4>
+    <p>Total Repayables</p>
     </div>
     </div>
     </div>
@@ -180,6 +195,7 @@
     <span class="f_s_14 f_w_400 text_color_11">Jhon Smith</span>
     </div>
     <div class="user_info">
+    
     Admin
     </div>
     <div class="action_btns d-flex">
@@ -325,7 +341,7 @@
     <img src="img/icon2/3.svg" alt>
     </div>
     <div>
-    <h5>34</h5>
+    <h5>{{ active_loan_count }}</h5>
     <span>Active Loans</span>
     </div>
     </div>
@@ -338,8 +354,8 @@
     <img src="img/icon2/1.svg" alt>
     </div>
     <div>
-    <h5>K706</h5>
-    <span>Agent Commision</span>
+    <h5>{{customer_count}}</h5>
+    <span>Clients</span>
     </div>
     </div>
     </div>
@@ -351,7 +367,7 @@
     <img src="img/icon2/4.svg" alt>
     </div>
     <div>
-    <h5>49</h5>
+    <h5>{{loan_applications}}</h5>
     <span>Pending Loan Applications</span>
     </div>
     </div>
@@ -364,8 +380,8 @@
     <img src="img/icon2/2.svg" alt>
     </div>
     <div>
-    <h5>4</h5>
-    <span>Recently Approved</span>
+    <h5>{{closed_loan_count }}</h5>
+    <span>Closed Loans</span>
     </div>
     </div>
     </div>
