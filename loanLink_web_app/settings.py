@@ -40,12 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
 ]
 
 LOCAL_APP = [
     'account',
     'loan',
     'payment',
+    'core',
 
 ]
 THIRD_PARTY_APP = [

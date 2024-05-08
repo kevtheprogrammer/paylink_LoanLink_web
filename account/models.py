@@ -73,6 +73,7 @@ class ClientProfile(models.Model):
     balance = models.FloatField(null=True, default=0.00)
     bank = models.CharField(max_length=200, blank=True, null=True)
     bank_acc = models.CharField(max_length=200, blank=True, null=True)
+    gross_salary = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
            return f'{self.user.email}'
