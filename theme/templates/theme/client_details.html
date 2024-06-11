@@ -1,0 +1,510 @@
+{% extends "theme/base.html" %}
+{% block title %} Client Details {% endblock %}
+
+{% block content %}
+{% load static %}
+
+<!--=========== Heading ==============-->
+<div class="md:flex md:items-center my-5 py-2 md:justify-between">
+    <div class="min-w-0 flex-1">
+        <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Client Details</h2>
+    </div>
+</div>
+
+<!--=================== Picture and details Card ============-->
+<div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+    <div class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
+        <div class="ml-4 mt-4">
+          <h3 class="text-base font-semibold leading-6 text-gray-400">Dashboard / Clients / Client Details</h3>
+        </div>
+        <div class="ml-4 mt-4 flex flex-shrink-0">
+            <button type="button" class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-green-400 shadow-sm ring-1 ring-inset ring-green-600 hover:bg-gray-50">
+                <span>Verified</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!--========== Client Details =========-->
+<div class="grid grid-rows-* grid-flow-col gap-4">
+    <!--=======container 1 -->
+    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+            <h3 class="text-base font-semibold leading-6 text-gray-900">Verifications</h3>
+        </div>
+        <!-- Client files -->
+        <div class="border-b border-gray-200 bg-white px-4 my-9 py-5 sm:px-6 ring-gray-100 rounded-3xl ring-1">
+            <div class="grid-cols-subgrid gap-4 my-2 py-2 mx-3">
+                <div class="flex items-center justify-center">
+                    <img class="h-[150px] w-[150px] ring-gray ring-2 rounded-full py-2" src="{% static 'img/profile-icon.png' %}" alt="Profile picture" />
+                </div>
+                <div class="rounded-2xl mx-8 bg-gray-50 my-6 px-8 py-4">
+                    <div class="flow-root">
+                        <ul role="list" class="-mb-8">
+                            <li>
+                                <div class="relative pb-8">
+                                    <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    <div class="relative flex space-x-3">
+                                        <div>
+                                            <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                                <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                    <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                                            <div>
+                                                <p class="text-sm text-gray-500">Account Verification status <a href="#" class="font-medium text-gray-900">Verified</a></p>
+                                            </div>
+                                            <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                                                <time datetime="2020-09-20">Sep 20</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="relative pb-8">
+                                    <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    <div class="relative flex space-x-3">
+                                        <div>
+                                          <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                        </div>
+                                        <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                                            <div>
+                                                <p class="text-sm text-gray-500">Credit score and CRB verification <a href="#" class="font-medium text-gray-900">Verified</a></p>
+                                            </div>
+                                            <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                                                <time datetime="2020-09-22">Sep 22</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="relative pb-8">
+                                    <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    <div class="relative flex space-x-3">
+                                        <div>
+                                          <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                        </div>
+                                        <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                                            <div>
+                                                <p class="text-sm text-gray-500">KYC verification and update status <a href="#" class="font-medium text-gray-900">Verified</a></p>
+                                            </div>
+                                            <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                                                <time datetime="2020-09-28">Sep 28</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="relative pb-8">
+                                    <span class="absolute left-4 top-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true"></span>
+                                    <div class="relative flex space-x-3">
+                                        <div>
+                                          <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                        </div>
+                                        <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                                            <div>
+                                                <p class="text-sm text-gray-500">Employment verification status <a href="#" class="font-medium text-gray-900">Pending</a></p>
+                                            </div>
+                                            <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                                                <time datetime="2020-10-04">Oct 4</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="relative pb-8">
+                                    <div class="relative flex space-x-3">
+                                        <div>
+                                          <span class="h-8 w-8 rounded-full bg-green-500 flex items-center justify-center ring-8 ring-white">
+                                            <svg class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                            </svg>
+                                        </span>
+                                        </div>
+                                        <div class="flex min-w-0 flex-1 justify-between space-x-4 pt-1.5">
+                                            <div>
+                                                <p class="text-sm text-gray-500">Email verification status <a href="#" class="font-medium text-gray-900">Verified</a></p>
+                                            </div>
+                                            <div class="whitespace-nowrap text-right text-sm text-gray-500">
+                                                <time datetime="2020-10-10">Oct 10</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End of Client Files -->
+    </div>
+
+    <!--========== Tabbed Navigation =======-->
+    <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div class="border-b border-gray-200">
+            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                <a href="#personal" id="personal-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Personal Details</a>
+                <a href="#education" id="education-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Bank Detail</a>
+                <a href="#experience" id="experience-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">File Uploads</a>
+            </nav>
+        </div>
+
+        <!--=========== Tab Content ===========-->
+        <div id="personal" class="tab-content">
+           
+            <div class="mt-5 border-t border-gray-200">
+                <dl class="divide-y divide-gray-200">
+                 
+                    <form>
+                        <div class="space-y-12">
+                        
+                    
+                        <div class="border-b border-gray-900/10 pb-12">
+                            <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                            <div class="sm:col-span-3">
+                                <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">First name</label>
+                                <div class="mt-2">
+                                <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                </div>
+                            </div>
+                    
+                            <div class="sm:col-span-3">
+                                <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Middle name</label>
+                                <div class="mt-2">
+                                <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                </div>
+                            </div>
+
+                            <div class="sm:col-span-3">
+                              <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Last name</label>
+                              <div class="mt-2">
+                              <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                              </div>
+                          </div>
+                  
+                    
+                            <div class="sm:col-span-3">
+                                <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+                                <div class="mt-2">
+                                <input id="email" name="email" type="email" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                </div>
+                            </div>
+
+
+                            <div class="sm:col-span-3">
+                              <label for="email" class="block text-sm font-medium leading-6 text-gray-900">NRC</label>
+                              <div class="mt-2">
+                              <input id="nrc" name="nrc" type="text" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                              </div>
+                          </div>
+
+
+                          <div class="sm:col-span-3">
+                            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Sex</label>
+                            <div class="mt-2">
+                            <input id="nrc" name="nrc" type="text" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                            </div>
+                        </div>
+
+
+                        <div class="sm:col-span-3">
+                          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">D.O.B</label>
+                          <div class="mt-2">
+                          <input id="nrc" name="nrc" type="text" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                          </div>
+                      </div>
+                    
+                            <div class="col-span-full">
+                                <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Residential address</label>
+                                <div class="mt-2">
+                                <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                </div>
+                            </div>
+                    
+                            <div class="sm:col-span-2 sm:col-start-1">
+                                <label for="city" class="block text-sm font-medium leading-6 text-gray-900">City</label>
+                                <div class="mt-2">
+                                <input type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                </div>
+                            </div>
+                    
+                            <div class="sm:col-span-2">
+                                <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Province</label>
+                                <div class="mt-2">
+                                <input type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                </div>
+                            </div>
+                    
+                            <div class="sm:col-span-2">
+                                <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">Phone</label>
+                                <div class="mt-2">
+                                <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    
+                        </div>
+                    
+                        
+                    </form>
+  
+                </dl>
+            </div>
+        </div>
+
+
+        <div id="education" class="tab-content hidden">
+           
+            <div class="mt-5 border-t border-gray-200">
+                <dl class="divide-y divide-gray-200">
+                   
+<form>
+  <div class="space-y-12">
+    
+    <div class="border-b border-gray-900/10 pb-12">
+     
+
+      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+        <div class="sm:col-span-3">
+          <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Bank Name</label>
+          <div class="mt-2">
+            <input type="text" name="bank" id="bank" autocomplete="bank" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        <div class="sm:col-span-3">
+          <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Branch</label>
+          <div class="mt-2">
+            <input type="text" name="branch" id="branch" autocomplete="branch" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        <div class="sm:col-span-4">
+          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Bank Account</label>
+          <div class="mt-2">
+            <input id="bank-acc" name="bank-acc" type="text" autocomplete="bank-acc" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        <div class="col-span-3">
+          <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">CRB</label>
+          <div class="mt-2">
+            <input type="text" name="crb" id="crb" autocomplete="crb" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        <div class="col-span-3">
+          <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Credit Score</label>
+          <div class="mt-2">
+            <input type="text" name="credit-score" id="credit-score" autocomplete="credit-score" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        <div class="sm:col-span-2 sm:col-start-1">
+          <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Gross Pay</label>
+          <div class="mt-2">
+            <input type="text" name="city" id="city" autocomplete="gross-pay" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Net Pay</label>
+          <div class="mt-2">
+            <input type="text" name="region" id="region" autocomplete="net-pay" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">Number of Loans</label>
+          <div class="mt-2">
+            <input type="text" name="number-of-loans" id="number-of-loans" autocomplete="number-of-loans" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+      </div>
+    </div>
+</form>
+
+                </dl>
+            </div>
+        </div>
+
+<div id="experience" class="tab-content hidden">        
+ <div class="mt-5 border-t border-gray-200">
+    <dl class="divide-y divide-gray-200">
+                  
+<form>
+    <div class="space-y-12">
+      <div class="border-b border-gray-900/10 pb-12">
+        <h2 class="text-base my-4 font-semibold leading-7 text-gray-900">Profile Pictures</h2>
+      
+  
+          <div class="col-span-full my-4">    
+            <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+              <li class="relative">
+                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75" onclick="expandImage('https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80')">
+
+                  <div id="full-screen-image" class="full-screen-image" onclick="closeFullScreenImage()">
+                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75" onclick="expandImage( 'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80')" alt="profile_pic">
+                   
+                </div>
+                </div>
+                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Pic 1</p>
+               
+              </li>
+
+              <li class="relative">
+                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                  <button type="button" class="absolute inset-0 focus:outline-none">
+                    <span class="sr-only">View details for IMG_4985.HEIC</span>
+                  </button>
+                </div>
+                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Pic 2</p>
+               
+              </li>
+
+
+              <li class="relative">
+                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                  <button type="button" class="absolute inset-0 focus:outline-none">
+                    <span class="sr-only">View details for IMG_4985.HEIC</span>
+                  </button>
+                </div>
+                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Pic 3</p>
+                
+              </li>
+
+              <!-- More files... -->
+            </ul>
+
+          </div>
+
+
+        
+      </div>
+
+      <div class="border-b border-gray-900/10 pb-12 my-4">
+        <h2 class="text-base my-4 font-semibold leading-7 text-gray-900">IDs</h2>
+      
+  
+          <div class="col-span-full my-4">    
+            <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+              <li class="relative">
+                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                  <button type="button" class="absolute inset-0 focus:outline-none">
+                    <span class="sr-only">View details for IMG_4985.HEIC</span>
+                  </button>
+                </div>
+                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">ID Front</p>
+               
+              </li>
+
+              <li class="relative">
+                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                  <button type="button" class="absolute inset-0 focus:outline-none">
+                    <span class="sr-only">View details for IMG_4985.HEIC</span>
+                  </button>
+                </div>
+                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">ID Back</p>
+                <p class="pointer-events-none block text-sm font-medium text-gray-500">3.9 MB</p>
+              </li>
+
+
+              <li class="relative">
+                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                  <button type="button" class="absolute inset-0 focus:outline-none">
+                    <span class="sr-only">View details for IMG_4985.HEIC</span>
+                  </button>
+                </div>
+                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">ID</p>
+                
+              </li>
+
+              <!-- More files... -->
+            </ul>
+
+          </div>
+
+        </div>
+
+          <div class="border-b border-gray-900/10 pb-12 my-4">
+            <h2 class="text-base my-4 font-semibold leading-7 text-gray-900">Payslips</h2>
+              <div class="col-span-full my-4">    
+                <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                  <li class="relative">
+                    <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                      <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                      <button type="button" class="absolute inset-0 focus:outline-none">
+                        <span class="sr-only">View details for IMG_4985.HEIC</span>
+                      </button>
+                    </div>
+                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Payslip 1</p>
+                   
+                  </li>
+    
+                  <li class="relative">
+                    <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                      <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                      <button type="button" class="absolute inset-0 focus:outline-none">
+                        <span class="sr-only">View details for IMG_4985.HEIC</span>
+                      </button>
+                    </div>
+                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Payslip 2</p>
+                   
+                  </li>
+    
+    
+                  <li class="relative">
+                    <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                      <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                      <button type="button" class="absolute inset-0 focus:outline-none">
+                        <span class="sr-only">View details for IMG_4985.HEIC</span>
+                      </button>
+                    </div>
+                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Payslip 3</p>
+                    
+                  </li>
+    
+                  <!-- More files... -->
+                </ul>
+    
+              </div>
+  
+        
+  </form>
+  
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="{% static 'js/added.js' %}"></script>
+
+{% endblock %}

@@ -1,0 +1,502 @@
+{% extends 'theme/base.html'%}
+{% block title %} Reports {% endblock %}
+
+{% block content%}
+{% load static %}
+
+
+<!-- =========== Page Heaading ============== -->
+
+<div class="md:flex md:items-center my-4 py-2 md:justify-between">
+    <div class="min-w-0 flex-1">
+      <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">Reports</h2>
+    </div>
+    
+</div>
+
+  <div class="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
+    <h3 class="text-base font-semibold leading-6 text-gray-400">Dashboard / Reports</h3>
+    <div class="mt-3 flex sm:ml-4 sm:mt-0">
+      <button type="button" class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Share</button>
+      <button type="button" class="ml-3 inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create</button>
+    </div>
+  </div>
+
+  <!--Top simple cards-->
+  <div class="col-span-4 my-6 py-3">
+    <h2 class="text-base font-semibold leading-6 mx-5 my-5 text-gray-900">Loan Details</h2>
+  
+    <dl class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6">
+        <dt>
+          <div class="absolute rounded-md bg-green-300 p-3">
+            <svg class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
+            </svg>
+          </div>
+          <p class="ml-16 truncate text-sm font-medium text-gray-500">Clients</p>
+        </dt>
+        <dd class="ml-16 flex items-baseline pb-6 sm:pb-7">
+          <p class="text-2xl font-semibold text-gray-900">1500</p>
+          <p class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
+            <svg class="h-5 w-5 flex-shrink-0 self-center text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only"> Increased by </span>
+            12%
+          </p>
+          <div class="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
+            <div class="text-sm">
+              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">View all<span class="sr-only"> Total Subscribers stats</span></a>
+            </div>
+          </div>
+        </dd>
+      </div>
+      <div class="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6">
+        <dt>
+          <div class="absolute rounded-md bg-green-500 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-white size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 0 0-3.7-3.7 48.678 48.678 0 0 0-7.324 0 4.006 4.006 0 0 0-3.7 3.7c-.017.22-.032.441-.046.662M19.5 12l3-3m-3 3-3-3m-12 3c0 1.232.046 2.453.138 3.662a4.006 4.006 0 0 0 3.7 3.7 48.656 48.656 0 0 0 7.324 0 4.006 4.006 0 0 0 3.7-3.7c.017-.22.032-.441.046-.662M4.5 12l3 3m-3-3-3 3" />
+              </svg>
+              
+          </div>
+          <p class="ml-16 truncate text-sm font-medium text-gray-500">Active Loans</p>
+        </dt>
+        <dd class="ml-16 flex items-baseline pb-6 sm:pb-7">
+          <p class="text-2xl font-semibold text-gray-900">1200</p>
+          <p class="ml-2 flex items-baseline text-sm font-semibold text-green-600">
+            <svg class="h-5 w-5 flex-shrink-0 self-center text-green-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04l-3.96-4.158V16.25A.75.75 0 0110 17z" clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only"> Increased by </span>
+            5.4%
+          </p>
+          <div class="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
+            <div class="text-sm">
+              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">View all<span class="sr-only"> Avg. Open Rate stats</span></a>
+            </div>
+          </div>
+        </dd>
+      </div>
+      <div class="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6">
+        <dt>
+          <div class="absolute rounded-md bg-green-800 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-white size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
+            </svg>
+              
+          </div>
+          <p class="ml-16 truncate text-sm font-medium text-gray-500">Due Loans This Month</p>
+        </dt>
+        <dd class="ml-16 flex items-baseline pb-6 sm:pb-7">
+          <p class="text-2xl font-semibold text-gray-900">28</p>
+          <p class="ml-2 flex items-baseline text-sm font-semibold text-red-600">
+            <svg class="h-5 w-5 flex-shrink-0 self-center text-red-500" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z" clip-rule="evenodd" />
+            </svg>
+            <span class="sr-only"> Decreased by </span>
+            2.2%
+          </p>
+          <div class="absolute inset-x-0 bottom-0 bg-gray-50 px-4 py-4 sm:px-6">
+            <div class="text-sm">
+              <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">View all<span class="sr-only"> Avg. Click Rate stats</span></a>
+            </div>
+          </div>
+        </dd>
+      </div>
+    </dl>
+  </div>
+
+  <!--======== Non Perfoming Loans and Arrears bars ===============-->
+
+<div class="grid grid-rows-* grid-flow-col gap-4 my-4 py-6 ring-gray-200 ring-1 rounded-3xl">
+
+    <!--========= Arrears ============-->
+    <div class="my-3 py-2 mx-1" id="arrears">
+
+    </div>
+
+    <!-- ========== Non Performing ===========-->
+    <div class="my-3 mx-1 py-2" id="non-performing">
+
+    </div>
+
+
+
+
+  </div>
+
+
+
+  <div class="grid grid-rows-* grid-flow-col gap-4 my-4 py-6 ring-gray-200 ring-1 rounded-3xl">
+
+    <!--========= Interest Book Table ============-->
+    <div class="my-3 py-2 mx-1" id="interest-book">
+      <div class="px-4 sm:px-6 lg:px-8">
+        <div class="sm:flex sm:items-center">
+          <div class="sm:flex-auto">
+            <h1 class="text-base font-semibold leading-6 text-gray-900">Interest Book</h1>
+            <p class="mt-2 text-sm text-gray-700">Interet Book and Collected Account Listings</p>
+          </div>
+          
+        </div>
+        <div class="mt-8 flow-root">
+          <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+              <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-300">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Account Number</th> 
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Account Holder</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">NRC</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Accout Type</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Interest Book</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Interest Collected</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Date</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200 bg-white">
+                    <tr>
+                      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">100236547</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Francis Chiputa</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">10024/11/1</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">Loan</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">K500</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">K500 </td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">06-06-24</td> 
+                    </tr>
+      
+                    <!-- More people... -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+
+    </div>
+
+
+
+    <!-- ========== Interest Book Chart ===========-->
+    <div class="my-3 mx-1 py-2" id="interest-book-chart">
+
+    </div>
+
+
+
+
+  </div>
+
+  <!--==========Suspended Loan Listings=======-->
+
+  <div class="grid grid-rows-* grid-flow-col gap-4 my-4 py-6 ring-gray-200 ring-1 rounded-3xl">
+
+    <!--========= Interest Book Table ============-->
+    <div class="my-3 py-2 mx-1" id="interest-book">
+      <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-base mx-2 font-semibold leading-6 text-gray-900">Suspended Loans</h1>
+        <p class="mt-2 mx-2 text-sm text-gray-700">Suspended Loan Listings</p>
+      </div>
+      <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+        <button type="button" class="block rounded-md mx-3 bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">View All</button>
+      </div>
+    </div>
+        <div class="mt-8 flow-root">
+          <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+              <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                <table class="min-w-full divide-y divide-gray-300">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Loan ID</th> 
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Account Number</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Account Holder</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">NRC</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Accout Type</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Interest</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Out Standing Principle</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Reason for Suspension</th>
+                      <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Accrued Interest Suspended Date</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-gray-200 bg-white">
+                    <tr>
+                      <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">00121</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">100236547</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Francis Chiputa</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">10024/11/1</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">Loan</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">K500</td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">K500 </td>
+                      <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">Financial Hardship</td> 
+                      <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">06-06-24</td> 
+                    </tr>
+      
+                    <!-- More people... -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>loans
+
+
+
+  
+
+
+
+  </div>
+
+  <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
+    <h3 class="my-2 text-base font-semibold leading-6 text-gray-900">Loans Age Analysis</h3>
+
+    <div class="my-5">
+        <div class="" id="loan-age">
+
+
+        </div>         
+   </div>
+</div>
+
+
+</div>
+
+
+
+<div class="my-4 py-6 ring-gray-200 ring-1 mx-4 rounded-3xl">
+  <h3 class="my-2 text-base font-semibold leading-6 text-gray-900">Loans Listings With Repayment Dates</h3>
+ 
+  <div class="my-3 py-2 mx-1" id="loan-repayment-listings">
+    
+
+  </div>
+
+  </div>
+
+  <!--========= Loan LIsting with repayments Table ============-->
+  <div class="my-5 py-4 mx-1" id="interest-book">
+    <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-base mx-2 py-2 font-semibold leading-6 text-gray-900">Loans Listings</h1>
+      <p class="mt-2 mx-2 text-sm text-gray-700">Loans Listings With Repayment Dates</p>
+    </div>
+    <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
+      <button type="button" class="block rounded-md mx-3 bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">View All</button>
+    </div>
+  </div>
+      <div class="mt-8 flow-root">
+        <div class="-mx-4 -my-4 py-3 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+              <table class="my-2 min-w-full divide-y divide-gray-300">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Loan ID</th> 
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Account Number</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Account Holder</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">NRC</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Accout Type</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Interest</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Start Date</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">End Date</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Repayment Frequency</th>
+                    <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Total Repayment Amount</th>
+                    
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200 bg-white">
+                  <tr>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">00121</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">100236547</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Francis Chiputa</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">10024/11/1</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">Loan</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">12%</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">6 June 2024</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">22 Dec 2037</td>
+                    <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">Monthly</td> 
+                    <td class="whitespace-nowrap px-3 py-4 text-sm te xt-gray-500">K8500</td> 
+                  </tr>
+    
+                  <!-- More people... -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+<!--=================Loan Disbursement Listings ==============-->
+<div class="grid grid-rows-* grid-flow-col gap-4 my-4 py-6 ring-gray-200 ring-1 rounded-3xl">
+
+ 
+    
+  <div class="my-5 mx-2" id="disbursement-listings">
+
+  </div>
+
+  </div>
+ <!--========= Disbursement Table ============-->
+ <div>
+  <div class="">
+    <h2 class="my-5 mx-5 text-base font-semibold leading-6 text-gray-900">Disbursements</h2>
+  </div>
+  <div class="mt-6 overflow-hidden border-t border-gray-100">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-none">
+        <table class="w-full text-left">
+          <thead class="sr-only">
+            <tr>
+              <th>Amount</th>
+              <th class="hidden sm:table-cell">Client</th>
+              <th>More details</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-sm leading-6 text-gray-900">
+              <th scope="colgroup" colspan="3" class="relative isolate py-2 font-semibold">
+                <time datetime="2023-03-22">Today</time>
+                <div class="absolute inset-y-0 right-full -z-10 w-screen border-b border-gray-200 bg-gray-50"></div>
+                <div class="absolute inset-y-0 left-0 -z-10 w-screen border-b border-gray-200 bg-gray-50"></div>
+              </th>
+            </tr>
+            <tr>
+              <td class="relative py-5 pr-6">
+                <div class="flex gap-x-6">
+                  <svg class="hidden h-6 w-5 flex-none text-gray-400 sm:block" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.75-4.75a.75.75 0 001.5 0V8.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0L6.2 9.74a.75.75 0 101.1 1.02l1.95-2.1v4.59z" clip-rule="evenodd" />
+                  </svg>
+                  <div class="flex-auto">
+                    <div class="flex items-start gap-x-3">
+                      <div class="text-sm font-medium leading-6 text-gray-900">K7,600.00</div>
+                      <div class="rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">Disbursement</div>
+                    </div>
+                    <div class="mt-1 text-xs leading-5 text-gray-500">K500.00 processing fee</div>
+                  </div>
+                </div>
+                <div class="absolute bottom-0 right-full h-px w-screen bg-gray-100"></div>
+                <div class="absolute bottom-0 left-0 h-px w-screen bg-gray-100"></div>
+              </td>
+              <td class="hidden py-5 pr-6 sm:table-cell">
+                <div class="text-sm leading-6 text-gray-900">Loan</div>
+                <div class="mt-1 text-xs leading-5 text-gray-500">Loan Disbursement</div>
+              </td>
+              <td class="py-5 text-right">
+                <div class="flex justify-end">
+                  <a href="#" class="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500">View<span class="hidden sm:inline"> transaction</span><span class="sr-only">, invoice #00012, Reform</span></a>
+                </div>
+                <div class="mt-1 text-xs leading-5 text-gray-500">Transaction <span class="text-gray-900">#00012</span></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="relative py-5 pr-6">
+                <div class="flex gap-x-6">
+                  <svg class="hidden h-6 w-5 flex-none text-gray-400 sm:block" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11.25a.75.75 0 00-1.5 0v4.59L7.3 9.24a.75.75 0 00-1.1 1.02l3.25 3.5a.75.75 0 001.1 0l3.25-3.5a.75.75 0 10-1.1-1.02l-1.95 2.1V6.75z" clip-rule="evenodd" />
+                  </svg>
+                  <div class="flex-auto">
+                    <div class="flex items-start gap-x-3">
+                      <div class="text-sm font-medium leading-6 text-gray-900">K10,000.00 </div>
+                      <div  <div class="rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">Disbursement</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="absolute bottom-0 right-full h-px w-screen bg-gray-100"></div>
+                <div class="absolute bottom-0 left-0 h-px w-screen bg-gray-100"></div>
+              </td>
+              <td class="hidden py-5 pr-6 sm:table-cell">
+                <div class="text-sm leading-6 text-gray-900">Loan</div>
+                <div class="mt-1 text-xs leading-5 text-gray-500">Loan Disbursement</div>
+              </td>
+              <td class="py-5 text-right">
+                <div class="flex justify-end">
+                  <a href="#" class="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500">View<span class="hidden sm:inline"> transaction</span><span class="sr-only">, invoice #00011, Tom Cook</span></a>
+                </div>
+                <div class="mt-1 text-xs leading-5 text-gray-500">Transaction <span class="text-gray-900">#00011</span></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="relative py-5 pr-6">
+                <div class="flex gap-x-6">
+                  <svg class="hidden h-6 w-5 flex-none text-gray-400 sm:block" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M15.312 11.424a5.5 5.5 0 01-9.201 2.466l-.312-.311h2.433a.75.75 0 000-1.5H3.989a.75.75 0 00-.75.75v4.242a.75.75 0 001.5 0v-2.43l.31.31a7 7 0 0011.712-3.138.75.75 0 00-1.449-.39zm1.23-3.723a.75.75 0 00.219-.53V2.929a.75.75 0 00-1.5 0V5.36l-.31-.31A7 7 0 003.239 8.188a.75.75 0 101.448.389A5.5 5.5 0 0113.89 6.11l.311.31h-2.432a.75.75 0 000 1.5h4.243a.75.75 0 00.53-.219z" clip-rule="evenodd" />
+                  </svg>
+                  <div class="flex-auto">
+                    <div class="flex items-start gap-x-3">
+                      <div class="text-sm font-medium leading-6 text-gray-900">K2,000.00</div>
+                      <div class="rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">Disbursement</div>
+                    </div>
+                    <div class="mt-1 text-xs leading-5 text-gray-500">K130.00 Penalty Fee</div>
+                  </div>
+                </div>
+                <div class="absolute bottom-0 right-full h-px w-screen bg-gray-100"></div>
+                <div class="absolute bottom-0 left-0 h-px w-screen bg-gray-100"></div>
+              </td>
+              <td class="hidden py-5 pr-6 sm:table-cell">
+                <div class="text-sm leading-6 text-gray-900">Loan</div>
+                <div class="mt-1 text-xs leading-5 text-gray-500">Loan Disbursement</div>
+              </td>
+              <td class="py-5 text-right">
+                <div class="flex justify-end">
+                  <a href="#" class="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500">View<span class="hidden sm:inline"> transaction</span><span class="sr-only">, invoice #00009, Tuple</span></a>
+                </div>
+                <div class="mt-1 text-xs leading-5 text-gray-500">Transaction <span class="text-gray-900">#00009</span></div>
+              </td>
+            </tr>
+
+            <tr class="text-sm leading-6 text-gray-900">
+              <th scope="colgroup" colspan="3" class="relative isolate py-2 font-semibold">
+                <time datetime="2023-03-21">Yesterday</time>
+                <div class="absolute inset-y-0 right-full -z-10 w-screen border-b border-gray-200 bg-gray-50"></div>
+                <div class="absolute inset-y-0 left-0 -z-10 w-screen border-b border-gray-200 bg-gray-50"></div>
+              </th>
+            </tr>
+            <tr>
+              <td class="relative py-5 pr-6">
+                <div class="flex gap-x-6">
+                  <svg class="hidden h-6 w-5 flex-none text-gray-400 sm:block" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm-.75-4.75a.75.75 0 001.5 0V8.66l1.95 2.1a.75.75 0 101.1-1.02l-3.25-3.5a.75.75 0 00-1.1 0L6.2 9.74a.75.75 0 101.1 1.02l1.95-2.1v4.59z" clip-rule="evenodd" />
+                  </svg>
+                  <div class="flex-auto">
+                    <div class="flex items-start gap-x-3">
+                      <div class="text-sm font-medium leading-6 text-gray-900">K14,000.00</div>
+                      <div class="rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/20">Disbursed</div>
+                    </div>
+                    <div class="mt-1 text-xs leading-5 text-gray-500">K900.00 Processing Fee</div>
+                  </div>
+                </div>
+                <div class="absolute bottom-0 right-full h-px w-screen bg-gray-100"></div>
+                <div class="absolute bottom-0 left-0 h-px w-screen bg-gray-100"></div>
+              </td>
+              <td class="hidden py-5 pr-6 sm:table-cell">
+                <div class="text-sm leading-6 text-gray-900">Loan</div>
+                <div class="mt-1 text-xs leading-5 text-gray-500">Disbursement</div>
+              </td>
+              <td class="py-5 text-right">
+                <div class="flex justify-end">
+                  <a href="#" class="text-sm font-medium leading-6 text-indigo-600 hover:text-indigo-500">View<span class="hidden sm:inline"> transaction</span><span class="sr-only">, invoice #00010, SavvyCal</span></a>
+                </div>
+                <div class="mt-1 text-xs leading-5 text-gray-500">Transaction <span class="text-gray-900">#00010</span></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+{% endblock %}

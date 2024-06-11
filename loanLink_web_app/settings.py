@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'django_browser_reload',
     
 ]
 
@@ -55,7 +56,17 @@ THIRD_PARTY_APP = [
     'rest_framework_jwt',
     'corsheaders',
     'django_crontab',
+    'tailwind',
+    'theme',
+    
 ]
+
+TAILWIND_APP_NAME = 'theme'
+
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
+
 INSTALLED_APPS += LOCAL_APP
 INSTALLED_APPS += THIRD_PARTY_APP
 
@@ -69,6 +80,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    # 'django_browser_reload.middleware.BrowserReloadMiddleware',
 ]
 
 ROOT_URLCONF = 'loanLink_web_app.urls'
