@@ -1,0 +1,54 @@
+<!-- login.html -->
+{% load static %}
+<!Doctype html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+</head>
+
+<body>
+    <div class="login-page">
+        <div class="form">
+            <form class="login-form" method="post">
+                <img src="{% static 'img/natsave.png' %}" />
+                <h2>Login</h2>
+                {% csrf_token %}
+                <input type="text" id="name" name="email" placeholder="Email"/>
+                <input type="password" name="password" placeholder="Password"/>
+                <button type="submit">Login</button>
+                <p class="message">Not registered? <a href="#">Create an account</a></p>
+
+                {% if messages %}
+                <div class="row notifications">
+                    <div class="col-12">
+                        <div class="alert alert-dismissible fade show" role="alert">
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}">
+                                    <small>{{ message }}</small>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+</div>
+</div>
+            </form>
+        </div>
+    </div>
+
+
+
+
+
+    
+<script>
+
+    $('.message a').click(function(){
+        $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+     });
+
+</script>
+</body>
+
+</html>

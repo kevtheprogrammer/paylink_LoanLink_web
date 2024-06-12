@@ -1,0 +1,175 @@
+{% extends "core/base.html" %}
+
+{% block title %} Loan Details {% endblock%}
+
+{% block content %}
+
+<div class="container-xl  px-2 mx-4  mt-4">
+    <!-- Account page navigation-->
+    <div class="my-2">
+
+    </div>
+    <hr class="mt-0 mb-4">
+    <div class="row">
+        <div class="col-xl-4">
+            <!-- Profile picture card-->
+            <div class="card mb-4 mb-xl-0">
+                <div class="card-header text-dark">Clients Pictures</div>
+                <div class="card-body text-center">
+                    <img src="{{ client_profile.user.profile_pic.url }}" alt="profile_pic" class="small-image mb-2" onclick="expandImage('{{ client_profile.user.profile_pic.url }}')">
+                    <div id="full-screen-image" class="full-screen-image" onclick="closeFullScreenImage()">
+                        <img src="{{ client_profile.user.profile_pic.url }}" alt="profile_pic">
+                       
+                    </div>
+                  
+                    <h4> Profile Picture </h4>
+                </div>
+            </div>
+
+
+            <div class="card mb-4 mb-xl-0">
+      
+                <div class="card-body text-center">
+                    <img src="{{ client_profile.user.id_front.url }}" alt="profile_pic" class="small-image mb-2" onclick="expandImage('{{ client_profile.user.id_front.url }}')">
+                    <div id="full-screen-image" class="full-screen-image" onclick="closeFullScreenImage()">
+                        <img src="{{ client.id_front.url }}" alt="id-front">
+                       
+                    </div>
+                  
+                    <h4>ID Front </h4>
+                </div>
+            </div>
+
+
+
+            <div class="card mb-4 mb-xl-0">
+
+                <div class="card-body text-center">
+                    <img src="{{ client_profile.user.id_back.url }}" alt="profile_pic" class="small-image mb-2" onclick="expandImage('{{ client_profile.user.id_back.url }}')">
+                    <div id="full-screen-image" class="full-screen-image" onclick="closeFullScreenImage()">
+                        <img src="{{ client_profile.user.id_back.url }}" alt="id-back">
+                       
+                    </div>
+                  
+                    <h4> ID Back </h4>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xl-8">
+            <!-- Account details card-->
+            <div class="card mb-2">
+                <div class="card-header text-dark">Loan Details</div>
+                <div class="card-body">
+                    <form>
+                  
+                        <div class="mb-3">
+                            <label class="small mb-1 text-dark" for="inputUsername">Loan Amount</label>
+                            <input class="form-control" id="inputUsername" value="{{loan.amount}}">
+                        </div>
+                        <!-- Form Row-->
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (first name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-dark" for="inputFirstName">Payable Amount</label>
+                                <input class="form-control" id="inputFirstName" type="text" value="{{loan.payable_amount }}">
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-dark" for="inputLastName">Total Interest</label>
+                                <input class="form-control" id="inputLastName" type="text" value="loan.total_interest">
+                            </div>
+                        </div>
+                  
+                        <div class="row gx-3 mb-3">
+                            
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-dark" for="inputOrgName">Period</label>
+                                <input class="form-control" id="inputOrgName" type="text"  value="{{loan.period}}">
+                            </div>
+                     
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-dark" for="inputLocation">Purpose</label>
+                                <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" value="{{loan.purpose}}">
+                            </div>
+                        </div>
+
+
+                        <div class="row gx-3 mb-3">
+                            
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-dark" for="inputOrgName">Credit Score</label>
+                                <input class="form-control" id="inputOrgName" type="text"  value="{{credit_score.credit_score}}">
+                            </div>
+                     
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-dark" for="inputLocation">Number of Loans</label>
+                                <input class="form-control" id="inputLocation" type="text" placeholder="Enter your location" value="{{credit_score.number_of_loan}}">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="small mb-1 text-dark" for="inputEmailAddress">CRB</label>
+                            <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value="{{credit_score.crb}}">
+                        </div>
+                       
+
+                     
+                        <div class="mb-3">
+                            <label class="small mb-1 text-dark" for="inputEmailAddress">Loan Type</label>
+                            <input class="form-control" id="inputEmailAddress" type="email" placeholder="Enter your email address" value="{{loan.loan_type}}">
+                        </div>
+                       
+                        <div class="row gx-3 mb-3">
+                        
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-dark" for="inputPhone">Payee</label>
+                                <input class="form-control" id="inputPhone" type="tel" placeholder="Enter your phone number" value="{{loan.method_of_payment }}">
+                            </div>
+                         
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-dark" for="inputBirthday">Status</label>
+                                <input class="form-control" id="inputBirthday" type="text" name="birthday" placeholder="Enter your birthday" value="{{loan.status}}">
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+       
+            </div>
+
+             <!--Secind card Bank Account  Information -->
+
+            <div class="card mb-2">
+                <div class="card-header text-dark">Client Details</div>
+                <div class="card-body">
+                    <form>
+                        <!-- Form Group (username)-->
+                        <div class="mb-3">
+                            <label class="small mb-1 text-dark" for="Bank-Name">Full Names</label>
+                            <input class="form-control" id="bank-name" value="{{client_profile.user.first_name}} {{client_profile.user.last_name}}">
+                        </div>
+                        <!-- Form Row-->
+                        <div class="row gx-3 mb-3">
+                            <!-- Form Group (first name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-dark" for="inputFirstName">NRC Number</label>
+                                <input class="form-control" id="inputFirstName" type="text" value="{{client_profile.user.id_number}}">
+                            </div>
+                            <!-- Form Group (last name)-->
+                            <div class="col-md-6">
+                                <label class="small mb-1 text-dark" for="inputLastName">Phone Number</label>
+                                <input class="form-control" id="inputLastName" type="text" value="{{client_profile.user.phone_number}}">
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{%endblock%}
