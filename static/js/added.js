@@ -65,3 +65,207 @@ function toggleDropdown() {
       menu.classList.add('hidden');
     }
   });
+
+  // attache client modal
+ 
+
+  function AttachClient(){
+  const openModal = document.querySelector('#modal')
+  openModal.hidden = false;
+  }
+
+  
+
+function CloseModal(){
+  const closeModal = document.querySelector("#modal");
+  closeModal.hidden = true;
+}
+
+// // Listen for click events on buttons with the class 'client-details-btn'
+// document.querySelectorAll('.client-details-btn').forEach(button => {
+//   button.addEventListener('click', function () {
+//       const clientId = this.getAttribute('data-client-id');
+//       console.log(clientId);
+      
+      
+//       // Send AJAX request to get client details
+//       fetch(`client-attachement/${clientId}/`)
+//           .then(response => response.json())
+//           .then(data => {
+//               if (data.error) {
+//                   alert(data.error);
+//               } else {
+//                   // Populate modal with client data
+//                   document.getElementById('client-name').textContent = data.first_name;
+//                   // document.getElementById('client-email').textContent = data.email;
+//                   // document.getElementById('client-phone').textContent = data.phone_number;
+//                   // document.getElementById('client-address').textContent = data.address;
+
+//                   // Open the modal
+//                   AttachClient();
+//               }
+//           })
+//           .catch(error => console.error('Error fetching client details:', error));
+//   });
+// });
+
+
+
+function closeNotification(){
+  const notification = document.querySelector("#close-notification");
+  if (notification) {
+    notification.style.display = 'none'; // Hides the notification
+}else(
+  console.log('Button not clicked')
+  
+)
+
+
+
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  // This code will run only after the DOM is fully loaded
+  const buttons = document.querySelectorAll('.client-details-btn');
+  
+  if (buttons.length === 0) {
+      console.error('No buttons with class "client-details-btn" found.');
+      return;  // Exit if no buttons are found
+  }
+
+  buttons.forEach(button => {
+      button.addEventListener('click', function () {
+          const clientId = this.getAttribute('data-client-id');
+
+          fetch(`/user/client-attachement/${clientId}/`)
+              .then(response => response.json())
+              .then(data => {
+                  if (data.error) {
+                      alert(data.error);
+                  } else {
+                      // Update modal with client data
+                      document.getElementById('client-name').textContent = data.first_name;
+                      document.getElementById('client-email').textContent = data.email;
+                      document.getElementById('id-number').textContent = data.id_number;
+                      document.getElementById('last-name').textContent = data.last_name;
+                      document.getElementById('client-id').textContent = data.client_id;
+
+                      // Open the modal
+                      document.getElementById('client-details-modal').style.display = 'block';
+                  }
+              })
+              .catch(error => console.error('Error fetching client details:', error));
+      });
+  });
+});
+
+function updateLoanLink(event) {
+  event.preventDefault();  // Prevent the default link click behavior
+  
+  // Get the client ID from the DOM
+  var clientId = document.getElementById('client-id').textContent;
+
+  // Construct the dynamic URL
+  var baseUrl = "/user/pass-clientID/";  
+  var dynamicUrl = baseUrl + clientId; 
+
+  // Redirect the user to the dynamic URL
+  window.location.href = dynamicUrl;
+}
+
+function periodOptions() {
+  const months = document.querySelector("#months");
+  const weeks = document.querySelector("#weeks");
+
+  // Show both initially
+  months.style.display = 'block';
+  weeks.style.display = 'block';
+
+  // Check visibility of weeks
+  if (weeks.style.display === 'block') {
+    months.style.display = 'none'; // Hide months if weeks is displayed
+  } else if (months.style.display === 'block') {
+    weeks.style.display = 'none'; // Hide weeks if months is displayed
+  }
+}
+
+
+function addLoanModal(event){
+  event.preventDefault();
+
+  const openModal = document.querySelector('#modal')
+  openModal.hidden = false;
+
+}
+
+const dropArea = document.getElementById('drop-area');
+const fileInput = document.getElementById('file-input');
+const actualFileInput = document.getElementById('actual-file-input');
+const fileNameSpan = document.getElementById('file-name');
+const fileInfo = document.getElementById('file-info');
+
+function handleDragOver(event) {
+    event.preventDefault();
+    dropArea.classList.add('border-blue-500', 'bg-gray-50');
+}
+
+function handleDrop(event) {
+    event.preventDefault();
+    dropArea.classList.remove('border-blue-500', 'bg-gray-50');
+
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+        handleFile(files[0]);
+    }
+}
+
+function handleFileSelect(event) {
+    const file = event.target.files[0];
+    if (file) {
+        handleFile(file);
+    }
+}
+
+function handleFile(file) {
+    fileNameSpan.textContent = file.name;
+    fileInfo.classList.remove('hidden');
+
+    // Attach the file to the hidden file input (this is for form submission)
+    actualFileInput.files = fileInput.files;
+}
+
+ // JavaScript for drag and drop functionality
+ document.addEventListener('DOMContentLoaded', () => {
+  const dropArea = document.getElementById('drop-area');
+  const fileInput = document.getElementById('fileInput');
+  const dragText = document.getElementById('dragText');
+
+  // Prevent default behaviors
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, (e) => e.preventDefault());
+      dropArea.addEventListener(eventName, (e) => e.stopPropagation());
+  });
+
+  // Highlight drop area when item is dragged over it
+  ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, () => dropArea.classList.add('bg-slate-100'));
+  });
+
+  // Unhighlight drop area when item is dragged out
+  ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, () => dropArea.classList.remove('bg-slate-100'));
+  });
+
+  // Handle file drop
+  dropArea.addEventListener('drop', (e) => {
+      const files = e.dataTransfer.files;
+      fileInput.files = files;
+      dragText.textContent = files[0].name;
+  });
+
+  // Handle file selection via input
+  fileInput.addEventListener('change', (e) => {
+      dragText.textContent = e.target.files[0].name;
+  });
+});

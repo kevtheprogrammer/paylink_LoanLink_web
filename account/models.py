@@ -66,7 +66,6 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = 'users'
 
 class ClientProfile(models.Model):
- 
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='client_profile')
     pin = models.IntegerField(default=1111)
     empolyee_number = models.BigIntegerField(blank=True, null=True)
@@ -79,7 +78,6 @@ class ClientProfile(models.Model):
            return f'{self.user.email}'
 
 class AgentProfile(models.Model):
-    
     #   agent_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user_account = models.ForeignKey(User, related_name="user_account", on_delete=models.CASCADE)
     bank = models.CharField(max_length=200, blank=True, null=True)

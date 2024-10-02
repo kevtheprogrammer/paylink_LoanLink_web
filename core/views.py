@@ -43,7 +43,6 @@ def AdminDasboard(request):
     user = User.objects.all()
     logged_user = request.user 
     
-
     return render(request, 'core/admin_dashboard.html', {'clients': clients, 'user': user, 'total_amount': total_amount, 'total_interest': total_interest, 'loan_applications': loan_applications,
                                                          'payable_amount': payable_amount, 'active_loan_count': active_loan_count, 'customer_count': customer_count, 'closed_loan_count': closed_loan_count, 'logged_user': logged_user })
 

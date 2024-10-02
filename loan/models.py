@@ -4,6 +4,7 @@ from django.db import models
 import uuid
 from account.models import User
 from account.models import ClientProfile
+from django.core.exceptions import ValidationError
 
 class Loan(models.Model):
     STATUS_CHOICES = (
@@ -28,6 +29,8 @@ class Loan(models.Model):
         ('civil servant loans', 'Civil Servant Loans'),
         ('famers loans', 'Famers Loans'),
         ('micro business loans', 'Micro Business Loans'),
+        ('collatral loans', 'Collatral Loans'),
+        ('salary advance', 'Salary Advance'),
     )
 
     customer = models.ForeignKey(ClientProfile, related_name='customer', on_delete=models.CASCADE, null=True)
@@ -77,3 +80,71 @@ class CreditScore(models.Model):
 
 
  
+class LoanProduct(models.Model):
+    INTEREST_RATE_METHOD = (
+        ('flate rate', 'Flate Rate'),
+        ('reducing blanace', 'Reducing Balance'),
+        ('interest only', 'Interest Only'),
+    )
+    DURATION_PERIOD = (
+        ('weeks', 'Weeks'),
+        ('months', 'Months'),
+        ('years', 'Years'),
+    )
+    loan = models.ForeignKey(Loan, related_name='loans', on_delete=models.CASCADE)
+    product_name = models.CharField(max_length=255, blank=True, null=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
+    interest_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True)
+    interest_rate_method = models.CharField(max_length=20, choices=INTEREST_RATE_METHOD, default='flate_rate')
+    duration_period = models.CharField(max_length=20, choices=DURATION_PERIOD, default='months')
+    duration_length = models.IntegerField(null=True)
+    minimum_amount = models.DecimalField(max_digits=10, decimal_places=2)
+    maximum_amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def clean(self):
+        if self.mininum_amount > self.maxamount_amount:
+            raise ValidationError('mininum_amount must be less then maximum amount')
+        
+    
+    def validateLoanAmount(self, amount):
+        if amount < self.minimum_amount or amount > self.maximum_amount:
+            raise ValidationError(f'Loan amount must be between {self.maximum_amount} and {self.maximum_amount} amount')
+        
+
+        class Meta:
+            abstract = True
+
+    def calculateTotalPayment(self, principle):
+        raise NotImplementedError("sub class must implemet this method")
+    
+#Flat Interest
+class FlatRateProducts(LoanProduct):
+    def calaculateTotalPayment(self,principle):
+        self.validateLoanAmount(principle)
+
+        total_interest = principle * (self.interest_rate / 100) * self.duration_period
+        total_repayment = principle + total_interest
+        return total_repayment
+
+class ReducingBalance(LoanProduct):
+    def calculateTotalPayment(self, principle):
+        self.validateLoanAmount(principle)
+        
+        total_repayment = 0
+        remaining_principle = principle
+        annual_rate = self.interest_rate
+
+        for year in range(self.duration_period):
+            interest_for_year = remaining_principle * annual_rate
+            remaining_principle -= (principle / self.duration_period)
+            total_repayment += (principle / self.duration_period) + interest_for_year
+
+        return total_repayment
+    
+
+class InterestOnly(LoanProduct):
+    def calculateToatalPayment(self, principle):
+        self.validateLoanAmount(principle)
+    
+        total_repayment = principle * (self.interest / 100) * self.duration_period
+        return total_repayment + principle

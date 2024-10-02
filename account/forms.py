@@ -34,3 +34,4 @@ class UserEditForm(forms.ModelForm):
             'location', 
             'country',          
         ]
+

@@ -1,0 +1,279 @@
+{% extends 'theme/base.html' %}
+{% block title %} Create Client {% endblock %}
+
+{% block content %}
+
+<div> 
+
+  {% if messages %}
+
+  <!-- ================Error Notification ================= -->
+  <div id="close-notification" aria-live="assertive" class="pointer-events-none fixed-top-right inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6">
+    <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+      <div class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+        <div class="p-4">
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-red-700">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+              </svg>            
+            </div>
+            <div class="ml-3 w-0 flex-1 pt-0.5">
+              {% for message in messages %}
+              <p class="text-sm font-medium text-gray-900">{{ message }}</p>
+              {% endfor %}
+            </div>
+            <div class="ml-4 flex flex-shrink-0">
+              <button type="button" class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" onclick="closeNotification()">
+                <span class="sr-only">Close</span>
+                <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {% endif %}
+    {% comment %} End of Notification {% endcomment %}
+ 
+
+
+<div class="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
+    <nav class="flex" aria-label="Breadcrumb">
+      <ol role="list" class="flex space-x-4 rounded-md bg-white px-6 shadow">
+        <li class="flex">
+          <div class="flex items-center">
+            <a href="{% url 'staff' %}" class="text-gray-400 hover:text-gray-500">
+              <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+              </svg>
+              <span class="sr-only">Home</span>
+            </a>
+          </div>
+        </li>
+        <li class="flex">
+          <div class="flex items-center">
+            <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+              <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+            </svg>
+            <a href="{% url 'clients' %}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Clients</a>
+          </div>
+        </li>
+
+        <li class="flex">
+            <div class="flex items-center">
+              <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+                <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+              </svg>
+              <a href="#" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Create Client</a>      
+           
+            </div>
+          </li>
+    
+      </ol>
+    </nav>
+    
+    {% comment %} End of Active Page Navigation {% endcomment %}
+</div>
+<!--
+  This example requires some changes to your config:
+  
+  ```
+  // tailwind.config.js
+  module.exports = {
+    // ...
+    plugins: [
+      // ...
+      require('@tailwindcss/forms'),
+    ],
+  }
+  ```
+-->
+<div class="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
+    
+    <div class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]" aria-hidden="true">
+      <div class="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+    </div>
+    <div class="mx-auto max-w-2xl text-center">
+        
+      <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Create Client</h2>
+     
+    </div>
+    <form action="{% url 'created-client' %}" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20" enctype="multipart/form-data">
+
+             {% csrf_token %}
+
+      <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+        <div>
+          <label for="first-name" class="block text-sm font-semibold leading-6 text-gray-900">First name</label>
+          <div class="mt-2.5">
+            <input type="text" name="first_name" id="first-name" value="{{client.first_name}}" autocomplete="given-name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        
+        <div>
+          <label for="last-name" class="block text-sm font-semibold leading-6 text-gray-900">Last name</label>
+          <div class="mt-2.5">
+            <input type="text" name="last_name" id="last_name" autocomplete="family-name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+
+
+        <div class="sm:col-span-2">
+          <label for="r-address" class="block text-sm font-semibold leading-6 text-gray-900">Residential Address</label>
+          <div class="mt-2.5">
+            <input type="text" name="r_address" id="r-address" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+
+        <div>
+            <label for="nrc-number" class="block text-sm font-semibold leading-6 text-gray-900">NRC Number</label>
+            <div class="mt-2.5">
+              <input type="text" name="nrc" id="nrc-number" autocomplete="given-name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+  
+          
+          <div>
+            <label for="sex" class="block text-sm font-semibold leading-6 text-gray-900">Sex</label>
+            <div class="mt-2.5">
+                <select id="sex" name="sex" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <option>Female</option>
+                    <option>Male</option>
+                  
+                  </select>
+            </div>
+          </div>
+
+        <div class="sm:col-span-2">
+          <label for="email" class="block text-sm font-semibold leading-6 text-gray-900">Email</label>
+          <div class="mt-2.5">
+            <input type="email" name="email" id="email" autocomplete="email" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+        <div class="sm:col-span-2">
+          <label for="phone-number" class="block text-sm font-semibold leading-6 text-gray-900">Phone number</label>
+          <input type="text" name="phone-number" id="phone-number" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="employee_number" class="block text-sm font-semibold leading-6 text-gray-900">Employee Number</label>
+          <div class="mt-2.5">
+            <input type="text" name="empolyee_number" id="empolyee_number" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          </div>
+        </div>
+
+        <div>
+            <label for="bank" class="block text-sm font-semibold leading-6 text-gray-900">Bank</label>
+            <div class="mt-2.5">
+              <input type="text" name="bank" id="bank" autocomplete="given-name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+  
+          
+          <div>
+            <label for="bank-account" class="block text-sm font-semibold leading-6 text-gray-900">Bank Account</label>
+            <div class="mt-2.5">
+              <input type="text" name="bank_acc" id="bank-account" autocomplete="family-name" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+
+
+        <div class="sm:col-span-2">
+            <label for="city" class="block text-sm font-semibold leading-6 text-gray-900">City/Province/Town</label>
+            <div class="mt-2.5">
+              <input type="text" name="city" id="email"  class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+       
+        
+          <div class="sm:col-span-2">
+            <label for="dob" class="block text-sm font-semibold leading-6 text-gray-900">Date of Birth</label>
+            <div class="mt-2.5">
+              <input type="date" name="dob" id="email" autocomplete="date" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            </div>
+          </div>
+
+
+          <div class="col-span-full">
+            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">Client Photo</label>
+            <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+              <div class="text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
+                </svg>
+                <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                  <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                    <span>Upload a file</span>
+                    <input id="file-upload" name="profile_pic" type="file" class="sr-only">
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="col-span-full">
+            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">ID Photo Front</label>
+            <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+              <div class="text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
+                </svg>
+                <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                  <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                    <span>Upload a file</span>
+                    <input id="file-upload" name="id_front" type="file" class="sr-only">
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="col-span-full">
+            <label for="cover-photo" class="block text-sm font-medium leading-6 text-gray-900">ID Photo Back</label>
+            <div class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+              <div class="text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-300" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 012.25-2.25h16.5A2.25 2.25 0 0122.5 6v12a2.25 2.25 0 01-2.25 2.25H3.75A2.25 2.25 0 011.5 18V6zM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0021 18v-1.94l-2.69-2.689a1.5 1.5 0 00-2.12 0l-.88.879.97.97a.75.75 0 11-1.06 1.06l-5.16-5.159a1.5 1.5 0 00-2.12 0L3 16.061zm10.125-7.81a1.125 1.125 0 112.25 0 1.125 1.125 0 01-2.25 0z" clip-rule="evenodd" />
+                </svg>
+                <div class="mt-4 flex text-sm leading-6 text-gray-600">
+                  <label for="file-upload" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                    <span>Upload a file</span>
+                    <input id="file-upload" name="id_back" type="file" class="sr-only">
+                  </label>
+                  <p class="pl-1">or drag and drop</p>
+                </div>
+                <p class="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+              </div>
+            </div>
+          </div>
+
+
+
+          
+      <div class="mt-10">
+        <button type="submit" class="block w-full rounded-md bg-black px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:ring-1 hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Create</button>
+      </div>
+    </form>
+  </div>
+
+
+
+{% endblock %}
