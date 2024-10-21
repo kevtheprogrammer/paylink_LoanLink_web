@@ -17,7 +17,7 @@ from django.http import JsonResponse
 import openpyxl
 from openpyxl import load_workbook
 from openpyxl import Workbook
-from .forms import BulkClientUploadForm  #
+from .forms import * #
 
 
 def Login(request):
@@ -353,3 +353,26 @@ def UploadBulkClientTemplate(request):
 
 def BulkClientUploadView(request):
     return render(request,'theme/upload_bulk_client_template.html')
+
+
+
+#Create Loan Product
+def CreateLoanProduct(request):
+    return render(request, 'theme/create_loan_product.html')
+
+
+#Post new loan product
+def NewLoanProduct(request):
+    if request.method == 'POST':
+        form = LoanProductForm(request.POST)
+        if form.is_valid():
+            loan_product = form.save(commit=False)
+            loan_product.created_by = request.user
+            loan_product.save()
+            messages.success(request, 'Loan product created successfully.')
+            return redirect('loan_products')
+        else:
+            messages.error(request, 'Error creating loan product.')
+            return render(request, 'theme/create_loan_product.html', {'form': form})
+    
+    return render(request, 'new_loan_product.html', {'form': form})

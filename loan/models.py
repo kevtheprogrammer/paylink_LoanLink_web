@@ -96,10 +96,14 @@ class LoanProduct(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     interest_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True)
     interest_rate_method = models.CharField(max_length=20, choices=INTEREST_RATE_METHOD, default='flate_rate')
-    duration_period = models.CharField(max_length=20, choices=DURATION_PERIOD, default='months')
+    duration_period = models.CharField(max_length=20, choices=DURATION_PERIOD, null=True)
     duration_length = models.IntegerField(null=True)
     minimum_amount = models.DecimalField(max_digits=10, decimal_places=2)
     maximum_amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+
+    def __str__(self):
+        return f'{self.product_name} {self.interest_rate_method}'
 
     def clean(self):
         if self.mininum_amount > self.maxamount_amount:
@@ -112,11 +116,13 @@ class LoanProduct(models.Model):
         
 
         class Meta:
-            abstract = True
+            abstract = False
 
     def calculateTotalPayment(self, principle):
         raise NotImplementedError("sub class must implemet this method")
-    
+
+
+
 #Flat Interest
 class FlatRateProducts(LoanProduct):
     def calaculateTotalPayment(self,principle):
@@ -129,7 +135,6 @@ class FlatRateProducts(LoanProduct):
 class ReducingBalance(LoanProduct):
     def calculateTotalPayment(self, principle):
         self.validateLoanAmount(principle)
-        
         total_repayment = 0
         remaining_principle = principle
         annual_rate = self.interest_rate
@@ -141,7 +146,6 @@ class ReducingBalance(LoanProduct):
 
         return total_repayment
     
-
 class InterestOnly(LoanProduct):
     def calculateToatalPayment(self, principle):
         self.validateLoanAmount(principle)

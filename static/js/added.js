@@ -178,17 +178,18 @@ function periodOptions() {
   const months = document.querySelector("#months");
   const weeks = document.querySelector("#weeks");
 
-  // Show both initially
-  months.style.display = 'block';
-  weeks.style.display = 'block';
-
-  // Check visibility of weeks
-  if (weeks.style.display === 'block') {
-    months.style.display = 'none'; // Hide months if weeks is displayed
-  } else if (months.style.display === 'block') {
-    weeks.style.display = 'none'; // Hide weeks if months is displayed
+  // Toggle visibility based on current display states
+  if (weeks.style.display === 'none' || weeks.style.display === '') {
+    // If weeks are hidden or not set, show weeks and hide months
+    weeks.style.display = 'block';
+    months.style.display = 'none';
+  } else {
+    // Otherwise, show months and hide weeks
+    weeks.style.display = 'none';
+    months.style.display = 'block';
   }
 }
+
 
 
 function addLoanModal(event){
@@ -198,6 +199,8 @@ function addLoanModal(event){
   openModal.hidden = false;
 
 }
+
+
 
 const dropArea = document.getElementById('drop-area');
 const fileInput = document.getElementById('file-input');
@@ -220,6 +223,9 @@ function handleDrop(event) {
     }
 }
 
+
+
+
 function handleFileSelect(event) {
     const file = event.target.files[0];
     if (file) {
@@ -234,6 +240,8 @@ function handleFile(file) {
     // Attach the file to the hidden file input (this is for form submission)
     actualFileInput.files = fileInput.files;
 }
+
+
 
  // JavaScript for drag and drop functionality
  document.addEventListener('DOMContentLoaded', () => {

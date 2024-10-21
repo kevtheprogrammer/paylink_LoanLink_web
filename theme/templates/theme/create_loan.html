@@ -139,8 +139,9 @@
         </div>
 
         <div class="sm:col-span-2">
-            <label for="Loan Type" class="block text-sm font-semibold leading-6 text-gray-900">Loan Type</label>
+            <label for="Loan Type" class="block text-sm font-semibold leading-6 text-gray-900">Loan Product</label>
             <select id="loan-type" name="sex" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              <option id="empty-month"></option>
               <option id="months-selected">Civil Servant Loans</option>
               <option id="weeks-selected">Collatral Loans</option>
               <option id="weeks-selected">Salary Advance</option>
@@ -148,30 +149,43 @@
             
           </select>
   
-          </div>
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="Interest Rate Method" class="block text-sm font-semibold leading-6 text-gray-900">Interest Rate Method</label>
+          <select id="interest-method" name="interest-rate-method" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+    
+            <option id="flat-interest-selected">Flate Interest</option>
+            <option id="reducing-selected">Reducing Balance</option>
+            <option id="interest-only-selected">Interest Only</option>
+            
+          
+        </select>
+
+      </div>
   
           
           <div>
-            <label for="sex" class="block text-sm font-semibold leading-6 text-gray-900">Period</label>
+            <label for="Period" class="block text-sm font-semibold leading-6 text-gray-900">Period</label>
             <div class="mt-2.5">
-                <select id="period" name="sex" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onclick="periodOptions()">
-                    <option class="period-options" id="months-selected">Months</option>
-                    <option class="period-options" id="weeks-selected">Weeks</option>
+                <select id="period" name="period" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <option class="period-options"></option>
+                    <option class="period-options" id="weeks-selected" onclick="periodOptions()">Weeks</option>
+                    <option class="period-options" id="months-selected" onclick="periodOptions()">Months</option>
                   
                 </select>
 
             </div>
           </div>
 
-        <div id="months" hidden class="sm:col-span-2">
-          <label for="Months" class="block text-sm font-semibold leading-6 text-gray-900">Months</label>
-          <div class="mt-2.5">
-            <input type="number" min="1" name="months"  autocomplete="email" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" onclick="periodOptions()">
+          <div hidden id="months" class="sm:col-span-2">
+            <label for="months" class="block text-sm font-semibold leading-6 text-gray-900">Months</label>
+            <input type="number" min="1" max="75" name="months" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            
           </div>
-        </div>
         <div hidden id="weeks" class="sm:col-span-2">
           <label for="Weeks" class="block text-sm font-semibold leading-6 text-gray-900">Weeks</label>
-          <input type="number" min="1" name="weeks" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+          <input type="number" min="1" max="3" name="weeks" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           
         </div>
 

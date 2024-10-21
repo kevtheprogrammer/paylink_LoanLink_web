@@ -43,6 +43,7 @@
     </nav>
 
     {% comment %} End of Active Page Navigation {% endcomment %}
+
 </div>
 
 
@@ -203,8 +204,8 @@
         <div class="border-b border-gray-200">
             <nav class="-mb-px flex space-x-8" aria-label="Tabs">
                 <a href="#personal" id="personal-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Personal Details</a>
-                <a href="#education" id="education-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Bank Detail</a>
-                <a href="#experience" id="experience-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">File Uploads</a>
+                <a href="#bank-detail" id="bank-details" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Bank Detail</a>
+                <a href="#files" id="files-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">File Uploads</a>
             </nav>
         </div>
 
@@ -216,8 +217,7 @@
                  
                     <form>
                         <div class="space-y-12">
-                        
-                    
+     
                         <div class="border-b border-gray-900/10 pb-12">
                             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                              
@@ -272,7 +272,7 @@
                           <div class="mt-2">
                           <input id="nrc" name="nrc" value="{{client.dob}}" type="text" autocomplete="email" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                           </div>
-                      </div>
+                        </div>
                     
                             <div class="col-span-full">
                                 <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Residential address</label>
@@ -306,7 +306,6 @@
                     
                         </div>
                     
-
                     </form>
   
                 </dl>
@@ -314,187 +313,140 @@
         </div>
 
 
-        <div id="education" class="tab-content hidden">
-           
-            <div class="mt-5 border-t border-gray-200">
-                <dl class="divide-y divide-gray-200">
-                   
-<form>
-  <div class="space-y-12">
-    
-    <div class="border-b border-gray-900/10 pb-12">
-     
+<div id="bank-details" class="tab-content hidden">        
+  <div class="mt-5 border-t border-gray-200">
+      <dl class="divide-y divide-gray-200">
+                            
+          <form>
+            <div class="space-y-12">
+              
+              <div class="border-b border-gray-900/10 pb-12">
+            
+                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                  <div class="sm:col-span-3">
+                    <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Bank Name</label>
+                    <div class="mt-2">
+                      <input type="text" name="bank" id="bank" value="{{client_profile.bank}}" autocomplete="bank" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                  </div>
 
-      <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-        <div class="sm:col-span-3">
-          <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Bank Name</label>
-          <div class="mt-2">
-            <input type="text" name="bank" id="bank" value="{{client_profile.bank}}" autocomplete="bank" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div>
+                  {% comment %} <div class="sm:col-span-3">
+                    <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Branch</label>
+                    <div class="mt-2">
+                      <input type="text" name="branch" id="branch" autocomplete="branch" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                  </div> {% endcomment %}
 
-        {% comment %} <div class="sm:col-span-3">
-          <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Branch</label>
-          <div class="mt-2">
-            <input type="text" name="branch" id="branch" autocomplete="branch" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div> {% endcomment %}
+                  <div class="sm:col-span-3">
+                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Bank Account</label>
+                    <div class="mt-2">
+                      <input id="bank-acc" value="{{client_profile.bank_acc}}" name="bank-acc" type="text" autocomplete="bank-acc" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                  </div>
 
-        <div class="sm:col-span-3">
-          <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Bank Account</label>
-          <div class="mt-2">
-            <input id="bank-acc" value="{{client_profile.bank_acc}}" name="bank-acc" type="text" autocomplete="bank-acc" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div>
+                  <div class="col-span-3">
+                    <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">CRB</label>
+                    <div class="mt-2">
+                      <input type="text" name="crb" id="crb" value="{{credit_score.crb}}" autocomplete="crb" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                  </div>
 
-        <div class="col-span-3">
-          <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">CRB</label>
-          <div class="mt-2">
-            <input type="text" name="crb" id="crb" value="{{credit_score.crb}}" autocomplete="crb" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div>
+                  <div class="col-span-3">
+                    <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Credit Score</label>
+                    <div class="mt-2">
+                      <input type="text" value="{{credit_score.credit_score}}" name="credit-score" id="credit-score" autocomplete="credit-score" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                  </div>
 
-        <div class="col-span-3">
-          <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Credit Score</label>
-          <div class="mt-2">
-            <input type="text" value="{{credit_score.credit_score}}" name="credit-score" id="credit-score" autocomplete="credit-score" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div>
+                  <div class="sm:col-span-2 sm:col-start-1">
+                    <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Gross Pay</label>
+                    <div class="mt-2">
+                      <input type="text" name="city" id="city" value="{{credit_score.number_of_loan}}" autocomplete="gross-pay" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                  </div>
 
-        <div class="sm:col-span-2 sm:col-start-1">
-          <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Gross Pay</label>
-          <div class="mt-2">
-            <input type="text" name="city" id="city" value="{{credit_score.number_of_loan}}" autocomplete="gross-pay" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div>
+                  <div class="sm:col-span-2">
+                    <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Net Pay</label>
+                    <div class="mt-2">
+                      <input type="text" name="region" id="region" autocomplete="net-pay" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                  </div>
 
-        <div class="sm:col-span-2">
-          <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Net Pay</label>
-          <div class="mt-2">
-            <input type="text" name="region" id="region" autocomplete="net-pay" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div>
-
-        <div class="sm:col-span-2">
-          <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">Number of Loans</label>
-          <div class="mt-2">
-            <input type="text" name="number-of-loans" id="number-of-loans" autocomplete="number-of-loans" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-          </div>
-        </div>
-      </div>
-    </div>
-</form>
+                  <div class="sm:col-span-2">
+                    <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">Number of Loans</label>
+                    <div class="mt-2">
+                      <input type="text" name="number-of-loans" id="number-of-loans" autocomplete="number-of-loans" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </form>
 
                 </dl>
             </div>
         </div>
 
-<div id="experience" class="tab-content hidden">        
+<div id="files" class="tab-content hidden">        
  <div class="mt-5 border-t border-gray-200">
     <dl class="divide-y divide-gray-200">
                   
-<form>
-    <div class="space-y-12">
-      <div class="border-b border-gray-900/10 pb-12">
-        <h2 class="text-base my-4 font-semibold leading-7 text-gray-900">Profile Pictures</h2>
+    <form>
+        <div class="space-y-12">
+          <div class="border-b border-gray-900/10 pb-12">
+            <h2 class="text-base my-4 font-semibold leading-7 text-gray-900">Profile Pictures</h2>
+          
       
-  
-          <div class="col-span-full my-4">    
-            <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-              <li class="relative">
-                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75" onclick="expandImage('https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80')">
+              <div class="col-span-full my-4">    
+                <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                  <li class="relative">
+                    <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                      <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75" onclick="expandImage('https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80')">
 
-                  <div id="full-screen-image" class="full-screen-image" onclick="closeFullScreenImage()">
-                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75" onclick="expandImage( 'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80')" alt="profile_pic">
-                   
-                </div>
-                </div>
-                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Pic 1</p>
-               
-              </li>
+                      <div id="full-screen-image" class="full-screen-image" onclick="closeFullScreenImage()">
+                      <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75" onclick="expandImage( 'https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80')" alt="profile_pic">
+                      
+                    </div>
+                    </div>
+                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Pic 1</p>
+                  
+                  </li>
 
-              <li class="relative">
-                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
-                  <button type="button" class="absolute inset-0 focus:outline-none">
-                    <span class="sr-only">View details for IMG_4985.HEIC</span>
-                  </button>
-                </div>
-                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Pic 2</p>
-               
-              </li>
+                  <li class="relative">
+                    <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                      <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                      <button type="button" class="absolute inset-0 focus:outline-none">
+                        <span class="sr-only">View details for IMG_4985.HEIC</span>
+                      </button>
+                    </div>
+                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Pic 2</p>
+                  
+                  </li>
 
 
-              <li class="relative">
-                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
-                  <button type="button" class="absolute inset-0 focus:outline-none">
-                    <span class="sr-only">View details for IMG_4985.HEIC</span>
-                  </button>
-                </div>
-                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Pic 3</p>
-                
-              </li>
+                  <li class="relative">
+                    <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                      <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                      <button type="button" class="absolute inset-0 focus:outline-none">
+                        <span class="sr-only">View details for IMG_4985.HEIC</span>
+                      </button>
+                    </div>
+                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Pic 3</p>
+                    
+                  </li>
 
-              <!-- More files... -->
-            </ul>
+                  <!-- More files... -->
+                </ul>
 
+              </div>
+
+
+            
           </div>
-
-
-        
-      </div>
-
-      <div class="border-b border-gray-900/10 pb-12 my-4">
-        <h2 class="text-base my-4 font-semibold leading-7 text-gray-900">IDs</h2>
-      
-  
-          <div class="col-span-full my-4">    
-            <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-              <li class="relative">
-                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
-                  <button type="button" class="absolute inset-0 focus:outline-none">
-                    <span class="sr-only">View details for IMG_4985.HEIC</span>
-                  </button>
-                </div>
-                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">ID Front</p>
-               
-              </li>
-
-              <li class="relative">
-                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
-                  <button type="button" class="absolute inset-0 focus:outline-none">
-                    <span class="sr-only">View details for IMG_4985.HEIC</span>
-                  </button>
-                </div>
-                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">ID Back</p>
-                <p class="pointer-events-none block text-sm font-medium text-gray-500">3.9 MB</p>
-              </li>
-
-
-              <li class="relative">
-                <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                  <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
-                  <button type="button" class="absolute inset-0 focus:outline-none">
-                    <span class="sr-only">View details for IMG_4985.HEIC</span>
-                  </button>
-                </div>
-                <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">ID</p>
-                
-              </li>
-
-              <!-- More files... -->
-            </ul>
-
-          </div>
-
-        </div>
 
           <div class="border-b border-gray-900/10 pb-12 my-4">
-            <h2 class="text-base my-4 font-semibold leading-7 text-gray-900">Payslips</h2>
+            <h2 class="text-base my-4 font-semibold leading-7 text-gray-900">IDs</h2>
+          
+      
               <div class="col-span-full my-4">    
                 <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                   <li class="relative">
@@ -504,10 +456,10 @@
                         <span class="sr-only">View details for IMG_4985.HEIC</span>
                       </button>
                     </div>
-                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Payslip 1</p>
-                   
+                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">ID Front</p>
+                  
                   </li>
-    
+
                   <li class="relative">
                     <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
                       <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
@@ -515,11 +467,11 @@
                         <span class="sr-only">View details for IMG_4985.HEIC</span>
                       </button>
                     </div>
-                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Payslip 2</p>
-                   
+                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">ID Back</p>
+                    <p class="pointer-events-none block text-sm font-medium text-gray-500">3.9 MB</p>
                   </li>
-    
-    
+
+
                   <li class="relative">
                     <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
                       <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
@@ -527,17 +479,62 @@
                         <span class="sr-only">View details for IMG_4985.HEIC</span>
                       </button>
                     </div>
-                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Payslip 3</p>
+                    <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">ID</p>
                     
                   </li>
-    
+
                   <!-- More files... -->
                 </ul>
-    
+
               </div>
-  
+
+            </div>
+
+              <div class="border-b border-gray-900/10 pb-12 my-4">
+                <h2 class="text-base my-4 font-semibold leading-7 text-gray-900">Payslips</h2>
+                  <div class="col-span-full my-4">    
+                    <ul role="list" class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
+                      <li class="relative">
+                        <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                          <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                          <button type="button" class="absolute inset-0 focus:outline-none">
+                            <span class="sr-only">View details for IMG_4985.HEIC</span>
+                          </button>
+                        </div>
+                        <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Payslip 1</p>
+                      
+                      </li>
         
-  </form>
+                      <li class="relative">
+                        <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                          <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                          <button type="button" class="absolute inset-0 focus:outline-none">
+                            <span class="sr-only">View details for IMG_4985.HEIC</span>
+                          </button>
+                        </div>
+                        <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Payslip 2</p>
+                      
+                      </li>
+        
+        
+                      <li class="relative">
+                        <div class="group aspect-h-7 aspect-w-10 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
+                          <img src="https://images.unsplash.com/photo-1582053433976-25c00369fc93?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=512&q=80" alt="" class="pointer-events-none object-cover group-hover:opacity-75">
+                          <button type="button" class="absolute inset-0 focus:outline-none">
+                            <span class="sr-only">View details for IMG_4985.HEIC</span>
+                          </button>
+                        </div>
+                        <p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">Payslip 3</p>
+                        
+                      </li>
+        
+                      <!-- More files... -->
+                    </ul>
+        
+                  </div>
+      
+            
+      </form>
   
                 </dl>
             </div>

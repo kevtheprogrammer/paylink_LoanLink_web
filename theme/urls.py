@@ -21,5 +21,7 @@ urlpatterns = [
     path('profile', views.Profile, name="profile"),
     path('upload-clients', views.UploadBulkClientTemplate, name='upload-clients'),
     path('bulk-client-template', views.CreateExcelTemplate, name="bulk-client-template"),
-    path('bulk-client-view', views.BulkClientUploadView, name='bulk-client-view')
+    path('bulk-client-view', views.BulkClientUploadView, name='bulk-client-view'),
+    path('create-loan-product', views.CreateLoanProduct, name='create-loan-product'),
+    path('new-loan-product', views.NewLoanProduct, name='new-loan-product')
 ]
