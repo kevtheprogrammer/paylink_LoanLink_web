@@ -82,32 +82,43 @@ class CreditScore(models.Model):
  
 class LoanProduct(models.Model):
     INTEREST_RATE_METHOD = (
-        ('flate rate', 'Flate Rate'),
-        ('reducing blanace', 'Reducing Balance'),
-        ('interest only', 'Interest Only'),
+        ('Flate Rate', 'Flate Rate'),
+        ('Reducing Balance', 'Reducing Balance'),
+        ('Interest Only', 'Interest Only'),
     )
     DURATION_PERIOD = (
         ('weeks', 'Weeks'),
         ('months', 'Months'),
         ('years', 'Years'),
     )
-    loan = models.ForeignKey(Loan, related_name='loans', on_delete=models.CASCADE)
+    loan = models.ForeignKey(Loan, related_name='loans', on_delete=models.CASCADE, blank=True, null=True)
     product_name = models.CharField(max_length=255, blank=True, null=True)
     description = models.CharField(max_length=255, blank=True, null=True)
     interest_rate = models.DecimalField(max_digits=5, decimal_places=2, null=True)
-    interest_rate_method = models.CharField(max_length=20, choices=INTEREST_RATE_METHOD, default='flate_rate')
+    interest_rate_method = models.CharField(max_length=20, choices=INTEREST_RATE_METHOD, default='Flate Rate')
     duration_period = models.CharField(max_length=20, choices=DURATION_PERIOD, null=True)
-    duration_length = models.IntegerField(null=True)
+    duration_length = models.IntegerField(blank=True,null=True)
     minimum_amount = models.DecimalField(max_digits=10, decimal_places=2)
     maximum_amount = models.DecimalField(max_digits=10, decimal_places=2)
 
+
+    # def getIntrest(self):
+    #     calculated_interest = 0
+    #     if self.interest_rate_method == 'Flate Rate':
+    #         pass
+    #     elif self.interest_rate_method == 'Reducing Balance':
+    #         pass
+    #     elif self.interest_rate_method == 'Interest Only':
+    #         pass
+    #     return self.interest_rate_method
+    
 
     def __str__(self):
         return f'{self.product_name} {self.interest_rate_method}'
 
     def clean(self):
-        if self.mininum_amount > self.maxamount_amount:
-            raise ValidationError('mininum_amount must be less then maximum amount')
+        if self.minimum_amount > self.maximum_amount:
+            raise ValidationError("Minimum amount cannot be greater than maximum amount.")
         
     
     def validateLoanAmount(self, amount):
@@ -125,12 +136,13 @@ class LoanProduct(models.Model):
 
 #Flat Interest
 class FlatRateProducts(LoanProduct):
-    def calaculateTotalPayment(self,principle):
+    def calculateTotalPayment(self,principle):
         self.validateLoanAmount(principle)
 
         total_interest = principle * (self.interest_rate / 100) * self.duration_period
         total_repayment = principle + total_interest
         return total_repayment
+    
 
 class ReducingBalance(LoanProduct):
     def calculateTotalPayment(self, principle):
@@ -147,7 +159,7 @@ class ReducingBalance(LoanProduct):
         return total_repayment
     
 class InterestOnly(LoanProduct):
-    def calculateToatalPayment(self, principle):
+    def calculateTotalPayment(self, principle):
         self.validateLoanAmount(principle)
     
         total_repayment = principle * (self.interest / 100) * self.duration_period

@@ -1,9 +1,12 @@
 from django import forms
+from loan .models import LoanProduct
 
 class BulkClientUploadForm(forms.Form):
     file = forms.FileField()
 
 
 class LoanProductForm(forms.Form):
-    file = forms.FileField()
+     class Meta:
+        model = LoanProduct
+        fields = ['name', 'description', 'interest_rate']
     

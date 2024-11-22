@@ -14,24 +14,25 @@ $('.message a').click(function(){
 
 
  //Tab Navigation JavaScript 
- document.addEventListener('DOMContentLoaded', function() {
-    const tabs = document.querySelectorAll('.tab');
-    const tabContents = document.querySelectorAll('.tab-content');
+ window.toggleTab = function (evt, tab) {
+  var i, tabs, tabContent;
 
-    tabs.forEach(tab => {
-        tab.addEventListener('click', function(event) {
-            event.preventDefault();
+  // Hide all tab content
+  tabContent = document.getElementsByClassName("tab-content");
+  for (i = 0; i < tabContent.length; i++) {
+    tabContent[i].style.display = "none";
+  }
 
-            // Remove active classes
-            tabs.forEach(t => t.classList.remove('active', 'border-green-500', 'text-green-600'));
-            tabContents.forEach(content => content.classList.add('hidden'));
+  // Remove the "active" class from all tabs
+  tabs = document.getElementsByClassName("tab");
+  for (i = 0; i < tabs.length; i++) {
+    tabs[i].className = tabs[i].className.replace(" active", "").replace("active", "");
+  }
 
-              // Add active classes
-            tab.classList.add('active', 'border-green-500', 'text-green-600');
-            document.querySelector(tab.getAttribute('href')).classList.remove('hidden');
-        });
-    });
-});
+  // Show the current tab's content and add "active" class to the clicked tab
+  document.getElementById(tab).style.display = "block";
+  evt.currentTarget.className += " active";
+}
 
 
 //Sorting Loan Drop Down Active, Pending and Closed
@@ -276,4 +277,65 @@ function handleFile(file) {
   fileInput.addEventListener('change', (e) => {
       dragText.textContent = e.target.files[0].name;
   });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Get modal elements
+  const modal = document.getElementById('client-details-modal');
+  const modalClose = document.querySelector('.close');
+  
+  // Function to open modal
+  function openModal() {
+      modal.style.display = 'block';
+  }
+  
+  // Function to close modal
+  modalClose.addEventListener('click', function () {
+      modal.style.display = 'none';
+  });
+  
+  // Listen for click events on buttons with the class 'client-details-btn'
+  document.querySelectorAll('.client-details-btn').forEach(button => {
+      button.addEventListener('click', function () {
+          const clientId = this.getAttribute('data-client-id');
+          
+          // Send AJAX request to get client details
+          fetch(`/client/${clientId}/`)
+              .then(response => response.json())
+              .then(data => {
+                  if (data.error) {
+                      alert(data.error);
+                  } else {
+                      // Populate modal with client data
+                      document.getElementById('client-name').textContent = data.name;
+                      document.getElementById('client-email').textContent = data.email;
+                      document.getElementById('client-phone').textContent = data.phone;
+                      document.getElementById('client-address').textContent = data.address;
+
+                      // Open the modal
+                      openModal();
+                  }
+              })
+              .catch(error => console.error('Error fetching client details:', error));
+      });
+  });
+});
+
+
+
+//Loan products dynamic form selection
+document.getElementById('loan-type').addEventListener('change', function () {
+  const selectedOption = this.options[this.selectedIndex];
+  const rate = selectedOption.getAttribute('data-rate');
+  const interestMethod = selectedOption.getAttribute('data-interest');
+  const period = selectedOption.getAttribute('data-period');
+  const loanProductId = selectedOption.getAttribute('data-loanproduct');
+
+  // Update the Rate, Interest Rate Method, and Period fields
+  document.getElementById('rate').value = rate || '';
+  document.getElementById('interest-method').value = interestMethod || '';
+  document.getElementById('period').value = period || '';
+  document.getElementById('loan-product-id').value = loanProductId || '';
+
+
 });

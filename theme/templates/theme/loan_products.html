@@ -20,7 +20,7 @@
             </a>
           </div>
         </li>
-        <li class="flex">
+        <li class="flex"> 
           <div class="flex items-center">
             <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
               <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
@@ -47,7 +47,7 @@
        Download
       </button>
 
-      <a href={% url 'create-loan-product' %}> 
+      <a href={% url 'new-loan-product' %}> 
         <button type="button" title="Create Client" class="ml-3 inline-flex items-center rounded-md ring-1 ring-inset bg-white px-3 py-2 text-sm font-semibold text-slate-900 shadow-sm hover:bg-slate-950 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-900"> 
           Create Product
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 m-1">
@@ -60,7 +60,7 @@
     </div>
   </div>
 
-<!--=============== Clients List =================-->
+<!--=============== Products List =================-->
 
 <div class="px-4 sm:px-6 my-6 py-1 lg:px-8 ring-gray-200 rounded-3xl ring-1">
  
@@ -83,40 +83,46 @@
                
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
-              {% for client in clients %}
-                <tr>
-                  <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
-                    <div class="flex items-center">
-                      <div class="h-11 w-11 flex-shrink-0">
-                        <img class="h-11 w-11 rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
-                      </div>
-                    
-                    </div>
-                  </td>
+              {% for product in products %}
+               
                   <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                       <div class="ml-4">
-                          <div class="font-medium text-gray-500">{{client.first_name}}</div>
+                          <div class="font-medium text-gray-500">{{product.product_name}}</div>
                           
                         </div>
 
                   </td>
                   <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                      <div class="font-medium text-gray-500"> {{client.last_name}} </div>
+                      <div class="font-medium text-gray-500"> {{product.description}} </div>
                     
-                    </td>
+                  </td>
 
                   <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                    <div class="text-gray-500"> {{client.id_number}} </div>
+                    <div class="font-medium text-gray-500"> {{product.minimum_amount}} </div>
+                  
+                  </td>
+
+                  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                    <div class="font-medium text-gray-500"> {{product.maximum_amount}} </div>
+                  
+                  </td>
+
+                  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                    <div class="text-gray-500"> {{product.duration_period}} </div>
                   
                   </td>
                   <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                    <div class="text-gray-500">{{client.email}}</div>
+                    <div class="text-gray-500">{{product.interest_rate_method }} </div>
                   </td>
-                  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">K 45000</td>
-                  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">K 8663</td> 
+
+                  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
+                    <div class="text-gray-500">{{product.interest_rate }} </div>
+                  </td>
+                  
+                  
                 
                   <!--===========Action icons =========-->
-                  <td title="View More" class="whitespace-nowrap px-3 py-5"> 
+                  {% comment %} <td title="View More" class="whitespace-nowrap px-3 py-5"> 
                       <a href="{% url 'client_details' client_id=client.id %}" class=""> 
                           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-green-700">
                               <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
@@ -124,7 +130,7 @@
                             </svg>
                             
                       </a>
-                  </td>
+                  </td> {% endcomment %}
                 </tr>
               {% endfor %}
   

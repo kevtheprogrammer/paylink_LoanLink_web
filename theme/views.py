@@ -1,3 +1,4 @@
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 from account.models import *
 from loan.models import *
@@ -18,20 +19,37 @@ import openpyxl
 from openpyxl import load_workbook
 from openpyxl import Workbook
 from .forms import * #
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-def Login(request):
+
+def LoginView(request):
+    if request.user.is_authenticated:
+        return redirect('staff')
+    
     if request.method == 'POST':
         username = request.POST.get('email')
         password = request.POST.get('password')
+        
+        if not username or not password:
+            messages.error(request, 'Please fill in both email and password.')
+            return render(request, 'theme/login.html')
+
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('staff')
+            messages.success(request, f'Welcome Back, {user.first_name}')
+            request.session['notification_displayed'] = True  # Mark notification as shown
+            next_url = request.GET.get('next', 'staff')
+            return redirect(next_url)
         else:
-            messages.error(request, 'Invalid username or password.')
-    return render(request, 'theme/login.html')
-
+            logger.warning(f"Failed login attempt for email: {username} at {now()}")
+            messages.error(request, 'Invalid login credentials.')
+            return render(request, 'theme/login.html')
+    else:
+        return render(request, 'theme/login.html')
 
 def Dashboard(request):
     return render(request, 'theme/admin_2.html')
@@ -61,9 +79,27 @@ def ClientDetails(request, client_id):
     
     # Access is_verified status directly from the User model
     is_verified = client.is_verified
-    # print(is_verified)
-    # print(credit_score)
     return render(request, 'theme/client_details.html', {'client': client, 'is_verified': is_verified, 'credit_score': credit_score, 'client_profile': client_profile})
+
+#Verifying the client
+def verify_user(request, client_id):
+    user = get_object_or_404(User, pk=client_id, user_type='Customer')
+
+    # Update the is_verified field directly in the User model
+    user.is_verified = True
+    user.save()
+
+    return redirect('client_details', client_id=client_id)
+
+
+def verify_user(request, client_id):
+    user = get_object_or_404(User, pk=client_id, user_type='Customer')
+
+    # Update the is_verified field directly in the User model
+    user.is_verified = True
+    user.save()
+
+    return redirect('client_details', client_id=client_id)
 
 
 
@@ -155,14 +191,20 @@ def CreateClientView(request):
         return redirect('theme/clients.html')
     
     return render(request, 'theme/clients.html')
+def Loans(request):
+    loans = Loan.objects.all().select_related('customer__user')
+    combined_data = []
+
+    for loan in loans:
+        client_profile = loan.customer.user.client_profile
+        combined_data.append((loan, client_profile))
+
+    return render(request, 'theme/loans.html', {'combined_data': combined_data})
+
 
 
 def Reports(request):
     return render(request, 'theme/reports.html')
-
-def Loans(request):
-    return render(request, 'theme/loans.html')
-
 
 def ClosedLoans(request):
     return render(request, 'theme/closed_loans.html')
@@ -171,9 +213,17 @@ def ClosedLoans(request):
 def ActiveLoans(request):
     return render(request, 'theme/active_loans.html')
 
-def PendingLoans(request):
-    return render(request, 'theme/pending_loans.html')
 
+def PendingLoansView(request):
+    pending_loans = Loan.objects.filter(status='pending')
+    combined_data = []
+
+    for loan in pending_loans:
+        # Access the client profile directly through the loan's customer
+        client = loan.customer 
+        combined_data.append((loan, client))
+
+    return render(request, 'theme/pending_loans.html', {'combined_data': combined_data})
 
 
 def CreatClient(request):
@@ -228,36 +278,51 @@ def CreateLoan(request):
 
 def passIDToAddLoan(request, client_id):
     client = User.objects.get(id=client_id)
+    loanProducts = LoanProduct.objects.all()
   
-    return render(request, 'theme/create_loan.html', {'client': client})
+    return render(request, 'theme/create_loan.html', {'client': client, 'loanProducts': loanProducts})
 
 
 def ListLoanProducts(request):
-    return render(request, 'theme/loan_products.html')
+    products = LoanProduct.objects.all()
+    return render(request, 'theme/loan_products.html', {'products': products})
 
 
 def Profile(request):
     return render(request, 'theme/profile.html')
 
 
-def calculateLoanRepayment(request, loan_product_id, principle):
-    loan_product = LoanProduct.objects.get(id=loan_product_id)
+def calculateLoanRepayment(request):
+    loan_product_id = request.POST.get('loan-product-id')
+    principle = request.POST.get('principle')
 
     try:
-        if loan_product.interest_rate_method == 'flate rate':
-            total_repayment = FlatRateProducts.objects.get(id=loan_product_id).calaculateTotalPayment(principle)
+        loan_product = LoanProduct.objects.get(id=loan_product_id)
 
-        elif loan_product.interest_rate_method == 'reducing blanace':
-            total_repayment = ReducingBalance.objects.get(id=loan_product_id).calculateTotalPayment(principle)
+        if loan_product.interest_rate_method == 'Flate Rate':
+            try:
+                total_repayment = FlatRateProducts.objects.get(id=loan_product_id).calaculateTotalPayment(principle)
+            except ObjectDoesNotExist:
+                return HttpResponseNotFound("Flat Rate product not found.")
 
-        elif loan_product.interest_rate_method == 'interest only':
-            total_repayment = InterestOnly.objects.get(id=loan_product_id).calculateToatalPayment(principle)
+        elif loan_product.interest_rate_method == 'Reducing Balance':
+            try:
+                total_repayment = ReducingBalance.objects.get(id=loan_product_id).calculateTotalPayment(principle)
+            except ObjectDoesNotExist:
+                return HttpResponseNotFound("Reducing Balance product not found.")
 
-        return total_repayment
+        elif loan_product.interest_rate_method == 'Interest Only':
+            try:
+                total_repayment = InterestOnly.objects.get(id=loan_product_id).calculateToatalPayment(principle)
+            except ObjectDoesNotExist:
+                return HttpResponseNotFound("Interest Only product not found.")
+
+        return JsonResponse({'total_repayment': total_repayment})
+
+    except LoanProduct.DoesNotExist:
+        return HttpResponseNotFound("The specified loan product does not exist.")
     except ValidationError as e:
-        return f'Error:{e}'
-
-
+        return JsonResponse({'error': str(e)}, status=400)
 
 def CreateExcelTemplate(request):
     # Correctly instantiate the Workbook
@@ -281,6 +346,9 @@ def CreateExcelTemplate(request):
     wb.save(response)
 
     return response
+
+
+
 def UploadBulkClientTemplate(request):
     if request.method == 'POST':
         form = BulkClientUploadForm(request.POST, request.FILES)
@@ -358,21 +426,41 @@ def BulkClientUploadView(request):
 
 #Create Loan Product
 def CreateLoanProduct(request):
-    return render(request, 'theme/create_loan_product.html')
+    products = LoanProduct.objects.all()
+    if not products:
+        print("No loan products available.")
+    return render(request, 'theme/loan_products.html', {'products': products})
 
 
-#Post new loan product
+
+# Post new loan product
 def NewLoanProduct(request):
     if request.method == 'POST':
-        form = LoanProductForm(request.POST)
-        if form.is_valid():
-            loan_product = form.save(commit=False)
-            loan_product.created_by = request.user
-            loan_product.save()
+        product_name = request.POST['product-name']
+        description = request.POST['desc']
+        interest_rate = request.POST['interest-rate']
+        interest_rate_method = request.POST['interest-rate-method']
+        duration_period = request.POST['duration-period']
+        minimum_amount = request.POST['min-amount']
+        maximum_amount = request.POST['max-amount']
+        
+        newLoanProduct = LoanProduct(
+            product_name = product_name,
+            description = description,
+            interest_rate = interest_rate,
+            interest_rate_method = interest_rate_method,
+            duration_period = duration_period,
+            minimum_amount = minimum_amount,
+            maximum_amount = maximum_amount
+
+        ) 
+
+        newLoanProduct.save()
+
+        if newLoanProduct:
             messages.success(request, 'Loan product created successfully.')
-            return redirect('loan_products')
         else:
-            messages.error(request, 'Error creating loan product.')
-            return render(request, 'theme/create_loan_product.html', {'form': form})
+            messages.error(request, 'Loan product creation failed.')
     
-    return render(request, 'new_loan_product.html', {'form': form})
+
+    return render(request, 'theme/create_loan_product.html')

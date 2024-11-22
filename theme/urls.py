@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('login', views.Login, name='login'),
+    path('', views.LoginView, name='login'),
     path('staff', views.Dashboard, name='staff' ),
     path('clients',views.AllClients, name='clients'),
     path('client_details/<int:client_id>/', views.ClientDetails, name='client_details'),
@@ -10,7 +10,7 @@ urlpatterns = [
     path('loans', views.Loans, name='loans'),
     path('closed-loans', views.ClosedLoans, name='closed-loans'),
     path('active-loans', views.ActiveLoans, name='active-loans'),
-    path('pending-loans', views.PendingLoans, name='pending-loans'),
+    path('pending-loans', views.PendingLoansView, name='pending-loans'),
     path('create-client', views.CreatClient, name='create-client'),
     path('attach-client', views.AttachClient, name='attach-client'),
     path('created-client', views.CreateClientView, name='created-client'),
@@ -23,5 +23,7 @@ urlpatterns = [
     path('bulk-client-template', views.CreateExcelTemplate, name="bulk-client-template"),
     path('bulk-client-view', views.BulkClientUploadView, name='bulk-client-view'),
     path('create-loan-product', views.CreateLoanProduct, name='create-loan-product'),
-    path('new-loan-product', views.NewLoanProduct, name='new-loan-product')
+    path('new-loan-product', views.NewLoanProduct, name='new-loan-product'),
+    path('calcluate-loan', views.calculateLoanRepayment, name='calculate-loan'),
+    path('client/<int:client_id>/verify/', views.verify_user, name='verify_user'),
 ]

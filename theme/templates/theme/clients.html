@@ -1,8 +1,8 @@
 {% extends 'theme/base.html'%}
 {% block title %} Clients {% endblock %}
 
-
 {% block content %}
+{% load static %}
 
 <!-- =========== Page Heaading ============== -->
 
@@ -97,8 +97,7 @@
                 <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0">Last Names</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">NRC</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Loan</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Payable</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Actions</th>
               
                
@@ -109,7 +108,7 @@
                   <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                     <div class="flex items-center">
                       <div class="h-11 w-11 flex-shrink-0">
-                        <img class="h-11 w-11 rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                        <img class="h-9 w-9 rounded-full" src="{% static 'img/profile-icon.png' %}" alt="profile-pic">
                       </div>
                     
                     </div>
@@ -133,8 +132,28 @@
                   <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                     <div class="text-gray-500">{{client.email}}</div>
                   </td>
-                  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">K 45000</td>
-                  <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">K 8663</td> 
+                  {% if client.is_verified %}
+                  <td class="whitespace-nowrap px-3 py-5">
+                    <span class="inline-flex items-center gap-x-1.5 rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700">
+                      <svg class="h-1.5 w-1.5 fill-green-500" viewBox="0 0 6 6" aria-hidden="true">
+                        <circle cx="3" cy="3" r="3" />
+                      </svg>
+                         Verified
+                    </span>
+  
+                  </td>
+                  {% else %}
+                  <td class="whitespace-nowrap px-3 py-5">
+                    <span class="inline-flex items-center gap-x-1.5 rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-500">
+                      <svg class="h-1.5 w-1.5 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
+                        <circle cx="3" cy="3" r="3" />
+                      </svg>
+                         Not Verified
+                    </span>
+  
+                  </td>
+                  {% endif %}
+                  
                 
                   <!--===========Action icons =========-->
                   <td title="View More" class="whitespace-nowrap px-3 py-5"> 

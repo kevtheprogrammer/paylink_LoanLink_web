@@ -100,10 +100,11 @@
                
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
+              {% for loan, client in combined_data %}
               <tr>
                 <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                     <div class="ml-4">
-                        <div class="font-medium text-gray-500">00236</div>
+                        <div class="font-medium text-gray-500">{{ client.user.id }}</div>
                         
                       </div>
                    
@@ -111,25 +112,25 @@
                 </td>
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                     <div class="ml-4">
-                        <div class="font-medium text-gray-500">Lindsay</div>
+                        <div class="font-medium text-gray-500">{{ client.user.first_name }}</div>
                         
                       </div>
 
                 </td>
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                    <div class="font-medium text-gray-500">Wamulima</div>
+                    <div class="font-medium text-gray-500">{{ client.user.last_name }}</div>
                    
                   </td>
 
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                  <div class="text-gray-500">221445/11/1</div>
+                  <div class="text-gray-500">{{client.user.id_number}}</div>
                  
                 </td>
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                  <div class="text-gray-500">lindsay.walton@example.com</div>
+                  <div class="text-gray-500">{{client.user.email}}</div>
                 </td>
-                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">K 45000</td>
-                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">K 8663</td>
+                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ loan.amount }}</td>
+                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ loan.payable_amount }}</td>
 
                 <!--============Status Badge ==========-->
                 <td class="whitespace-nowrap px-3 py-5">
@@ -153,7 +154,7 @@
                 </td>
               </tr>
   
-              <!-- More people... -->
+              {% endfor %}
             </tbody>
             
           </table>

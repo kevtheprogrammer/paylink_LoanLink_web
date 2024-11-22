@@ -9,7 +9,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/test/', include('api.urls')), 
     path('dashboard/', include('core.urls')),
-    path('user/', include('theme.urls')),
+    path('', include('theme.urls')),
     # path("__reload__/", include("django_browser_reload.urls")),
 ]
   

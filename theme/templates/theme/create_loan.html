@@ -1,5 +1,5 @@
 {% extends 'theme/base.html' %}
-{% block title %} Add Loan{% endblock %}
+{% block title %} Add Loan {% endblock %}
 
 {% block content %}
 
@@ -21,6 +21,7 @@
             <div class="ml-3 w-0 flex-1 pt-0.5">
               {% for message in messages %}
               <p class="text-sm font-medium text-gray-900">{{ message }}</p>
+
               {% endfor %}
             </div>
             <div class="ml-4 flex flex-shrink-0">
@@ -79,20 +80,7 @@
     
     {% comment %} End of Active Page Navigation {% endcomment %}
 </div>
-<!--
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
+
 
 <div class="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
     
@@ -104,11 +92,12 @@
       <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Add Loan</h2>
      
     </div>
-    <form action="{% url 'created-client' %}" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20" enctype="multipart/form-data">
+    <form action="{% url 'calculate-loan' %}" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20" enctype="multipart/form-data">
 
              {% csrf_token %}
 
       <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+
         {% if client %}
         <div class="sm:col-span-2">
             <label for="Full Names" class="block text-sm font-semibold leading-6 text-gray-900">Full Names</label>
@@ -126,7 +115,7 @@
             {% endif %}
           <label for="Amount" class="block text-sm font-semibold leading-6 text-gray-900">Amount</label>
           <div class="mt-2.5">
-            <input type="text" name="amount" id="first-name"  autocomplete="none" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <input type="text" name="principle" id="principle"  autocomplete="none" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           </div>
         </div>
 
@@ -134,46 +123,36 @@
         <div>
           <label for="Rate" class="block text-sm font-semibold leading-6 text-gray-900">Rate</label>
           <div class="mt-2.5">
-            <input type="number" min="1" name="last_name" id="rate" autocomplete="none" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <input type="number" min="1" name="rate" id="rate" autocomplete="off" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" readonly>
           </div>
         </div>
 
+        
         <div class="sm:col-span-2">
-            <label for="Loan Type" class="block text-sm font-semibold leading-6 text-gray-900">Loan Product</label>
-            <select id="loan-type" name="sex" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-              <option id="empty-month"></option>
-              <option id="months-selected">Civil Servant Loans</option>
-              <option id="weeks-selected">Collatral Loans</option>
-              <option id="weeks-selected">Salary Advance</option>
-              <option id="weeks-selected">Micro Business Loans</option>
-            
+          <label for="Loan Type" class="block text-sm font-semibold leading-6 text-gray-900">Loan Product</label>
+          <select id="loan-type" name="loan-product" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <option value=""></option>
+            {% for loanProduct in loanProducts %}
+              <option value="{{ loanProduct.product_name }}" data-rate="{{ loanProduct.interest_rate }}" data-interest="{{ loanProduct.interest_rate_method }}" data-period="{{ loanProduct.duration_period }}" data-loanproduct="{{ loanProduct.id }}">
+                {{ loanProduct.product_name }}
+              </option>
+            {% endfor %}
           </select>
-  
         </div>
+        
 
         <div class="sm:col-span-2">
           <label for="Interest Rate Method" class="block text-sm font-semibold leading-6 text-gray-900">Interest Rate Method</label>
-          <select id="interest-method" name="interest-rate-method" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-    
-            <option id="flat-interest-selected">Flate Interest</option>
-            <option id="reducing-selected">Reducing Balance</option>
-            <option id="interest-only-selected">Interest Only</option>
-            
-          
-        </select>
+          <input type="text" id="interest-method" name="interest-rate-method" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" readonly>
 
       </div>
-  
+
+      
           
           <div>
-            <label for="Period" class="block text-sm font-semibold leading-6 text-gray-900">Period</label>
+            <label for="Period" class="block text-sm font-semibold leading-6 text-gray-900">Period Duration Type</label>
             <div class="mt-2.5">
-                <select id="period" name="period" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    <option class="period-options"></option>
-                    <option class="period-options" id="weeks-selected" onclick="periodOptions()">Weeks</option>
-                    <option class="period-options" id="months-selected" onclick="periodOptions()">Months</option>
-                  
-                </select>
+              <input type="text" id="period" name="interest-rate-method" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" readonly>
 
             </div>
           </div>
@@ -183,10 +162,28 @@
             <input type="number" min="1" max="75" name="months" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
             
           </div>
+
         <div hidden id="weeks" class="sm:col-span-2">
           <label for="Weeks" class="block text-sm font-semibold leading-6 text-gray-900">Weeks</label>
           <input type="number" min="1" max="3" name="weeks" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           
+        </div>
+
+
+            
+      <div  class="sm:col-span-2">
+        <label for="Weeks" class="block text-sm font-semibold leading-6 text-gray-900">Duration</label>
+       
+        <input type="number" min="1"  id="duration" name="duration" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+      
+      </div>
+
+           
+        <div class="sm:col-span-2">
+          <label for="Weeks" class="block text-sm font-semibold leading-6 text-gray-900">Loan Product ID</label>
+         
+          <input type="number"  id="loan-product-id" name="loan-product-id" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+        
         </div>
 
     

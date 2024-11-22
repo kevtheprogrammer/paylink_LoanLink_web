@@ -57,12 +57,24 @@
 <!--=================== Picture and details Card ============-->
 <div class="border-b border-gray-200 bg-white px-4 py-5 sm:px-6">
     <div class="-ml-4 -mt-4 flex flex-wrap items-center justify-between sm:flex-nowrap">
-    
+      {% if is_verified == True %}
         <div class="ml-4 mt-4 flex flex-shrink-0">
             <button type="button" class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-green-400 shadow-sm ring-1 ring-inset ring-green-600 hover:bg-gray-50">
                 <span>Verified</span>
             </button>
         </div>
+
+        {% else %}
+        <form method="post" action="{% url 'verify_user' client_id=client.id %}">
+            {% csrf_token %}
+
+          <a href="{% url 'verify_user' client_id=client.id %}">
+            <button type="button" class="relative inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-red-600 shadow-sm ring-1 ring-inset ring-red-600 hover:bg-gray-50">
+              <span> Verify Client </span>
+            </button>
+          </a>
+        </form>
+        {% endif %}
     </div>
 </div>
 
@@ -203,8 +215,8 @@
     <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="border-b border-gray-200">
             <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                <a href="#personal" id="personal-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Personal Details</a>
-                <a href="#bank-detail" id="bank-details" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Bank Detail</a>
+                <a href="#personal" id="personal" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Personal Details</a>
+                <a href="#bank" id="bank" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Bank Detail</a>
                 <a href="#files" id="files-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">File Uploads</a>
             </nav>
         </div>
@@ -313,78 +325,78 @@
         </div>
 
 
-<div id="bank-details" class="tab-content hidden">        
-  <div class="mt-5 border-t border-gray-200">
-      <dl class="divide-y divide-gray-200">
-                            
-          <form>
-            <div class="space-y-12">
-              
-              <div class="border-b border-gray-900/10 pb-12">
-            
-                <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-                  <div class="sm:col-span-3">
-                    <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Bank Name</label>
-                    <div class="mt-2">
-                      <input type="text" name="bank" id="bank" value="{{client_profile.bank}}" autocomplete="bank" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+    <div id="bank-details" class="tab-content">        
+      <div class="mt-5 border-t border-gray-200">
+          <dl class="divide-y divide-gray-200">
+                                
+              <form>
+                <div class="space-y-12">
+                  
+                  <div class="border-b border-gray-900/10 pb-12">
+                
+                    <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+                      <div class="sm:col-span-3">
+                        <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Bank Name</label>
+                        <div class="mt-2">
+                          <input type="text" name="bank" id="bank" value="{{client_profile.bank}}" autocomplete="bank" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                      </div>
+
+                      {% comment %} <div class="sm:col-span-3">
+                        <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Branch</label>
+                        <div class="mt-2">
+                          <input type="text" name="branch" id="branch" autocomplete="branch" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                      </div> {% endcomment %}
+
+                      <div class="sm:col-span-3">
+                        <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Bank Account</label>
+                        <div class="mt-2">
+                          <input id="bank-acc" value="{{client_profile.bank_acc}}" name="bank-acc" type="text" autocomplete="bank-acc" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                      </div>
+
+                      <div class="col-span-3">
+                        <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">CRB</label>
+                        <div class="mt-2">
+                          <input type="text" name="crb" id="crb" value="{{credit_score.crb}}" autocomplete="crb" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                      </div>
+
+                      <div class="col-span-3">
+                        <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Credit Score</label>
+                        <div class="mt-2">
+                          <input type="text" value="{{credit_score.credit_score}}" name="credit-score" id="credit-score" autocomplete="credit-score" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                      </div>
+
+                      <div class="sm:col-span-2 sm:col-start-1">
+                        <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Gross Pay</label>
+                        <div class="mt-2">
+                          <input type="text" name="city" id="city" value="{{credit_score.number_of_loan}}" autocomplete="gross-pay" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                      </div>
+
+                      <div class="sm:col-span-2">
+                        <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Net Pay</label>
+                        <div class="mt-2">
+                          <input type="text" name="region" id="region" autocomplete="net-pay" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                      </div>
+
+                      <div class="sm:col-span-2">
+                        <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">Number of Loans</label>
+                        <div class="mt-2">
+                          <input type="text" name="number-of-loans" id="number-of-loans" autocomplete="number-of-loans" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                        </div>
+                      </div>
                     </div>
                   </div>
+              </form>
 
-                  {% comment %} <div class="sm:col-span-3">
-                    <label for="last-name" class="block text-sm font-medium leading-6 text-gray-900">Branch</label>
-                    <div class="mt-2">
-                      <input type="text" name="branch" id="branch" autocomplete="branch" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                  </div> {% endcomment %}
-
-                  <div class="sm:col-span-3">
-                    <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Bank Account</label>
-                    <div class="mt-2">
-                      <input id="bank-acc" value="{{client_profile.bank_acc}}" name="bank-acc" type="text" autocomplete="bank-acc" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                  </div>
-
-                  <div class="col-span-3">
-                    <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">CRB</label>
-                    <div class="mt-2">
-                      <input type="text" name="crb" id="crb" value="{{credit_score.crb}}" autocomplete="crb" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                  </div>
-
-                  <div class="col-span-3">
-                    <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Credit Score</label>
-                    <div class="mt-2">
-                      <input type="text" value="{{credit_score.credit_score}}" name="credit-score" id="credit-score" autocomplete="credit-score" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                  </div>
-
-                  <div class="sm:col-span-2 sm:col-start-1">
-                    <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Gross Pay</label>
-                    <div class="mt-2">
-                      <input type="text" name="city" id="city" value="{{credit_score.number_of_loan}}" autocomplete="gross-pay" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                  </div>
-
-                  <div class="sm:col-span-2">
-                    <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Net Pay</label>
-                    <div class="mt-2">
-                      <input type="text" name="region" id="region" autocomplete="net-pay" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                  </div>
-
-                  <div class="sm:col-span-2">
-                    <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">Number of Loans</label>
-                    <div class="mt-2">
-                      <input type="text" name="number-of-loans" id="number-of-loans" autocomplete="number-of-loans" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                    </div>
-                  </div>
+                    </dl>
                 </div>
-              </div>
-          </form>
-
-                </dl>
             </div>
-        </div>
 
 <div id="files" class="tab-content hidden">        
  <div class="mt-5 border-t border-gray-200">

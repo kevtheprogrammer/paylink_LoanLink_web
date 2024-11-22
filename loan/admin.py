@@ -4,3 +4,5 @@ from .models import *
 admin.site.register(Loan)
 admin.site.register(CreditScore)
 admin.site.register(LoanProduct)
+
+
