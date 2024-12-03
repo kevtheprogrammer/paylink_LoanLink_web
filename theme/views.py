@@ -19,7 +19,12 @@ import openpyxl
 from openpyxl import load_workbook
 from openpyxl import Workbook
 from .forms import * #
+from decimal import Decimal
 import logging
+from datetime import date
+from django.http import HttpResponseNotFound
+from django.core.exceptions import ObjectDoesNotExist
+
 
 logger = logging.getLogger(__name__)
 
@@ -203,15 +208,70 @@ def Loans(request):
 
 
 
+def ApproveLoan(request, client_id):
+    try:
+        # Assuming you want to approve the loan for a specific client
+        # You may need to adjust this query based on your actual logic
+        loans = Loan.objects.filter(customer__user__id=client_id, status='pending')
+        
+        # Assuming you only want to approve the first pending loan found
+        if loans.exists():
+            loan = loans.first()
+            loan.status = 'active'
+            loan.save()
+
+            # generate transaction 
+            loan_transaction = LoanTransaction(
+                loan_obj=loan,
+                amount=loan.amount,  # Provide the amount
+                is_payment_made=True,  # Set the payment status
+                status='pending',  # Set the status
+                transaction_type='Disbursement',  # Set the transaction type
+                client=loan.customer,
+                # approved_at=datetime.datetime.now(),  # Set the approval date/time
+            )
+
+            loan_transaction.save()
+            # Redirect to some page after approval
+            messages.success(request, 'Loan activated successfully!')
+        else:
+            # Handle case where no pending loan is found for the client
+             messages.error(request, 'No pending loan found for this client.')
+    except Loan.DoesNotExist:
+        # Handle case where loan doesn't exist
+        messages.error(request, 'Loan not found.')
+
+    return redirect('active_loans')
+
+
+
+
 def Reports(request):
     return render(request, 'theme/reports.html')
 
-def ClosedLoans(request):
-    return render(request, 'theme/closed_loans.html')
+
+def ClosedLoansView(request):
+    clients = User.objects.filter(user_type='Customer').select_related('client_profile')
+    active_loans = Loan.objects.filter(status='closed')
+    combined_data = []
+    for loan in active_loans:
+        client = clients.filter(client_profile__user_id=loan.customer_id).first()
+        combined_data.append((loan, client))
+    return render(request, 'theme/closed_loans.html', {'combined_data': combined_data})
 
 
-def ActiveLoans(request):
-    return render(request, 'theme/active_loans.html')
+
+
+def ActiveClientListView(request):
+    active_loans = Loan.objects.filter(status='active').select_related('customer__user')
+    combined_data = []
+
+    for loan in active_loans:
+        client_profile = loan.customer.user.client_profile
+        combined_data.append((loan, client_profile))
+
+    return render(request, 'theme/active_loans.html', {'combined_data': combined_data})
+
 
 
 def PendingLoansView(request):
@@ -292,38 +352,80 @@ def Profile(request):
     return render(request, 'theme/profile.html')
 
 
+
 def calculateLoanRepayment(request):
-    loan_product_id = request.POST.get('loan-product-id')
-    principle = request.POST.get('principle')
-
     try:
+        # Extracting POST data
+        loan_product_id = request.POST.get('loan-product-id')
+        principle = request.POST.get('principle')
+        duration_length = request.POST.get('duration')
+        client_id = request.POST.get('client-id')
+        
+
+        # Validate inputs
+        if not loan_product_id or not loan_product_id.isdigit():
+            return JsonResponse({'error': 'Invalid or missing loan product ID'}, status=400)
+        if not principle or not principle.replace('.', '', 1).isdigit():
+            return JsonResponse({'error': 'Invalid or missing principle value'}, status=400)
+        if not duration_length or not duration_length.isdigit():
+            return JsonResponse({'error': 'Invalid or missing duration value'}, status=400)
+
+        # Convert values to Decimal
+        principle = Decimal(principle)
+        duration_length = int(duration_length)
+
+        # Fetch the loan product instance
         loan_product = LoanProduct.objects.get(id=loan_product_id)
+        interest_rate_method = loan_product.interest_rate_method
 
-        if loan_product.interest_rate_method == 'Flate Rate':
-            try:
-                total_repayment = FlatRateProducts.objects.get(id=loan_product_id).calaculateTotalPayment(principle)
-            except ObjectDoesNotExist:
-                return HttpResponseNotFound("Flat Rate product not found.")
+        # Get client profile
+        customer = ClientProfile.objects.get(pk=client_id)
+        print(customer)
+      
 
-        elif loan_product.interest_rate_method == 'Reducing Balance':
-            try:
-                total_repayment = ReducingBalance.objects.get(id=loan_product_id).calculateTotalPayment(principle)
-            except ObjectDoesNotExist:
-                return HttpResponseNotFound("Reducing Balance product not found.")
+        # Call the instance method to calculate the repayment
+        total_repayment = loan_product.calculateTotalPayment(
+            principle, duration_length, interest_rate_method, client_id 
+        )
 
-        elif loan_product.interest_rate_method == 'Interest Only':
-            try:
-                total_repayment = InterestOnly.objects.get(id=loan_product_id).calculateToatalPayment(principle)
-            except ObjectDoesNotExist:
-                return HttpResponseNotFound("Interest Only product not found.")
+     # Calculate total interest
+        total_interest = total_repayment - principle
 
-        return JsonResponse({'total_repayment': total_repayment})
+        # Create loan record
+        loan = Loan.objects.create(
+            customer=customer,
+            amount=principle,
+            period=duration_length,
+            # purpose=purpose,
+            total_interest=total_interest,
+            payable_amount=total_repayment,
+            approved_date=date.today(),  
+            method_of_payment='bank account',
+            loan_type=loan_product.product_name,
+            status='active',  
+            approved_by=request.user,  
+            approved_at_branch='Main Branch'  
+        )
 
-    except LoanProduct.DoesNotExist:
-        return HttpResponseNotFound("The specified loan product does not exist.")
-    except ValidationError as e:
-        return JsonResponse({'error': str(e)}, status=400)
+        # Return success response
+        return JsonResponse({
+            'message': 'Loan issued successfully',
+            'loan_id': loan.id,
+            'total_repayment': total_repayment,
+            'monthly_payment': loan.get_monthly_payable(),
+        })
 
+    except ObjectDoesNotExist as e:
+        return JsonResponse({'error': str(e)}, status=404)
+
+    except ValidationError as ve:
+        return JsonResponse({'error': ve.messages}, status=400)
+
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return JsonResponse({'error': 'An unexpected error occurred'}, status=500)
+
+    
 def CreateExcelTemplate(request):
     # Correctly instantiate the Workbook
     wb = Workbook()

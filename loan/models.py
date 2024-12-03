@@ -123,44 +123,88 @@ class LoanProduct(models.Model):
     
     def validateLoanAmount(self, amount):
         if amount < self.minimum_amount or amount > self.maximum_amount:
-            raise ValidationError(f'Loan amount must be between {self.maximum_amount} and {self.maximum_amount} amount')
+           raise ValidationError(f'Loan amount must be between {self.minimum_amount} and {self.maximum_amount}.')
         
 
         class Meta:
             abstract = False
 
-    def calculateTotalPayment(self, principle):
-        raise NotImplementedError("sub class must implemet this method")
+    def get_duration_in_years(duration_period, duration_length):
+        if duration_period == 'weeks':
+            return duration_length / 52
+        elif duration_period == 'months':
+            return duration_length / 12
+        return duration_length
+
+    def calculateTotalPayment(self, principle, duration_length, interest_rate_method, client_id):
+        if interest_rate_method == 'Flat Rate':
+            self.validateLoanAmount(principle)
+
+            total_interest = principle * (self.interest_rate / 100) * duration_length
+            total_repayment = principle + total_interest
+            
+            return total_repayment
+
+        elif interest_rate_method == 'Reducing Balance':
+            self.validateLoanAmount(principle)
+            total_repayment = 0
+            remaining_principle = principle
+            annual_rate = self.interest_rate / 100
+
+            for _ in range(duration_length):
+                interest_for_year = remaining_principle * annual_rate
+                remaining_principle -= (principle / duration_length)
+                total_repayment += (principle / duration_length) + interest_for_year
+
+            return total_repayment
+
+        elif interest_rate_method == 'Interest Only':
+            self.validateLoanAmount(principle)
+            total_repayment = principle * (self.interest_rate / 100) * duration_length
+            return total_repayment + principle
+
+        else:
+            raise ValueError("Invalid interest rate method provided.")
+
+
+
+
+    # duration_years = get_duration_in_years(self.duration_period, self.duration_length)
+
+    # Example calculation logic (this needs to be specific to the subclass's requirement)
+        # total_interest = principle * (self.interest_rate / 100) * duration_years
+        # total_repayment = principle + total_interest
+        # return total_repayment
 
 
 
 #Flat Interest
-class FlatRateProducts(LoanProduct):
-    def calculateTotalPayment(self,principle):
-        self.validateLoanAmount(principle)
+# class FlatRateProducts(LoanProduct):
+#     def calculateTotalPayment(self,principle):
+#         self.validateLoanAmount(principle)
 
-        total_interest = principle * (self.interest_rate / 100) * self.duration_period
-        total_repayment = principle + total_interest
-        return total_repayment
+#         total_interest = principle * (self.interest_rate / 100) * self.duration_period
+#         total_repayment = principle + total_interest
+#         return total_repayment
     
 
-class ReducingBalance(LoanProduct):
-    def calculateTotalPayment(self, principle):
-        self.validateLoanAmount(principle)
-        total_repayment = 0
-        remaining_principle = principle
-        annual_rate = self.interest_rate
+# class ReducingBalance(LoanProduct):
+#     def calculateTotalPayment(self, principle):
+#         self.validateLoanAmount(principle)
+#         total_repayment = 0
+#         remaining_principle = principle
+#         annual_rate = self.interest_rate
 
-        for year in range(self.duration_period):
-            interest_for_year = remaining_principle * annual_rate
-            remaining_principle -= (principle / self.duration_period)
-            total_repayment += (principle / self.duration_period) + interest_for_year
+#         for year in range(self.duration_length):
+#             interest_for_year = remaining_principle * annual_rate
+#             remaining_principle -= (principle / self.duration_period)
+#             total_repayment += (principle / self.duration_period) + interest_for_year
 
-        return total_repayment
+#         return total_repayment
     
-class InterestOnly(LoanProduct):
-    def calculateTotalPayment(self, principle):
-        self.validateLoanAmount(principle)
+# class InterestOnly(LoanProduct):
+#     def calculateTotalPayment(self, principle):
+#         self.validateLoanAmount(principle)
     
-        total_repayment = principle * (self.interest / 100) * self.duration_period
-        return total_repayment + principle
+#         total_repayment = principle * (self.interest_rate / 100) * self.duration_length
+#         return total_repayment + principle

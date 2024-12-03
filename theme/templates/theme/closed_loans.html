@@ -97,17 +97,18 @@
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">NRC</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Email</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Loan</th>
-                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Payable</th>
+                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Balance</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
                 <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Actions</th>
               
                
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
+              {% for loan, client in combined_data %}
               <tr>
                 <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                     <div class="ml-4">
-                        <div class="font-medium text-gray-500">00236</div>
+                        <div class="font-medium text-gray-500">{{loan.id}}</div>
                         
                       </div>
                    
@@ -115,46 +116,58 @@
                 </td>
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                     <div class="ml-4">
-                        <div class="font-medium text-gray-500">Lindsay</div>
+                        <div class="font-medium text-gray-500">{{client.first_name}}</div>
                         
                       </div>
 
                 </td>
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                    <div class="font-medium text-gray-500">Wamulima</div>
+                    <div class="font-medium text-gray-500">{{client.last_name}}</div>
                    
                   </td>
 
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                  <div class="text-gray-500">221445/11/1</div>
+                  <div class="text-gray-500">{{client.id_number}}</div>
                  
                 </td>
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
-                  <div class="text-gray-500">lindsay.walton@example.com</div>
+                  <div class="text-gray-500">{{client.email}}</div>
                 </td>
-                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">K 45000</td>
-                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">K 8663</td>
+                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{loan.amount}}</td>
+                <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">{{ client.user.client_profile.balance}}</td>
+
                 <!--==========Status Bage =============-->
                 <td class="whitespace-nowrap px-3 py-5">
                   <span class="inline-flex items-center gap-x-1.5 rounded-full bg-red-100 px-2 py-1 text-xs font-medium text-red-700">
                     <svg class="h-1.5 w-1.5 fill-red-500" viewBox="0 0 6 6" aria-hidden="true">
                       <circle cx="3" cy="3" r="3" />
                     </svg>
-                    Closed
+                    {{loan.status}}
                   </span>
                 </td>
-                <!--===========Action icons =========-->
-                <td class="whitespace-nowrap px-3 py-5"> 
-                    <a href="" class=""> 
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-green-700">
+                < <!--===========Action icons =========-->
+                <td class="flex gap-2 whitespace-nowrap px-3 py-5">
+
+                
+                    <a title="View More"   href="#" class="flex"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-blue-800">
                             <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
                             <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
                           </svg>
                           
                     </a>
+
+                 
+                    <a title="Delete"  href="#" class="flex items-center space-x-2 text-red-700 hover:text-red-800">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-6">
+                        <path fill-rule="evenodd" d="M6.75 3a1.5 1.5 0 00-1.5 1.5V5.25H3a.75.75 0 000 1.5h.75v11.25a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V6.75H21a.75.75 0 000-1.5h-2.25V4.5a1.5 1.5 0 00-1.5-1.5H6.75zm7.5 5.25a.75.75 0 00-1.5 0V15a.75.75 0 001.5 0V8.25zm-4.5 0a.75.75 0 00-1.5 0V15a.75.75 0 001.5 0V8.25zm8.25-2.25H6.75V4.5h10.5v1.5z" clip-rule="evenodd" />
+                      </svg>
+                      
+                    </a>
+                    
                 </td>
-              </tr>
-  
+                
+              {% endfor %}
               <!-- More people... -->
             </tbody>
             

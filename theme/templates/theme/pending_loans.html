@@ -2,6 +2,7 @@
 {% block title %}Pending Loans {% endblock %}
 
 {% block content %}
+{% load static %}
 
   {% comment %} Active page navigation {% endcomment %}
 
@@ -138,19 +139,37 @@
                         <svg class="h-1.5 w-1.5 fill-yellow-500" viewBox="0 0 6 6" aria-hidden="true">
                           <circle cx="3" cy="3" r="3" />
                         </svg>
-                        Pending
+                        {{loan.status}}
                       </span>
 
                 </td>
                 <!--===========Action icons =========-->
-                <td title="View More" class="whitespace-nowrap px-3 py-5"> 
-                    <a href="" class=""> 
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-green-700">
+                <td class="flex gap-2 whitespace-nowrap px-3 py-5">
+
+                  <a title="Approve" href="#" 
+                      class="flex items-center space-x-2 text-green-700 hover:text-green-800 approve-loan"
+                      data-url="{% url 'pending_loans' client_id=client.user.id %}">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                        <path fill-rule="evenodd" d="M2.25 12a9.75 9.75 0 1119.5 0 9.75 9.75 0 01-19.5 0zm13.03-3.72a.75.75 0 00-1.06 0L10.5 12l-1.72-1.72a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.06 0l4.25-4.25a.75.75 0 000-1.06z" clip-rule="evenodd" />
+                      </svg>
+                  </a>
+                  
+                    <a title="View More"   href="{% url 'loan_details' client.user.id %}" class="flex"> 
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-blue-800">
                             <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
                             <path d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
                           </svg>
                           
                     </a>
+
+                 
+                    <a title="Delete"  href="" class="flex items-center space-x-2 text-red-700 hover:text-red-800">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-6">
+                        <path fill-rule="evenodd" d="M6.75 3a1.5 1.5 0 00-1.5 1.5V5.25H3a.75.75 0 000 1.5h.75v11.25a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V6.75H21a.75.75 0 000-1.5h-2.25V4.5a1.5 1.5 0 00-1.5-1.5H6.75zm7.5 5.25a.75.75 0 00-1.5 0V15a.75.75 0 001.5 0V8.25zm-4.5 0a.75.75 0 00-1.5 0V15a.75.75 0 001.5 0V8.25zm8.25-2.25H6.75V4.5h10.5v1.5z" clip-rule="evenodd" />
+                      </svg>
+                      
+                    </a>
+                    
                 </td>
               </tr>
   
@@ -210,5 +229,36 @@
     </div>
   </div>
 
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.approve-loan').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault(); // Prevent default link behavior
+        const approveUrl = button.getAttribute('data-url');
+        
+        // Show SweetAlert confirmation
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You are about to approve this loan!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes, approve it!'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Redirect to the approval URL
+            window.location.href = approveUrl;
+          }
+          Francis
+            
+          C
+        });
+      });
+    });
+  });
+</script>
 
 {% endblock %}

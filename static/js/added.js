@@ -83,32 +83,33 @@ function CloseModal(){
 }
 
 // // Listen for click events on buttons with the class 'client-details-btn'
-// document.querySelectorAll('.client-details-btn').forEach(button => {
-//   button.addEventListener('click', function () {
-//       const clientId = this.getAttribute('data-client-id');
-//       console.log(clientId);
+document.querySelectorAll('.client-details-btn').forEach(button => {
+  button.addEventListener('click', function () {
+      const clientId = this.getAttribute('data-client-id');
+      console.log(clientId);
       
       
-//       // Send AJAX request to get client details
-//       fetch(`client-attachement/${clientId}/`)
-//           .then(response => response.json())
-//           .then(data => {
-//               if (data.error) {
-//                   alert(data.error);
-//               } else {
-//                   // Populate modal with client data
-//                   document.getElementById('client-name').textContent = data.first_name;
-//                   // document.getElementById('client-email').textContent = data.email;
-//                   // document.getElementById('client-phone').textContent = data.phone_number;
-//                   // document.getElementById('client-address').textContent = data.address;
+      // Send AJAX request to get client details
+      fetch(`client-attachement/${clientId}/`)
+          .then(response => response.json())
+          .then(data => {
+              if (data.error) {
+                  alert(data.error);
+              } else {
+                  // Populate modal with client data
+                  document.getElementById('client-name').textContent = data.first_name;
+                  document.getElementById('client-email').textContent = data.email;
+                  document.getElementById('id-number').textContent = data.id_number;
+                  document.getElementById('last-name').textContent = data.last_name;
+                  document.getElementById('client-id').textContent = data.client_id;
 
-//                   // Open the modal
-//                   AttachClient();
-//               }
-//           })
-//           .catch(error => console.error('Error fetching client details:', error));
-//   });
-// });
+                  // Open the modal
+                  AttachClient();
+              }
+          })
+          .catch(error => console.error('Error fetching client details:', error));
+  });
+});
 
 
 
@@ -138,13 +139,16 @@ document.addEventListener('DOMContentLoaded', function () {
   buttons.forEach(button => {
       button.addEventListener('click', function () {
           const clientId = this.getAttribute('data-client-id');
+          console.log('client id : ' + clientId);
+        
+          
 
           fetch(`/user/client-attachement/${clientId}/`)
               .then(response => response.json())
               .then(data => {
                   if (data.error) {
                       alert(data.error);
-                  } else {
+                  }else {
                       // Update modal with client data
                       document.getElementById('client-name').textContent = data.first_name;
                       document.getElementById('client-email').textContent = data.email;
@@ -154,12 +158,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
                       // Open the modal
                       document.getElementById('client-details-modal').style.display = 'block';
+
+                          // Open the modal
+                      AttachClient();
+                      
                   }
               })
               .catch(error => console.error('Error fetching client details:', error));
       });
   });
 });
+
+
 
 function updateLoanLink(event) {
   event.preventDefault();  // Prevent the default link click behavior
@@ -168,7 +178,7 @@ function updateLoanLink(event) {
   var clientId = document.getElementById('client-id').textContent;
 
   // Construct the dynamic URL
-  var baseUrl = "/user/pass-clientID/";  
+  var baseUrl = "/pass-clientID/";  
   var dynamicUrl = baseUrl + clientId; 
 
   // Redirect the user to the dynamic URL
@@ -202,7 +212,6 @@ function addLoanModal(event){
 }
 
 
-
 const dropArea = document.getElementById('drop-area');
 const fileInput = document.getElementById('file-input');
 const actualFileInput = document.getElementById('actual-file-input');
@@ -223,8 +232,6 @@ function handleDrop(event) {
         handleFile(files[0]);
     }
 }
-
-
 
 
 function handleFileSelect(event) {
