@@ -1,0 +1,226 @@
+{%extends 'theme/base.html' %}
+
+{%block title %} Edit Loan Product  {%endblock%}
+
+{%block content %}
+
+
+<div> 
+
+    {% if messages %}
+  
+    <!-- ================Error Notification ================= -->
+    <div id="close-notification" aria-live="assertive" class="pointer-events-none fixed-top-right inset-0 flex items-end px-4 py-6 sm:items-start sm:p-6">
+      <div class="flex w-full flex-col items-center space-y-4 sm:items-end">
+        <div class="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5">
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 text-red-700">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>            
+              </div>
+              <div class="ml-3 w-0 flex-1 pt-0.5">
+                {% for message in messages %}
+                <p class="text-sm font-medium text-gray-900">{{ message }}</p>
+                {% endfor %}
+              </div>
+              <div class="ml-4 flex flex-shrink-0">
+                <button type="button" class="inline-flex rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2" onclick="closeNotification()">
+                  <span class="sr-only">Close</span>
+                  <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    {% endif %}
+      {% comment %} End of Notification {% endcomment %}
+   
+  
+  
+  <div class="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
+      <nav class="flex" aria-label="Breadcrumb">
+        <ol role="list" class="flex space-x-4 rounded-md bg-white px-6 shadow">
+          <li class="flex">
+            <div class="flex items-center">
+              <a href="{% url 'staff' %}" class="text-gray-400 hover:text-gray-500">
+                <svg class="h-5 w-5 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M9.293 2.293a1 1 0 011.414 0l7 7A1 1 0 0117 11h-1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-3a1 1 0 00-1-1H9a1 1 0 00-1 1v3a1 1 0 01-1 1H5a1 1 0 01-1-1v-6H3a1 1 0 01-.707-1.707l7-7z" clip-rule="evenodd" />
+                </svg>
+                <span class="sr-only">Home</span>
+              </a>
+            </div>
+          </li>
+          <li class="flex">
+            <div class="flex items-center">
+              <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+                <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+              </svg>
+              <a href="{% url 'get-loan-product' %}" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Loan Prodcuts</a>
+            </div>
+          </li>
+  
+          <li class="flex">
+              <div class="flex items-center">
+                <svg class="h-full w-6 flex-shrink-0 text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" aria-hidden="true">
+                  <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                </svg>
+                <a href="#" class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">Edit Loan Product</a>      
+             
+              </div>
+            </li>
+      
+        </ol>
+      </nav>
+      
+      {% comment %} End of Active Page Navigation {% endcomment %}
+  </div>
+  <!--
+    This example requires some changes to your config:
+    
+    ```
+    // tailwind.config.js
+    module.exports = {
+      // ...
+      plugins: [
+        // ...
+        require('@tailwindcss/forms'),
+      ],
+    }
+    ```
+  -->
+  
+  <div class="isolate bg-white px-6 py-24 sm:py-32 lg:px-8">
+      
+      <div class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]" aria-hidden="true">
+        <div class="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg]" style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"></div>
+      </div>
+      <div class="mx-auto max-w-2xl text-center">
+          
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Edit Loan Product</h2>
+       
+      </div>
+      {% if product %}
+      <form action="{% url 'update_loan_product' product.id %}" method="POST" class="mx-auto mt-16 max-w-xl sm:mt-20" enctype="multipart/form-data">
+  
+            {% csrf_token %}
+
+        <div class="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+        
+         
+
+          <div class="sm:col-span-2">
+            <label for="Product Name" class="block text-sm font-semibold leading-6 text-gray-900">Product Name</label>
+            <input type="text" name="product-name" id="product-name" value="{{product.product_name}}" autocomplete="none"  class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            
+         </div>
+
+         <div class="sm:col-span-2">
+            <label for="Minimum Principale" class="block text-sm font-semibold leading-6 text-gray-900">Minimum Principale</label>
+            <input type="text" name="min-Principale" id="min-Principale" value="{{product.minimum_amount }}" autocomplete="none"  class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            
+         </div>
+
+         <div class="sm:col-span-2">
+            <label for="Maxmum Principale" class="block text-sm font-semibold leading-6 text-gray-900">Maxmum Principale</label>
+            <input type="text" name="max-Principale" id="max-Principale" value="{{product.maximum_amount}}" autocomplete="none"  class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            
+         </div>
+
+         <div>
+            <label for="Period" class="block text-sm font-semibold leading-6 text-gray-900">Duration Period</label>
+            <div class="mt-2.5">
+                <select id="period" name="duration-period" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                    <option class="period-options">{{product.duration_period}}</option>
+                    <option class="period-options" id="weeks-selected" onclick="periodOptions()">Weeks</option>
+                    <option class="period-options" id="months-selected" onclick="periodOptions()">Months</option>
+                  
+                </select>
+
+            </div>
+          </div>
+
+         <div class="sm:col-span-2">
+            <label for="Interest Rate Method" class="block text-sm font-semibold leading-6 text-gray-900">Interest Rate Method</label>
+            <select id="interest-method" name="interest-rate-method" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+      
+              <option id="flat-interest-selected">{{product.interest_rate_method }}</option>
+              <option id="flat-interest-selected">Flate Interest</option>
+              <option id="reducing-selected">Reducing Balance</option>
+              <option id="interest-only-selected">Interest Only</option>
+              
+          </select>
+  
+        </div>
+        <div class="sm:col-span-2">
+            <label for="Loan Type" class="block text-sm font-semibold leading-6 text-gray-900">Interest Rate</label>
+            <input type="number" min="1" name="interest-rate" id="rate" value="{{product.interest_rate}}" autocomplete="none" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            <small  class="mt-3 text-sm leading-6 text-gray-600">The percentage is calculated just write the number </small>
+  
+        </div>
+
+         <div class="col-span-full">
+            <label for="about" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
+            <div class="mt-2">
+              <textarea id="about" name="desc" rows="3" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
+            </div>
+            <samll class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about the loan product</small>
+        </div>
+  
+         
+         
+         
+            {% endif %}
+  
+            {% comment %} <div hidden id="months" class="sm:col-span-2">
+              <label for="months" class="block text-sm font-semibold leading-6 text-gray-900">Months</label>
+              <input type="number" min="1" max="75" name="months" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+              
+            </div>
+          <div hidden id="weeks" class="sm:col-span-2">
+            <label for="Weeks" class="block text-sm font-semibold leading-6 text-gray-900">Weeks</label>
+            <input type="number" min="1" max="3" name="weeks" autocomplete="organization" class="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+            
+          </div>
+   {% endcomment %}
+      
+  
+          <div>
+          
+        </div>
+  
+  
+  
+            
+        <div class="mt-10 col-span-full">
+          
+            <button type="submit" class="block w-full rounded-md bg-black px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:ring-1 hover:bg-white hover:text-black focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Update Product</button>
+          
+           </div>
+        
+      </form>
+    </div>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        Swal.fire({
+            title: 'Success!',
+            text: 'Loan product updated successfully.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.submit();
+            }
+        });
+    });
+</script>
+
+{% endblock %}

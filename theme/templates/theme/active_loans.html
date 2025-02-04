@@ -7,6 +7,23 @@
 <div>
     {% comment %} Active page navigation {% endcomment %}
 
+    {% if messages %}
+    <script>
+        let delay = 0;
+        {% for message in messages %}
+        setTimeout(() => {
+            Swal.fire({
+                title: 'Success!',
+                text: "{{ message|escapejs }}", 
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
+        }, delay);
+        delay += 1000; // Adjust delay as needed
+        {% endfor %}
+    </script>
+    {% endif %} 
+  
     <div class="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
       <nav class="flex" aria-label="Breadcrumb">
         <ol role="list" class="flex space-x-4 rounded-md bg-white px-6 shadow">
@@ -81,8 +98,9 @@
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
      
 
-        <!--===========Filters=======-->
+        <!--Filters-->
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8"> 
+
           <table class="min-w-full divide-y divide-gray-300">
             <thead>
               <tr>
@@ -140,17 +158,17 @@
                   </span>
 
                 </td>
-                < <!--===========Action icons =========-->
+                <!--===========Action icons =========-->
                 <td class="flex gap-2 whitespace-nowrap px-3 py-5">
 
-                  <a title="Approve" href="#" 
+                  {% comment %} <a title="Approve" href="#" 
                       class="flex items-center space-x-2 text-green-700 hover:text-green-800 approve-loan"
                       data-url="{% url 'pending_loans' client_id=client.user.id %}">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
                         <path fill-rule="evenodd" d="M2.25 12a9.75 9.75 0 1119.5 0 9.75 9.75 0 01-19.5 0zm13.03-3.72a.75.75 0 00-1.06 0L10.5 12l-1.72-1.72a.75.75 0 00-1.06 1.06l2.25 2.25a.75.75 0 001.06 0l4.25-4.25a.75.75 0 000-1.06z" clip-rule="evenodd" />
                       </svg>
                   </a>
-                  
+                   {% endcomment %}
                     <a title="View More"   href="{% url 'loan_details' client.user.id %}" class="flex"> 
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6 fill-blue-800">
                             <path d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
@@ -178,7 +196,7 @@
 
           <!--============= Pagination ================-->
 
-          <div class="flex items-center justify-between border-t my-2 border-gray-200 bg-white px-4 my-5 py-3 sm:px-6">
+          <div class="flex items-center justify-between border-t  border-gray-200 bg-white px-4 my-5 py-3 sm:px-6">
             <div class="flex flex-1 justify-between sm:hidden">
               <a href="#" class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
               <a href="#" class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
@@ -227,5 +245,42 @@
     </div>
   </div>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Fetch Django messages
+        const messages = {{ messages|safe }};
+        if (messages) {
+            messages.forEach(msg => {
+                Swal.fire({
+                    title: msg.tags === 'success' ? 'Success' : 'Error',
+                    text: msg.message,
+                    icon: msg.tags === 'success' ? 'success' : 'error',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    // Redirect if the user clicks 'OK' and the message is a success
+                    if (result.isConfirmed && msg.tags === 'success') {
+                        const redirectUrl = "{% url 'active_loans' %}"; // Ensure this resolves correctly
+                        window.location.href = redirectUrl;
+                    }
+                });
+            });
+        }
+    });
+</script>
 
+<script>
+  // Your custom JavaScript here
+  document.addEventListener('DOMContentLoaded', function() {
+      {% if messages %}
+          {% for message in messages %}
+              Swal.fire({
+                  title: {% if message.tags == 'success' %}'Success'{% else %}'Error'{% endif %},
+                  text: "{{ message }}",
+                  icon: {% if message.tags == 'success' %}'success'{% else %}'error'{% endif %},
+                  confirmButtonText: 'OK'
+              });
+          {% endfor %}
+      {% endif %}
+  });
+</script
 {% endblock %}

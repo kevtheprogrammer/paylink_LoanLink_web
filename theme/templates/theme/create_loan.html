@@ -4,6 +4,8 @@
 {% block content %}
 
 <div> 
+  
+
 
   {% if messages %}
 
@@ -207,6 +209,29 @@
   </div>
 
   
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // Fetch Django messages
+        const messages = {{ messages|safe }};
+        if (messages) {
+            messages.forEach(msg => {
+                Swal.fire({
+                    title: msg.tags === 'success' ? 'Success' : 'Error',
+                    text: msg.message,
+                    icon: msg.tags === 'success' ? 'success' : 'error',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    // Redirect if the user clicks 'OK' and the message is a success
+                    if (result.isConfirmed && msg.tags === 'success') {
+                        const redirectUrl = "{% url 'active_loans' %}"; // Ensure this resolves correctly
+                        window.location.href = redirectUrl;
+                    }
+                });
+            });
+        }
+    });
+</script>
+
 
 
 {% endblock %}

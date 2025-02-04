@@ -6,6 +6,20 @@
 
 
 <div> 
+  {% if messages %}
+    {% for message in messages %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Success',
+                    text: "{{ message }}",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    {% endfor %}
+{% endif %}
   {% comment %} Active page navigation {% endcomment %}
 
   <div class="border-b border-gray-200 pb-5 sm:flex sm:items-center sm:justify-between">
@@ -215,8 +229,8 @@
     <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="border-b border-gray-200">
             <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                <a href="#personal" id="personal" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Personal Details</a>
-                <a href="#bank" id="bank" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Bank Detail</a>
+                <a href="#personal" id="personal-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Personal Details</a>
+                <a href="#bank" id="bank-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">Bank Detail</a>
                 <a href="#files" id="files-tab" class="tab text-gray-500 inline-flex items-center px-1 py-4 border-b-2 font-medium text-sm">File Uploads</a>
             </nav>
         </div>
@@ -325,7 +339,7 @@
         </div>
 
 
-    <div id="bank-details" class="tab-content">        
+    <div id="bank" class="tab-content hidden">        
       <div class="mt-5 border-t border-gray-200">
           <dl class="divide-y divide-gray-200">
                                 
@@ -554,6 +568,33 @@
     </div>
 </div>
 
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const tabs = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', function(event) {
+            event.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+
+            tabs.forEach(t => {
+                t.classList.remove('border-indigo-500', 'text-indigo-600');
+                t.classList.add('text-gray-500');
+            });
+
+            target.classList.remove('hidden');
+            this.classList.remove('text-gray-500');
+            this.classList.add('border-indigo-500', 'text-indigo-600');
+        });
+    });
+});
+</script>
 
 <script src="{% static 'js/added.js' %}"></script>
 

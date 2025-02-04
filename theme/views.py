@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
 from account.models import *
 from loan.models import *
@@ -8,7 +8,7 @@ from rest_framework import viewsets, status
 from django.http import HttpResponse
 from django.http import Http404
 from django.shortcuts import redirect, get_object_or_404
-from django.db.models import Sum
+from django.db.models import Sum, Q
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
@@ -24,6 +24,7 @@ import logging
 from datetime import date
 from django.http import HttpResponseNotFound
 from django.core.exceptions import ObjectDoesNotExist
+
 
 
 logger = logging.getLogger(__name__)
@@ -60,7 +61,7 @@ def Dashboard(request):
     return render(request, 'theme/admin_2.html')
 
 def AllClients(request):
-    clients = User.objects.filter(user_type='Customer').select_related('client_profile')
+    clients = User.objects.filter(user_type='Customer').select_related('client_profile').order_by('id')
     client_count = User.objects.count()
     paginator = Paginator(clients, 10)  # Show 10 clients per page
     page_number = request.GET.get('page')
@@ -104,7 +105,12 @@ def verify_user(request, client_id):
     user.is_verified = True
     user.save()
 
+    # Add a success message
+    messages.success(request, 'Clinet has been successfully verified.')
+
     return redirect('client_details', client_id=client_id)
+
+
 
 
 
@@ -207,11 +213,9 @@ def Loans(request):
     return render(request, 'theme/loans.html', {'combined_data': combined_data})
 
 
-
 def ApproveLoan(request, client_id):
     try:
-        # Assuming you want to approve the loan for a specific client
-        # You may need to adjust this query based on your actual logic
+        # Approve the loan for a specific client
         loans = Loan.objects.filter(customer__user__id=client_id, status='pending')
         
         # Assuming you only want to approve the first pending loan found
@@ -220,7 +224,7 @@ def ApproveLoan(request, client_id):
             loan.status = 'active'
             loan.save()
 
-            # generate transaction 
+            # Generate transaction
             loan_transaction = LoanTransaction(
                 loan_obj=loan,
                 amount=loan.amount,  # Provide the amount
@@ -232,11 +236,11 @@ def ApproveLoan(request, client_id):
             )
 
             loan_transaction.save()
-            # Redirect to some page after approval
+            # Add a success message
             messages.success(request, 'Loan activated successfully!')
         else:
             # Handle case where no pending loan is found for the client
-             messages.error(request, 'No pending loan found for this client.')
+            messages.error(request, 'No pending loan found for this client.')
     except Loan.DoesNotExist:
         # Handle case where loan doesn't exist
         messages.error(request, 'Loan not found.')
@@ -251,13 +255,20 @@ def Reports(request):
 
 
 def ClosedLoansView(request):
-    clients = User.objects.filter(user_type='Customer').select_related('client_profile')
-    active_loans = Loan.objects.filter(status='closed')
+   # Fetch the pending loans
+    closed_loans = Loan.objects.filter(status='closed')
     combined_data = []
-    for loan in active_loans:
-        client = clients.filter(client_profile__user_id=loan.customer_id).first()
+
+    for loan in closed_loans:
+        # Access the client profile directly through the loan's customer
+        client = loan.customer
         combined_data.append((loan, client))
-    return render(request, 'theme/closed_loans.html', {'combined_data': combined_data})
+
+    # Render the template and include the combined data (loans + client)
+    return render(request, 'theme/closed_loans.html', {
+        'combined_data': combined_data,  # Pass the loan data
+    })
+
 
 
 
@@ -273,26 +284,57 @@ def ActiveClientListView(request):
     return render(request, 'theme/active_loans.html', {'combined_data': combined_data})
 
 
+def ApproveLoan(request, client_id):
+    try:
+        loans = Loan.objects.filter(customer__user__id=client_id, status='pending')
+        if loans.exists():
+            loan = loans.first()
+            loan.status = 'active'
+            loan.save()
+
+            LoanTransaction.objects.create(
+                loan_obj=loan,
+                amount=loan.amount,
+                is_payment_made=True,
+                status='pending',
+                transaction_type='Disbursement',
+                client=loan.customer,
+            )
+
+            messages.success(request, 'Loan activated successfully!')
+        else:
+            messages.error(request, 'No pending loan found for this client.')
+    except Loan.DoesNotExist:
+        messages.error(request, 'Loan not found.')
+
+    return redirect('active_loans')
+
+
+
 
 def PendingLoansView(request):
+    # Fetch the pending loans
     pending_loans = Loan.objects.filter(status='pending')
     combined_data = []
 
     for loan in pending_loans:
         # Access the client profile directly through the loan's customer
-        client = loan.customer 
+        client = loan.customer
         combined_data.append((loan, client))
 
-    return render(request, 'theme/pending_loans.html', {'combined_data': combined_data})
+    # Render the template and include the combined data (loans + client)
+    return render(request, 'theme/pending_loans.html', {
+        'combined_data': combined_data,  # Pass the loan data
+    })
+
 
 
 def CreatClient(request):
     return render(request, 'theme/create_client.html')
 
 
-
 def AttachClient(request):
-    clients = User.objects.filter(user_type='Customer').select_related('client_profile')
+    clients = User.objects.filter(user_type='Customer', is_verified=True).select_related('client_profile').order_by('id')
     client_count = User.objects.count()
     paginator = Paginator(clients, 10)
     page_number = request.GET.get('page')
@@ -355,14 +397,11 @@ def Profile(request):
 
 def calculateLoanRepayment(request):
     try:
-        # Extracting POST data
         loan_product_id = request.POST.get('loan-product-id')
         principle = request.POST.get('principle')
         duration_length = request.POST.get('duration')
         client_id = request.POST.get('client-id')
-        
 
-        # Validate inputs
         if not loan_product_id or not loan_product_id.isdigit():
             return JsonResponse({'error': 'Invalid or missing loan product ID'}, status=400)
         if not principle or not principle.replace('.', '', 1).isdigit():
@@ -370,50 +409,54 @@ def calculateLoanRepayment(request):
         if not duration_length or not duration_length.isdigit():
             return JsonResponse({'error': 'Invalid or missing duration value'}, status=400)
 
-        # Convert values to Decimal
         principle = Decimal(principle)
         duration_length = int(duration_length)
 
-        # Fetch the loan product instance
-        loan_product = LoanProduct.objects.get(id=loan_product_id)
-        interest_rate_method = loan_product.interest_rate_method
+        try:
+            loan_product = LoanProduct.objects.get(id=loan_product_id)
+        except LoanProduct.DoesNotExist:
+            return JsonResponse({'error': 'Loan product not found'}, status=404)
 
-        # Get client profile
-        customer = ClientProfile.objects.get(pk=client_id)
-        print(customer)
-      
+        try:
+            customer = ClientProfile.objects.get(pk=client_id)
+        except ClientProfile.DoesNotExist:
+            return JsonResponse({'error': 'Client profile not found'}, status=404)
 
-        # Call the instance method to calculate the repayment
         total_repayment = loan_product.calculateTotalPayment(
-            principle, duration_length, interest_rate_method, client_id 
+            principle, duration_length, loan_product.interest_rate_method, client_id
         )
 
-     # Calculate total interest
         total_interest = total_repayment - principle
 
-        # Create loan record
         loan = Loan.objects.create(
             customer=customer,
             amount=principle,
             period=duration_length,
-            # purpose=purpose,
             total_interest=total_interest,
             payable_amount=total_repayment,
-            approved_date=date.today(),  
+            approved_date=date.today(),
             method_of_payment='bank account',
             loan_type=loan_product.product_name,
-            status='active',  
-            approved_by=request.user,  
-            approved_at_branch='Main Branch'  
+            status='pending',
+            approved_by=request.user,
+            approved_at_branch='Main Branch',
+            balance=total_repayment
         )
 
-        # Return success response
-        return JsonResponse({
-            'message': 'Loan issued successfully',
-            'loan_id': loan.id,
-            'total_repayment': total_repayment,
-            'monthly_payment': loan.get_monthly_payable(),
-        })
+        loan_creation_messages = [
+            "Loan issued successfully",
+            f" \nMonthly payment: {float(loan.get_monthly_payable()):.2f} \n",
+            f"Total payment: {float(total_repayment):.2f}",                 
+        ]
+
+        messages.success(request, "\n".join(loan_creation_messages))
+        return redirect('pendng_loans_redirect')
+
+    except Exception as e:
+        print(f"Error calculating loan repayment: {e}")
+        return JsonResponse({'error': 'An unexpected error occurred'}, status=500)
+
+
 
     except ObjectDoesNotExist as e:
         return JsonResponse({'error': str(e)}, status=404)
@@ -566,3 +609,93 @@ def NewLoanProduct(request):
     
 
     return render(request, 'theme/create_loan_product.html')
+
+def PostingLoansView(request):
+    # Retrieve loans where the related user is verified and loan status is active
+    loans = Loan.objects.filter(customer__user__is_verified=True, status='active').select_related('customer__user', 'customer__user__client_profile')
+    
+    combined_data = []
+
+    # Combine loan and client profile data
+    for loan in loans:
+        client_profile = loan.customer.user.client_profile
+        combined_data.append((loan, client_profile))
+    
+    # Render the template with the combined data
+    return render(request, 'theme/postings_loans.html', {'combined_data': combined_data})
+
+def LoanRepaymentView(request, loan_id):
+    try:
+        loan = Loan.objects.get(id=loan_id)
+
+        return render(request, 'theme/loan_repayment.html', {'loan': loan})
+    except Loan.DoesNotExist:
+        return HttpResponseNotFound('Loan not found.')
+    
+
+def PostPaymentView(request, loan_id):
+    if request.method == 'POST':
+        loan_id = request.POST.get('loan_id')
+        amount = request.POST.get('payable')
+        loan = Loan.objects.get(id=loan_id)
+         # Convert loan.balance to Decimal if it is not already
+        loan.balance = Decimal(loan.balance)
+        loan.balance -= Decimal(amount)
+        loan.save()
+        print("Finished updating loan balance")
+        return redirect('posting_loans')
+    return render(request, 'theme/loan_repayment.html')
+
+
+def EditLoanProductView(request, product_id):
+    product = LoanProduct.objects.get(id=product_id)
+    return render(request, 'theme/edit_loan_product.html', {'product': product})
+
+
+def LogoutView(request):
+    logout(request)
+    return redirect('login')
+
+def DeleteLoanProductView(request, product_id):
+    product = LoanProduct.objects.get(id=product_id)
+    product.delete()
+    messages.success(request, 'Loan product deleted successfully.')
+    return redirect('get-loan-product')
+
+def PostingSearchView(request):
+    if request.method == 'POST':
+        search_query = request.POST.get('search_query', '').strip()
+        if search_query:
+            loans = Loan.objects.filter(
+                Q(customer__user__client_profile__first_name__icontains=search_query) |
+                Q(customer__user__client_profile__last_name__icontains=search_query) |
+                Q(customer__user__client_profile__id_number__icontains=search_query)
+            ).select_related('customer__user', 'customer__user__client_profile')
+        else:
+            loans = Loan.objects.none()
+
+        return render(request, 'theme/posting_search.html', {'combined_data': loans})
+    return render(request, 'theme/posting_search.html'
+                  
+                  )
+
+
+def UpdateLoanProductView(request, product_id):
+    if request.method == 'POST':
+        product = LoanProduct.objects.get(id=product_id)
+        product.product_name = request.POST.get('product-name')
+        product.description = request.POST.get('desc')
+        product.interest_rate = request.POST.get('interest-rate')
+        product.interest_rate_method = request.POST.get('interest-rate-method')
+        product.duration_period = request.POST.get('duration-period')
+        product.minimum_amount = request.POST.get('min-Principale')
+        product.maximum_amount = request.POST.get('max-Principale')
+        product.save()
+        messages.success(request, 'Loan product updated successfully.')
+        return redirect('get-loan-product')
+    return render(request, 'theme/edit_loan_product.html')
+
+
+
+
+

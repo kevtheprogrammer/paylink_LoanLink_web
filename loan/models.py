@@ -24,14 +24,14 @@ class Loan(models.Model):
         ('loan', 'Loan'),
     )
 
-    LOAN_TYPE = (
+    # LOAN_TYPE = (
 
-        ('civil servant loans', 'Civil Servant Loans'),
-        ('famers loans', 'Famers Loans'),
-        ('micro business loans', 'Micro Business Loans'),
-        ('collatral loans', 'Collatral Loans'),
-        ('salary advance', 'Salary Advance'),
-    )
+    #     ('civil servant loans', 'Civil Servant Loans'),
+    #     ('famers loans', 'Famers Loans'),
+    #     ('micro business loans', 'Micro Business Loans'),
+    #     ('collatral loans', 'Collatral Loans'),
+    #     ('salary advance', 'Salary Advance'),
+    # )
 
     customer = models.ForeignKey(ClientProfile, related_name='customer', on_delete=models.CASCADE, null=True)
     amount = models.DecimalField(max_digits=10, decimal_places=2, null=True)
@@ -39,9 +39,10 @@ class Loan(models.Model):
     purpose = models.CharField(max_length=100)    
     total_interest = models.FloatField(null=True)
     payable_amount = models.FloatField(null=True)
+    balance = models.FloatField(null=True)
     approved_date = models.DateField(blank=True, null=True)
     method_of_payment = models.CharField(max_length=200,choices=PAYEE, null=True)
-    loan_type = models.CharField(max_length=200,choices=LOAN_TYPE, null=True)
+    loan_type = models.CharField(max_length=200, null=True)
     status = models.CharField(max_length=100, choices=STATUS_CHOICES, null=True, default='pending')
     approved_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     approved_at_branch = models.CharField(max_length=900,blank=True, null=True)
@@ -137,7 +138,7 @@ class LoanProduct(models.Model):
         return duration_length
 
     def calculateTotalPayment(self, principle, duration_length, interest_rate_method, client_id):
-        if interest_rate_method == 'Flat Rate':
+        if interest_rate_method == 'Flate Rate':
             self.validateLoanAmount(principle)
 
             total_interest = principle * (self.interest_rate / 100) * duration_length
