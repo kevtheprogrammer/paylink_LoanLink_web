@@ -9,7 +9,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-
 class CustomLoginView(TokenObtainPairView):
     
     def post(self, request):
@@ -69,5 +68,6 @@ class CustomLoginView(TokenObtainPairView):
             )
 
         return Response({'error': 'Invalid credentials'}, status=401)
+    
     
  
